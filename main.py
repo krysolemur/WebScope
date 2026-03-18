@@ -6,56 +6,59 @@ import signal
 import os
 import traceback
 
+
 from PySide6.QtWidgets import QApplication # type: ignore
 from PySide6.QtCore import QTimer # type: ignore
 
+
 # Importing program files
-from Application.libs.Logging.logging import Logging
-from Application.application import Application
+from libs.Logging.logging import Logging
+from libs.application import Application
 
-# Create instance of Logging
-logger = Logging()
-
-# Save printf method
-printf = logger.log
-
-# Starting info message
-printf(msg="Starting WebScope...", status="INFO")
 
 # Create signal for canceling (Ctrl + C)
+# DEBUG
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
-# Main running function main
-def main() -> None:
-    # Info print
-    printf(msg="Running main function...", status="INFO")
+# Main class
+class Main(Logging):
+    def __init__(self) -> None:
+        # Init parents
+        super().__init__()
 
-    # Init application
-    application = Application()
 
-    # Execute applcation
-    sys.exit(application.exec())
+        # Starting info message
+        self.printf(msg="Starting WebScope...", status="INFO")
 
-    # Set Qt timer 
-    timer = QTimer()
-    timer.start(100)
-    timer.timeout.connect(lambda: None)
 
-    # Close file
-    file.close()
+        # Init application
+        self.application = Application()
+
+
+        # Execute applcation
+        sys.exit(self.application.exec())
+
 
 # Main block
 if __name__ == "__main__":
     # Try block for cathcing exceptions
     try:
-        # Running main function
-        main()
+        # Check parametres
+        if len(sys.argv) > 1:
+            # --run command for running application
+            if sys.argv[1] == "--run":
+                # Creating insatence of Main class
+                main = Main
+
+
+                # Running main
+                main()
+            #
     except Exception as e:
         # Print info about error
-        printf(status="ERROR", msg="")
+        main.printf(status="ERROR", msg="")
+
 
         # Print exception
         traceback.print_exception(type(e), e, e.__traceback__)
-    except KeyboardInterrupt:
-        # Exit if keyboard interrupt
-        sys.exit(0)
+

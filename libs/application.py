@@ -4,6 +4,7 @@
 import requests
 import sys
 import os
+import math
 
 from PySide6 import QtWidgets, QtCore, QtUiTools, QtGui # type: ignore
 from PySide6.QtWidgets import QDialog, QLabel, QVBoxLayout, QApplication # type: ignore
@@ -11,40 +12,39 @@ from PySide6.QtCore import QTimer, QFile # type: ignore
 from PySide6.QtUiTools import QUiLoader # type: ignore
 
 # Importing program files
-from Application.libs.Window.window import Window
-from Application.libs.ConfigManager.configmanager import Config
-from Application.libs.Logging.logging import Logging
-from Application.libs.Errors.errors import Error
-
-# Create instance of Logging
-logger = Logging()
-
-# Save printf method
-printf = logger.log
+from libs.Window.window import Window
+from libs.ConfigManager.configmanager import Config
+from libs.Logging.logging import Logging
+from libs.Errors.errors import Error
 
 # Class for managing whole application
-class Application(QApplication):
+class Application(Logging, QApplication):
     def __init__(self):
-        # Info message
-        printf(msg="Creating application", status="INFO")
-
         # Init parents
         super().__init__(sys.argv)
 
         # Start QTimer
         self.timer = QTimer()
 
-        # Application version
-        self.version = "0.1.0"
+        # Info message
+        self.printf(msg="Creating application", status="INFO")
 
-        # Maximum number of process
-        self.num_of_proccess = 100
+        '''
+        Setting all applications variables.
+        '''
 
         # List of all proccesses with their labels
         self.all_proccess = [
             (self.checkForUpdates, "Checking for updates..."),
             (self.checkConfigDir, "Checkfing config directory...")
         ]
+
+        # Application version
+        self.version = "0.1.0"
+
+        '''
+        Inicializing all neccessary modules.
+        '''
 
         # Window module
         self.window = Window(app=self)
@@ -55,14 +55,17 @@ class Application(QApplication):
         # Error module
         self.error = Error(parent=self)
 
-        # Loaded variable 
-        self.isLoaded = False
+        '''
+        Running program.
+        '''
 
         # Setup application
         self._setup()
 
     # Setup function
     def _setup(self) -> None:
+        # Print DEBUG
+        self.printf(status="DEBUG", msg="Inicializing application")
         # Process index variable
         self.process_index = 0
 
@@ -94,13 +97,14 @@ class Application(QApplication):
         self.setupWindow.show()
 
         # Run all setup processes with pause
-        self.timer.timeout.connect(self.run_next_process)
+        self.timer.timeout.connect(self._run_next_process)
 
         # Small pause
         self.timer.start(500)
 
     # Run next proccess function
-    def run_next_process(self):
+    # No logging
+    def _run_next_process(self):
         # Check if all process was runned
         if self.process_index == len(self.all_proccess):
             # Stop timer
@@ -109,9 +113,6 @@ class Application(QApplication):
             # Close loading window
             self.setupWindow.close()
 
-            # Set loaded to True
-            self.isLoaded = True
-             
             # Show main window
             self.window.show()
 
@@ -137,11 +138,14 @@ class Application(QApplication):
             # Set OK status of function
             self.setupWindow.statusLabel.setText("OK")
 
+            # Set progressBar value
+            self.setupWindow.loadingBar.setValue(self.setupWindow.loadingBar.value() + (100 // len(self.all_proccess)))
+
             # OK message
-            printf(status="OK", msg="", function=process[0].__name__)
+            self.printf(status="OK", msg="", function=process[0].__name__)
         except Exception as e:
             # Error message
-            printf(status="ERROR", exception=e, msg="")
+            self.printf(status="ERROR", exception=e, msg="")
 
             # Set ERROR Color
             self.setupWindow.statusLabel.setStyleSheet("color: #ff0000")

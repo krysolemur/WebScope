@@ -4,20 +4,18 @@
 from PySide6.QtWidgets import QDialog, QLabel, QVBoxLayout, QApplication # type: ignore
 from PySide6 import QtWidgets, QtCore, QtUiTools, QtGui # type: ignore
 
-from Application.libs.Logging.logging import Logging
+from libs.Logging.logging import Logging
 
-# Create instance of Logging
-logger = Logging()
-
-# Save printf method
-printf = logger.log
 # Class for displaying errors for users
 
 # Main class Errors 
-class Error:
+class Error(Logging):
     def __init__(self, parent):
+        # Init parents
+        super().__init__()
+        
         # Info message
-        printf(msg="Inicializing Error module", status="INFO")
+        self.printf(msg="Inicializing Error module", status="INFO")
 
         # Save parent
         self.app = parent
