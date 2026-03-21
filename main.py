@@ -15,7 +15,7 @@ from PySide6.QtCore import QTimer # type: ignore
 from libs.Logging.logging import Logging
 from libs.application import Application
 from libs.Errors.exceptions import *
-from Commands.commands import Commands
+from libs.Commands.commands import Commands
 
 
 # Create signal for canceling (Ctrl + C)
