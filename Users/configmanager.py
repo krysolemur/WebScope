@@ -22,7 +22,10 @@ class ConfigManager(Logging):
         self.app_config = {}
 
         # Default user config
-        self.user_config = {}
+        self.user_config = {
+            "requiredPassword": False,
+            "password": "123"
+        }
 
         # Default general config
         self.general_config = {}

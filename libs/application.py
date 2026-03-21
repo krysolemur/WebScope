@@ -1,14 +1,13 @@
 # application.py
 
-# Importing
-import requests # type: ignore
+# Import system files
+import bcrypt # type: ignore
+import hashlib
 import sys
-import os
-import math
-import json
+
 
 from PySide6 import QtWidgets, QtCore, QtUiTools, QtGui # type: ignore
-from PySide6.QtWidgets import QDialog, QLabel, QVBoxLayout, QApplication, QMessageBox # type: ignore
+from PySide6.QtWidgets import QDialog, QLabel, QVBoxLayout, QApplication, QMessageBox, QHBoxLayout, QPushButton, QVBoxLayout, QComboBox, QLineEdit # type: ignore
 from PySide6.QtCore import QTimer, QFile # type: ignore
 from PySide6.QtUiTools import QUiLoader # type: ignore
 
@@ -103,7 +102,7 @@ class Application(Logging, QApplication):
         self.setupDialog.setWindowTitle(f"WebScope | {self.version} | Inicializing")
 
         # Set size
-        self.setupDialog.setFixedSize(600, 75)
+        self.setupDialog.resize(600, 75)
 
         # Exec setupDialog
         self.setupDialog.show()
@@ -125,7 +124,8 @@ class Application(Logging, QApplication):
             (self._checkNetworkConnection, "Checking internet connection..."),
             (self._checkForUpdates, "Checking for updates..."),
             (self._checkUserDir, "Checking user directory"),
-            (self._checkConfigDir, "Checking config directory...")
+            (self._checkConfigDir, "Checking config directory..."),
+            (self._login, "Logging in...")
         ]
 
         '''
@@ -157,6 +157,9 @@ class Application(Logging, QApplication):
 
         # Get one process
         process = all_proccess[self.process_index]
+
+        # Set status label text
+        self.setupDialog.statusLabel.setText("...")
 
         # Try-except for catching errors
         try:    
@@ -218,6 +221,109 @@ class Application(Logging, QApplication):
     # Checking config files
     def _checkConfigDir(self) -> None:
         None
+
+    # Login function
+    def _login(self) -> None:
+        '''
+        Add login forms to setup dialog.
+        '''
+
+        # Stop timer
+        self.timer.stop()
+
+        # Username layout
+        usernameLayout = QHBoxLayout()
+
+        # Password layout
+        pwdLayout = QHBoxLayout()
+
+        # Buttons layout
+        buttonsLayout = QHBoxLayout()
+
+        # Username label
+        usernameLabel = QLabel("Username:")
+
+        # Password label
+        pwdLabel = QLabel("Password:")
+
+        # Password line edit
+        passwordLineEdit = QLineEdit()
+
+        # Username combobox
+        usernameComboBox = QComboBox()
+
+        # Login button
+        loginButton = QPushButton("Login")
+
+        # Reset password button
+        resetpwdButton = QPushButton("Reset password")
+
+        # Add label to username layout
+        usernameLayout.addWidget(usernameLabel)
+
+        # Add combo box to username layout
+        usernameLayout.addWidget(usernameComboBox)
+
+        # Add label to password layout
+        pwdLayout.addWidget(pwdLabel)
+
+        # Add line edit to password layout
+        pwdLayout.addWidget(passwordLineEdit)
+
+        # Add reset password to button layout
+        buttonsLayout.addWidget(resetpwdButton)
+
+        # Add login button to button layout
+        buttonsLayout.addWidget(loginButton)
+
+        # Add username layout to login layout
+        self.setupDialog.loginLayout.addLayout(usernameLayout)
+
+        # Add username layout to login layout
+        self.setupDialog.loginLayout.addLayout(pwdLayout)
+
+        # Add username layout to login layout
+        self.setupDialog.loginLayout.addLayout(buttonsLayout)
+
+        '''
+        Set window for another layout.
+        '''
+
+        # Resize dialog
+        self.setupDialog.resize(self.setupDialog.width(), self.setupDialog.sizeHint().height())
+
+        # Center window
+        self.window._center(self.setupDialog)
+
+        '''
+        Add all users to user combo box.
+        '''
+
+        # User variable from users manager
+        for user in self.users.all_users:
+            # Add user to combo box
+            usernameComboBox.addItem(user)
+
+    # Handle login functino 
+    def _handle_login(self, username, password):
+        # Encode password
+        pwd = password.encode()
+
+        # Generate hash with random salt
+        hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+
+        # Check login
+        if username == "admin" and password == "1234":
+            self.setupDialog.statusLabel.setStyleSheet("color: #00ff00")
+            self.setupDialog.statusLabel.setText("OK")
+
+            # pokračuj dál v procesu
+            self.process_index += 1
+            self.timer.start()
+
+        else:
+            self.setupDialog.statusLabel.setStyleSheet("color: #ff0000")
+            self.setupDialog.statusLabel.setText("Wrong credentials")
 
     '''
     Public functions.

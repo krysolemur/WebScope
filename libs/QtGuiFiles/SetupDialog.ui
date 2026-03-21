@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="mainLayout">
    <item>
     <widget class="QProgressBar" name="loadingBar">
      <property name="value">
@@ -22,7 +22,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="mainLayout">
+    <layout class="QHBoxLayout" name="setupLayout">
      <item>
       <widget class="QLabel" name="loadingLabel">
        <property name="sizePolicy">
@@ -50,6 +50,9 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="loginLayout"/>
    </item>
   </layout>
  </widget>

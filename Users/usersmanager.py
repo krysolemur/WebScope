@@ -33,6 +33,9 @@ class UsersManager(Logging):
         # Version variable
         self.version = "0.1.0"
 
+        # All users
+        self.all_users = self._getUsers()
+
         # Check Users folder
         if not os.path.exists(self.users_dir):
             # Print warning
@@ -67,6 +70,20 @@ class UsersManager(Logging):
         except FileExistsError:
             None
 
+    # Get all users
+    def _getUsers(self) -> list:
+        # Users list
+        usr = []
+
+        # Using loop browse all users in /Users folder
+        for user in os.listdir(self.users_dir):
+            if os.path.isdir(f"{self.users_dir}/{user}") and not user == "__pycache__":
+                # Append to self.user
+                usr.append(user)
+
+        # Return list with usernames
+        return usr
+
     '''
     Public functions.
     '''
@@ -74,7 +91,7 @@ class UsersManager(Logging):
     # Users settings dialog
     def usersSettings(self) -> None:
         '''
-        Load ui for custom restart dialog.
+        Load ui for settings dialog.
         '''
 
         # Load Ui file
@@ -100,7 +117,7 @@ class UsersManager(Logging):
         self.usersDialog.setWindowTitle(f"WebScope | {self.version} | Users settings")
 
         # Set size
-        self.usersDialog.setFixedSize(400, 300)
+        self.usersDialog.resize(800, 600)
 
         # Create model
         self.model = QStandardItemModel()
@@ -113,10 +130,9 @@ class UsersManager(Logging):
         '''
 
         # Using loop browse all users in /Users folder
-        for user in os.listdir(self.users_dir):
-            if os.path.isdir(f"{self.users_dir}/{user}") and not user == "__pycache__":
-                # Append to usersView
-                self.model.appendRow(QStandardItem(user))
+        for user in self.users:
+            # Append to usersView
+            self.model.appendRow(QStandardItem(user))
 
         # Load settings when users is changet in list view
         self.usersDialog.usersView.selectionModel().currentChanged.connect(lambda current, prev: self._loadSettings(user=self.model.data(current)))
@@ -130,7 +146,24 @@ class UsersManager(Logging):
 
     # Login function
     def login(self, username) -> bool:
-        ...
+        '''
+        Load ui for settings dialog.
+        '''
+
+        # Load Ui file
+        ui_file = QtCore.QFile("libs/QtGuiFiles/LoginDialog.ui")
+
+        # Read Ui file
+        ui_file.open(QtCore.QFile.ReadOnly)
+
+        # Load to setupDialog
+        self.loginDialog = QtUiTools.QUiLoader().load(ui_file)
+
+        # Process events
+        QtWidgets.QApplication.processEvents()
+
+        # Close Ui file
+        ui_file.close()
 
     # Function that create user folder
     def addUser(self, name) -> None:
