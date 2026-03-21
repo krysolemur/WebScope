@@ -55,9 +55,6 @@ class SettingsWindow(Logging, QDialog):
         # Set size
         self.setFixedSize(800, 600)
 
-        # Set window icon
-        self.setWindowIcon(QtGui.QIcon("Application/assets/icons/icon.png"))
-
     '''
     Public functions.
     '''

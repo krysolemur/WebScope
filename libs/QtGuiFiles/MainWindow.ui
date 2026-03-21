@@ -29,12 +29,13 @@
     </property>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
+    <addaction name="actionManageUsers"/>
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
     <addaction name="actionDocumentation"/>
     <addaction name="actionHelp"/>
     <addaction name="separator"/>
-    <addaction name="actionReport_bug"/>
+    <addaction name="actionReportBug"/>
     <addaction name="actionIdeas"/>
     <addaction name="separator"/>
     <addaction name="actionRestart"/>
@@ -45,7 +46,7 @@
      <string>Target</string>
     </property>
     <addaction name="actionAdd"/>
-    <addaction name="actionDownload_source_code"/>
+    <addaction name="actionDownloadSourceCode"/>
    </widget>
    <widget class="QMenu" name="menuAttack">
     <property name="title">
@@ -107,7 +108,7 @@
     <string>Add</string>
    </property>
   </action>
-  <action name="actionDownload_source_code">
+  <action name="actionDownloadSourceCode">
    <property name="text">
     <string>Download source code</string>
    </property>
@@ -137,7 +138,7 @@
     <string>Install</string>
    </property>
   </action>
-  <action name="actionReport_bug">
+  <action name="actionReportBug">
    <property name="text">
     <string>Report bug</string>
    </property>
@@ -145,6 +146,11 @@
   <action name="actionIdeas">
    <property name="text">
     <string>Ideas</string>
+   </property>
+  </action>
+  <action name="actionManageUsers">
+   <property name="text">
+    <string>Manage users</string>
    </property>
   </action>
  </widget>

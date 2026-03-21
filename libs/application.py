@@ -7,7 +7,6 @@ import os
 import math
 import json
 
-
 from PySide6 import QtWidgets, QtCore, QtUiTools, QtGui # type: ignore
 from PySide6.QtWidgets import QDialog, QLabel, QVBoxLayout, QApplication, QMessageBox # type: ignore
 from PySide6.QtCore import QTimer, QFile # type: ignore
@@ -15,10 +14,10 @@ from PySide6.QtUiTools import QUiLoader # type: ignore
 
 # Importing program files
 from libs.Window.window import Window
-from libs.ConfigManager.configmanager import Config
 from libs.Logging.logging import Logging
 from libs.Errors.errors import Error
-from libs.Users.users import Users
+from Users.usersmanager import UsersManager
+from Users.configmanager import ConfigManager
 
 # Class for managing whole application
 class Application(Logging, QApplication):
@@ -50,10 +49,10 @@ class Application(Logging, QApplication):
         '''
 
         # Users module
-        self.users = Users()
+        self.users = UsersManager()
 
         # Config module
-        self.config = Config()
+        self.config = ConfigManager()
 
         # Error module
         self.error = Error()
@@ -74,9 +73,6 @@ class Application(Logging, QApplication):
 
     # Setup function
     def _setup(self) -> None:
-        # Print DEBUG
-        self.printf(status="DEBUG", msg="Inicializing application")
-
         # Process index variable
         self.process_index = 0
 
@@ -231,26 +227,11 @@ class Application(Logging, QApplication):
             self.printf(status="WARNING", msg="Default user doesen't exists! Creating new.")
 
             # Create
-            os.makedirs(self.users.default_dir)
+            self.users.addUser("Default")
 
     # Checking config files
     def _checkConfigDir(self) -> None:
-        # Check if config folder exists
-        if not os.path.exists(self.config.config_dir):
-            # Print warning
-            self.printf(status="WARNING", msg="Config directory doesen't exists! Creating new.")
-
-            # Create
-            os.makedirs(self.config_dir)
-
-        # Check if config file exists
-        if not os.path.exists(self.config.config_file):
-            # Print warning
-            self.printf(status="WARNING", msg="Config file doesen't exists! Creating new.")
-
-            # Creating
-            with open(self.config_file, "w") as config:
-                json.dump(self.config.defautl_config, config, indent=4)
+        None
 
     '''
     Public functions.

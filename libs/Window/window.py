@@ -51,6 +51,9 @@ class Window(QMainWindow, Logging):
         # Settings action
         self.ui.actionSettings.triggered.connect(self._openSettings)
 
+        # Manage users action
+        self.ui.actionManageUsers.triggered.connect(self.app.users.usersSettings)
+
         # Close action
         self.ui.actionQuit.triggered.connect(self.close)
 
