@@ -3,6 +3,7 @@
 # Module for managing settings window
 
 # Importing system files
+import re
 import os
 
 from PySide6.QtWidgets import QDialog, QVBoxLayout
@@ -27,7 +28,7 @@ class SettingsWindow(QDialog, Logging):
         self.app = app
 
         # Print info message
-        self.printi(msg="Opening settings menu")
+        self.printi(msg="Opening settings window")
 
         '''
         Usefull variables.
@@ -102,27 +103,46 @@ class SettingsWindow(QDialog, Logging):
         # Adjust size
         self.profileName.adjustSize()
 
-        # Show dialog
-        self.profileName.exec()
-
-        # Get line edit value for name of new profile
-        name = self.profileName.profileNameLineEdit.text()
-
         # Create button action
-        self.profileName.createButton.clicked.connect(lambda name: self.config._checkProfile(name))
+        self.profileName.createButton.clicked.connect(self._checkProfile)
 
         # Cancel button action
         self.profileName.cancelButton.clicked.connect(self.profileName.reject)
 
+        # Show dialog
+        self.profileName.exec()
+
     # Check profile function
-    def _checkProfile(self, name) -> None:
+    def _checkProfile(self) -> None:
+        # Get name
+        name = self.profileName.profileNameLineEdit.text().strip()
+
+        # Set error styles
+        self.profileName.statusLabel.setStyleSheet(
+            "color: #ff0000"
+        )
+
         # Check if profile is not None
-        if not name:
+        if not name or not bool(re.fullmatch(r'^[a-zA-Z0-9_\- ]+$', name)):
+            # Set error label
             self.profileName.statusLabel.setText("Enter valid name!")
 
+            return
+
         # Check if profile does not exists
-        if os.path.exists(f"{self.config.config_dir}/{name}.json"):
+        if os.path.exists(os.path.join(self.config.config_dir, f"{name}.json")):
+            # Set error label
             self.profileName.statusLabel.setText(f"Profile with name {name} already exists!")
+            
+            return
+        
+        # Set success styles
+        self.profileName.statusLabel.setStyleSheet(
+            "color: #00ff00"
+        )
+
+        # Set succes label text
+        self.profileName.statusLabel.setText(f"Profile with name {name} created successfully.")
 
         # Add profile
         self.config.addProfile(name)

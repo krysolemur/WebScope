@@ -4,6 +4,7 @@
 import json
 import sys
 import os
+import re
 
 # Import program files
 from libs.Logging.logging import Logging
