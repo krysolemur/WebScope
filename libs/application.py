@@ -1,7 +1,6 @@
 # application.py
 
 # Import system files
-import bcrypt
 import json
 import os
 import sys
@@ -14,6 +13,7 @@ from PySide6.QtGui import QIcon
 
 # Importing program files
 from libs.MainWindow.mainwindow import MainWindow
+from Config.configmanager import ConfigManager
 from libs.Logging.logging import Logging
 from libs.Errors.errors import Error
 from libs.Errors.exceptions import *
@@ -28,6 +28,9 @@ class Application(Logging, QApplication):
         '''
         # Init parents
         super().__init__(sys.argv)
+
+        # Init config module
+        self.config = ConfigManager()
 
         '''
         Setting all applications variables.
