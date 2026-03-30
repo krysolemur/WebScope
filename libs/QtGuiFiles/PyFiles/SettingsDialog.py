@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'SettingsDialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.10.2
+## Created by: Qt User Interface Compiler version 6.11.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -25,64 +25,77 @@ class Ui_SettingsDialog(object):
     def setupUi(self, SettingsDialog):
         if not SettingsDialog.objectName():
             SettingsDialog.setObjectName(u"SettingsDialog")
-        SettingsDialog.resize(632, 560)
+        SettingsDialog.setWindowModality(Qt.WindowModal)
+        SettingsDialog.resize(828, 624)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(SettingsDialog.sizePolicy().hasHeightForWidth())
+        SettingsDialog.setSizePolicy(sizePolicy)
+        SettingsDialog.setMinimumSize(QSize(0, 0))
+        SettingsDialog.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
         SettingsDialog.setContextMenuPolicy(Qt.NoContextMenu)
+        SettingsDialog.setSizeGripEnabled(False)
+        SettingsDialog.setModal(True)
         self.mainLayout = QVBoxLayout(SettingsDialog)
+        self.mainLayout.setSpacing(0)
         self.mainLayout.setObjectName(u"mainLayout")
+        self.mainLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
         self.settingsLayout = QHBoxLayout()
         self.settingsLayout.setSpacing(0)
         self.settingsLayout.setObjectName(u"settingsLayout")
-        self.settingsLayout.setSizeConstraint(QLayout.SetNoConstraint)
+        self.settingsLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.settingsView = QListWidget(SettingsDialog)
         QListWidgetItem(self.settingsView)
+        QListWidgetItem(self.settingsView)
         self.settingsView.setObjectName(u"settingsView")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.settingsView.sizePolicy().hasHeightForWidth())
-        self.settingsView.setSizePolicy(sizePolicy)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.settingsView.sizePolicy().hasHeightForWidth())
+        self.settingsView.setSizePolicy(sizePolicy1)
 
         self.settingsLayout.addWidget(self.settingsView)
 
         self.settingsWidget = QStackedWidget(SettingsDialog)
         self.settingsWidget.setObjectName(u"settingsWidget")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.settingsWidget.sizePolicy().hasHeightForWidth())
-        self.settingsWidget.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.settingsWidget.sizePolicy().hasHeightForWidth())
+        self.settingsWidget.setSizePolicy(sizePolicy)
         self.generalPage = QWidget()
         self.generalPage.setObjectName(u"generalPage")
-        sizePolicy1.setHeightForWidth(self.generalPage.sizePolicy().hasHeightForWidth())
-        self.generalPage.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.generalPage.sizePolicy().hasHeightForWidth())
+        self.generalPage.setSizePolicy(sizePolicy)
+        self.generalPage.setMinimumSize(QSize(0, 0))
+        self.generalPage.setMaximumSize(QSize(16777215, 16777215))
         self.generalScrollArea = QScrollArea(self.generalPage)
         self.generalScrollArea.setObjectName(u"generalScrollArea")
-        self.generalScrollArea.setGeometry(QRect(-1, -1, 371, 481))
+        self.generalScrollArea.setGeometry(QRect(0, 0, 391, 331))
+        sizePolicy.setHeightForWidth(self.generalScrollArea.sizePolicy().hasHeightForWidth())
+        self.generalScrollArea.setSizePolicy(sizePolicy)
+        self.generalScrollArea.setMinimumSize(QSize(0, 0))
         self.generalScrollArea.setFrameShape(QFrame.NoFrame)
         self.generalScrollArea.setFrameShadow(QFrame.Plain)
         self.generalScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.generalScrollArea.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
+        self.generalScrollArea.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContentsOnFirstShow)
         self.generalScrollArea.setWidgetResizable(True)
+        self.generalScrollArea.setAlignment(Qt.AlignCenter)
         self.generalScrollAreaContents = QWidget()
         self.generalScrollAreaContents.setObjectName(u"generalScrollAreaContents")
-        self.generalScrollAreaContents.setGeometry(QRect(0, 0, 371, 481))
-        sizePolicy1.setHeightForWidth(self.generalScrollAreaContents.sizePolicy().hasHeightForWidth())
-        self.generalScrollAreaContents.setSizePolicy(sizePolicy1)
-        self.verticalLayoutWidget = QWidget(self.generalScrollAreaContents)
-        self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(-1, -1, 392, 481))
-        self.generalLayout = QVBoxLayout(self.verticalLayoutWidget)
-        self.generalLayout.setObjectName(u"generalLayout")
-        self.generalLayout.setSizeConstraint(QLayout.SetMaximumSize)
-        self.generalLayout.setContentsMargins(6, 6, 6, 0)
+        self.generalScrollAreaContents.setGeometry(QRect(0, 0, 398, 331))
+        sizePolicy.setHeightForWidth(self.generalScrollAreaContents.sizePolicy().hasHeightForWidth())
+        self.generalScrollAreaContents.setSizePolicy(sizePolicy)
+        self.generalScrollAreaContents.setMinimumSize(QSize(0, 0))
+        self.generalScrollAreaContents.setMaximumSize(QSize(16777215, 16777215))
+        self.verticalLayout = QVBoxLayout(self.generalScrollAreaContents)
+        self.verticalLayout.setObjectName(u"verticalLayout")
         self.askOnCloseLayout = QHBoxLayout()
         self.askOnCloseLayout.setObjectName(u"askOnCloseLayout")
         self.askOnCloseLayout.setSizeConstraint(QLayout.SetMaximumSize)
         self.askOnCloseLayout.setContentsMargins(6, 6, 6, 6)
-        self.askOnCloseLabel = QLabel(self.verticalLayoutWidget)
+        self.askOnCloseLabel = QLabel(self.generalScrollAreaContents)
         self.askOnCloseLabel.setObjectName(u"askOnCloseLabel")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.askOnCloseLabel.sizePolicy().hasHeightForWidth())
@@ -90,120 +103,108 @@ class Ui_SettingsDialog(object):
 
         self.askOnCloseLayout.addWidget(self.askOnCloseLabel)
 
-        self.askOnCloseComboBox = QComboBox(self.verticalLayoutWidget)
+        self.askOnCloseComboBox = QComboBox(self.generalScrollAreaContents)
         self.askOnCloseComboBox.addItem("")
         self.askOnCloseComboBox.addItem("")
         self.askOnCloseComboBox.setObjectName(u"askOnCloseComboBox")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.askOnCloseComboBox.sizePolicy().hasHeightForWidth())
-        self.askOnCloseComboBox.setSizePolicy(sizePolicy3)
+        sizePolicy2.setHeightForWidth(self.askOnCloseComboBox.sizePolicy().hasHeightForWidth())
+        self.askOnCloseComboBox.setSizePolicy(sizePolicy2)
+        self.askOnCloseComboBox.setMaxCount(2)
+        self.askOnCloseComboBox.setInsertPolicy(QComboBox.InsertAtBottom)
+        self.askOnCloseComboBox.setSizeAdjustPolicy(QComboBox.AdjustToContents)
 
         self.askOnCloseLayout.addWidget(self.askOnCloseComboBox)
 
         self.askOnCloseLayout.setStretch(1, 1)
 
-        self.generalLayout.addLayout(self.askOnCloseLayout)
+        self.verticalLayout.addLayout(self.askOnCloseLayout)
 
         self.themeLayout = QHBoxLayout()
         self.themeLayout.setObjectName(u"themeLayout")
         self.themeLayout.setContentsMargins(6, 6, 6, 6)
-        self.themeLabel = QLabel(self.verticalLayoutWidget)
+        self.themeLabel = QLabel(self.generalScrollAreaContents)
         self.themeLabel.setObjectName(u"themeLabel")
+        sizePolicy2.setHeightForWidth(self.themeLabel.sizePolicy().hasHeightForWidth())
+        self.themeLabel.setSizePolicy(sizePolicy2)
 
         self.themeLayout.addWidget(self.themeLabel)
 
-        self.themeComboBox = QComboBox(self.verticalLayoutWidget)
+        self.themeComboBox = QComboBox(self.generalScrollAreaContents)
         self.themeComboBox.setObjectName(u"themeComboBox")
-        sizePolicy3.setHeightForWidth(self.themeComboBox.sizePolicy().hasHeightForWidth())
-        self.themeComboBox.setSizePolicy(sizePolicy3)
+        sizePolicy2.setHeightForWidth(self.themeComboBox.sizePolicy().hasHeightForWidth())
+        self.themeComboBox.setSizePolicy(sizePolicy2)
 
         self.themeLayout.addWidget(self.themeComboBox)
 
-        self.themeAddButton = QPushButton(self.verticalLayoutWidget)
+        self.themeAddButton = QPushButton(self.generalScrollAreaContents)
         self.themeAddButton.setObjectName(u"themeAddButton")
+        sizePolicy2.setHeightForWidth(self.themeAddButton.sizePolicy().hasHeightForWidth())
+        self.themeAddButton.setSizePolicy(sizePolicy2)
 
         self.themeLayout.addWidget(self.themeAddButton)
 
         self.themeLayout.setStretch(1, 1)
 
-        self.generalLayout.addLayout(self.themeLayout)
+        self.verticalLayout.addLayout(self.themeLayout)
 
         self.fontLayout = QHBoxLayout()
         self.fontLayout.setObjectName(u"fontLayout")
         self.fontLayout.setContentsMargins(6, 6, 6, 6)
-        self.fontLabel = QLabel(self.verticalLayoutWidget)
+        self.fontLabel = QLabel(self.generalScrollAreaContents)
         self.fontLabel.setObjectName(u"fontLabel")
+        sizePolicy2.setHeightForWidth(self.fontLabel.sizePolicy().hasHeightForWidth())
+        self.fontLabel.setSizePolicy(sizePolicy2)
 
         self.fontLayout.addWidget(self.fontLabel)
 
-        self.fontComboBox = QFontComboBox(self.verticalLayoutWidget)
+        self.fontComboBox = QFontComboBox(self.generalScrollAreaContents)
         self.fontComboBox.setObjectName(u"fontComboBox")
+        sizePolicy2.setHeightForWidth(self.fontComboBox.sizePolicy().hasHeightForWidth())
+        self.fontComboBox.setSizePolicy(sizePolicy2)
 
         self.fontLayout.addWidget(self.fontComboBox)
 
-        self.fontAddButton = QPushButton(self.verticalLayoutWidget)
+        self.fontAddButton = QPushButton(self.generalScrollAreaContents)
         self.fontAddButton.setObjectName(u"fontAddButton")
+        sizePolicy2.setHeightForWidth(self.fontAddButton.sizePolicy().hasHeightForWidth())
+        self.fontAddButton.setSizePolicy(sizePolicy2)
 
         self.fontLayout.addWidget(self.fontAddButton)
 
 
-        self.generalLayout.addLayout(self.fontLayout)
+        self.verticalLayout.addLayout(self.fontLayout)
 
         self.fontSizeLayout = QHBoxLayout()
         self.fontSizeLayout.setObjectName(u"fontSizeLayout")
         self.fontSizeLayout.setContentsMargins(6, 6, 6, 6)
-        self.fontSizeLabel = QLabel(self.verticalLayoutWidget)
+        self.fontSizeLabel = QLabel(self.generalScrollAreaContents)
         self.fontSizeLabel.setObjectName(u"fontSizeLabel")
+        sizePolicy2.setHeightForWidth(self.fontSizeLabel.sizePolicy().hasHeightForWidth())
+        self.fontSizeLabel.setSizePolicy(sizePolicy2)
 
         self.fontSizeLayout.addWidget(self.fontSizeLabel)
 
-        self.fontSizeSlider = QSlider(self.verticalLayoutWidget)
+        self.fontSizeSlider = QSlider(self.generalScrollAreaContents)
         self.fontSizeSlider.setObjectName(u"fontSizeSlider")
+        sizePolicy2.setHeightForWidth(self.fontSizeSlider.sizePolicy().hasHeightForWidth())
+        self.fontSizeSlider.setSizePolicy(sizePolicy2)
         self.fontSizeSlider.setOrientation(Qt.Horizontal)
 
         self.fontSizeLayout.addWidget(self.fontSizeSlider)
 
         self.fontSizeLayout.setStretch(1, 1)
 
-        self.generalLayout.addLayout(self.fontSizeLayout)
+        self.verticalLayout.addLayout(self.fontSizeLayout)
 
-        self.layoutSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.generalLayoutSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.generalLayout.addItem(self.layoutSpacer)
+        self.verticalLayout.addItem(self.generalLayoutSpacer)
 
         self.generalScrollArea.setWidget(self.generalScrollAreaContents)
-        self.horizontalLayoutWidget = QWidget(self.generalPage)
-        self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")
-        self.horizontalLayoutWidget.setGeometry(QRect(0, 480, 371, 39))
-        self.profileButtonsLayout = QHBoxLayout(self.horizontalLayoutWidget)
-        self.profileButtonsLayout.setObjectName(u"profileButtonsLayout")
-        self.profileButtonsLayout.setSizeConstraint(QLayout.SetMinimumSize)
-        self.profileButtonsLayout.setContentsMargins(6, 0, 6, 0)
-        self.removeProfileButton = QPushButton(self.horizontalLayoutWidget)
-        self.removeProfileButton.setObjectName(u"removeProfileButton")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.removeProfileButton.sizePolicy().hasHeightForWidth())
-        self.removeProfileButton.setSizePolicy(sizePolicy4)
-
-        self.profileButtonsLayout.addWidget(self.removeProfileButton)
-
-        self.addProfileButton = QPushButton(self.horizontalLayoutWidget)
-        self.addProfileButton.setObjectName(u"addProfileButton")
-        sizePolicy4.setHeightForWidth(self.addProfileButton.sizePolicy().hasHeightForWidth())
-        self.addProfileButton.setSizePolicy(sizePolicy4)
-
-        self.profileButtonsLayout.addWidget(self.addProfileButton)
-
-        self.profileButtonsLayout.setStretch(0, 1)
-        self.profileButtonsLayout.setStretch(1, 1)
         self.settingsWidget.addWidget(self.generalPage)
-        self.page_2 = QWidget()
-        self.page_2.setObjectName(u"page_2")
-        self.settingsWidget.addWidget(self.page_2)
+        self.shortcustPage = QWidget()
+        self.shortcustPage.setObjectName(u"shortcustPage")
+        self.settingsWidget.addWidget(self.shortcustPage)
 
         self.settingsLayout.addWidget(self.settingsWidget)
 
@@ -213,32 +214,47 @@ class Ui_SettingsDialog(object):
 
         self.buttonsLayout = QHBoxLayout()
         self.buttonsLayout.setObjectName(u"buttonsLayout")
-        self.buttonsLayout.setContentsMargins(6, 0, 6, 3)
+        self.buttonsLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
+        self.buttonsLayout.setContentsMargins(6, 6, 6, 6)
         self.cancelButton = QPushButton(SettingsDialog)
         self.cancelButton.setObjectName(u"cancelButton")
-        sizePolicy3.setHeightForWidth(self.cancelButton.sizePolicy().hasHeightForWidth())
-        self.cancelButton.setSizePolicy(sizePolicy3)
+        sizePolicy2.setHeightForWidth(self.cancelButton.sizePolicy().hasHeightForWidth())
+        self.cancelButton.setSizePolicy(sizePolicy2)
 
         self.buttonsLayout.addWidget(self.cancelButton)
 
         self.resetButton = QPushButton(SettingsDialog)
         self.resetButton.setObjectName(u"resetButton")
-        sizePolicy3.setHeightForWidth(self.resetButton.sizePolicy().hasHeightForWidth())
-        self.resetButton.setSizePolicy(sizePolicy3)
+        sizePolicy2.setHeightForWidth(self.resetButton.sizePolicy().hasHeightForWidth())
+        self.resetButton.setSizePolicy(sizePolicy2)
 
         self.buttonsLayout.addWidget(self.resetButton)
 
         self.applyButton = QPushButton(SettingsDialog)
         self.applyButton.setObjectName(u"applyButton")
-        sizePolicy3.setHeightForWidth(self.applyButton.sizePolicy().hasHeightForWidth())
-        self.applyButton.setSizePolicy(sizePolicy3)
+        sizePolicy2.setHeightForWidth(self.applyButton.sizePolicy().hasHeightForWidth())
+        self.applyButton.setSizePolicy(sizePolicy2)
 
         self.buttonsLayout.addWidget(self.applyButton)
 
+        self.removeProfileButton = QPushButton(SettingsDialog)
+        self.removeProfileButton.setObjectName(u"removeProfileButton")
+        sizePolicy2.setHeightForWidth(self.removeProfileButton.sizePolicy().hasHeightForWidth())
+        self.removeProfileButton.setSizePolicy(sizePolicy2)
+
+        self.buttonsLayout.addWidget(self.removeProfileButton)
+
+        self.addProfileButton = QPushButton(SettingsDialog)
+        self.addProfileButton.setObjectName(u"addProfileButton")
+        sizePolicy2.setHeightForWidth(self.addProfileButton.sizePolicy().hasHeightForWidth())
+        self.addProfileButton.setSizePolicy(sizePolicy2)
+
+        self.buttonsLayout.addWidget(self.addProfileButton)
+
         self.profilesComboBox = QComboBox(SettingsDialog)
         self.profilesComboBox.setObjectName(u"profilesComboBox")
-        sizePolicy3.setHeightForWidth(self.profilesComboBox.sizePolicy().hasHeightForWidth())
-        self.profilesComboBox.setSizePolicy(sizePolicy3)
+        sizePolicy2.setHeightForWidth(self.profilesComboBox.sizePolicy().hasHeightForWidth())
+        self.profilesComboBox.setSizePolicy(sizePolicy2)
 
         self.buttonsLayout.addWidget(self.profilesComboBox)
 
@@ -258,7 +274,9 @@ class Ui_SettingsDialog(object):
         __sortingEnabled = self.settingsView.isSortingEnabled()
         self.settingsView.setSortingEnabled(False)
         ___qlistwidgetitem = self.settingsView.item(0)
-        ___qlistwidgetitem.setText(QCoreApplication.translate("SettingsDialog", u"General", None));
+        ___qlistwidgetitem.setText(QCoreApplication.translate("SettingsDialog", u"General", None))
+        ___qlistwidgetitem1 = self.settingsView.item(1)
+        ___qlistwidgetitem1.setText(QCoreApplication.translate("SettingsDialog", u"Shortcuts", None))
         self.settingsView.setSortingEnabled(__sortingEnabled)
 
         self.askOnCloseLabel.setText(QCoreApplication.translate("SettingsDialog", u"Ask on close: ", None))
@@ -270,10 +288,10 @@ class Ui_SettingsDialog(object):
         self.fontLabel.setText(QCoreApplication.translate("SettingsDialog", u"Font: ", None))
         self.fontAddButton.setText(QCoreApplication.translate("SettingsDialog", u"Add font", None))
         self.fontSizeLabel.setText(QCoreApplication.translate("SettingsDialog", u"Font size: ", None))
-        self.removeProfileButton.setText(QCoreApplication.translate("SettingsDialog", u"Remove", None))
-        self.addProfileButton.setText(QCoreApplication.translate("SettingsDialog", u"Add", None))
         self.cancelButton.setText(QCoreApplication.translate("SettingsDialog", u"Cancel", None))
         self.resetButton.setText(QCoreApplication.translate("SettingsDialog", u"Reset", None))
         self.applyButton.setText(QCoreApplication.translate("SettingsDialog", u"Apply", None))
+        self.removeProfileButton.setText(QCoreApplication.translate("SettingsDialog", u"Remove", None))
+        self.addProfileButton.setText(QCoreApplication.translate("SettingsDialog", u"Add", None))
     # retranslateUi
 

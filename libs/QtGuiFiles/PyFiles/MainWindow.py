@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'MainWindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.10.2
+## Created by: Qt User Interface Compiler version 6.11.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -17,7 +17,7 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QMainWindow, QMenu, QMenuBar,
-    QSizePolicy, QVBoxLayout, QWidget)
+    QSizePolicy, QTabWidget, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -56,6 +56,8 @@ class Ui_MainWindow(object):
         self.actionIdeas.setObjectName(u"actionIdeas")
         self.actionManageUsers = QAction(MainWindow)
         self.actionManageUsers.setObjectName(u"actionManageUsers")
+        self.actionInstall_own = QAction(MainWindow)
+        self.actionInstall_own.setObjectName(u"actionInstall_own")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget = QWidget(self.centralwidget)
@@ -64,10 +66,24 @@ class Ui_MainWindow(object):
         self.toolsLayout = QVBoxLayout(self.verticalLayoutWidget)
         self.toolsLayout.setObjectName(u"toolsLayout")
         self.toolsLayout.setContentsMargins(0, 0, 0, 0)
+        self.toolsWidget = QTabWidget(self.verticalLayoutWidget)
+        self.toolsWidget.setObjectName(u"toolsWidget")
+        self.sourceCodeTab = QWidget()
+        self.sourceCodeTab.setObjectName(u"sourceCodeTab")
+        self.toolsWidget.addTab(self.sourceCodeTab, "")
+        self.networkRequestsTab = QWidget()
+        self.networkRequestsTab.setObjectName(u"networkRequestsTab")
+        self.toolsWidget.addTab(self.networkRequestsTab, "")
+        self.memoryTab = QWidget()
+        self.memoryTab.setObjectName(u"memoryTab")
+        self.toolsWidget.addTab(self.memoryTab, "")
+
+        self.toolsLayout.addWidget(self.toolsWidget)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 798, 21))
+        self.menubar.setGeometry(QRect(0, 0, 798, 20))
         self.menuWindow = QMenu(self.menubar)
         self.menuWindow.setObjectName(u"menuWindow")
         self.menuTarget = QMenu(self.menubar)
@@ -78,13 +94,10 @@ class Ui_MainWindow(object):
         self.menuInjections.setObjectName(u"menuInjections")
         self.menuPlugins = QMenu(self.menubar)
         self.menuPlugins.setObjectName(u"menuPlugins")
-        self.menuTools = QMenu(self.menubar)
-        self.menuTools.setObjectName(u"menuTools")
         MainWindow.setMenuBar(self.menubar)
 
         self.menubar.addAction(self.menuWindow.menuAction())
         self.menubar.addAction(self.menuTarget.menuAction())
-        self.menubar.addAction(self.menuTools.menuAction())
         self.menubar.addAction(self.menuAttack.menuAction())
         self.menubar.addAction(self.menuPlugins.menuAction())
         self.menuWindow.addSeparator()
@@ -109,6 +122,9 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
+        self.toolsWidget.setCurrentIndex(0)
+
+
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
@@ -130,11 +146,14 @@ class Ui_MainWindow(object):
         self.actionReportBug.setText(QCoreApplication.translate("MainWindow", u"Report bug", None))
         self.actionIdeas.setText(QCoreApplication.translate("MainWindow", u"Ideas", None))
         self.actionManageUsers.setText(QCoreApplication.translate("MainWindow", u"Manage users", None))
+        self.actionInstall_own.setText(QCoreApplication.translate("MainWindow", u"Install own", None))
+        self.toolsWidget.setTabText(self.toolsWidget.indexOf(self.sourceCodeTab), QCoreApplication.translate("MainWindow", u"Source", None))
+        self.toolsWidget.setTabText(self.toolsWidget.indexOf(self.networkRequestsTab), QCoreApplication.translate("MainWindow", u"Network", None))
+        self.toolsWidget.setTabText(self.toolsWidget.indexOf(self.memoryTab), QCoreApplication.translate("MainWindow", u"Memory", None))
         self.menuWindow.setTitle(QCoreApplication.translate("MainWindow", u"Window", None))
         self.menuTarget.setTitle(QCoreApplication.translate("MainWindow", u"Target", None))
         self.menuAttack.setTitle(QCoreApplication.translate("MainWindow", u"Attack", None))
         self.menuInjections.setTitle(QCoreApplication.translate("MainWindow", u"Injections", None))
         self.menuPlugins.setTitle(QCoreApplication.translate("MainWindow", u"Plugins", None))
-        self.menuTools.setTitle(QCoreApplication.translate("MainWindow", u"Tools", None))
     # retranslateUi
 

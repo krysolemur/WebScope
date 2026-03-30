@@ -66,10 +66,8 @@ class ConfigManager(Logging):
 
     # Remove profile function
     def removeProfile(self, name) -> None:
-        # Check if profile name is not config
-        if name != "config":
-            # Try remove profile
-            os.remove(f"{self.config_dir}/{name}")
+        # Try remove profile
+        os.remove(f"{self.config_dir}/{name}")
 
     # Check default config file
     def checkDefaultConfig(self) -> None:
@@ -85,3 +83,13 @@ class ConfigManager(Logging):
 
                 # Close file
                 config.close()
+
+    # Save settings 
+    def saveSettings(self) -> None:
+        None
+
+    # Reset settings
+    def resetSettings(self) -> None:
+        None
+
+    

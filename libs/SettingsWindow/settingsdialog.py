@@ -6,7 +6,7 @@
 import re
 import os
 
-from PySide6.QtWidgets import QDialog, QVBoxLayout # type: ignore
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QSizePolicy # type: ignore
 from PySide6.QtCore import QFile # type: ignore
 from PySide6.QtUiTools import QUiLoader # type: ignore
 from PySide6.QtGui import QIcon # type: ignore
@@ -19,7 +19,7 @@ from libs.QtGuiFiles.PyFiles.SettingsDialog import Ui_SettingsDialog
 from libs.QtGuiFiles.PyFiles.ProfileDialog import Ui_ProfileDialog
 
 # Class settings window
-class SettingsWindow(QDialog, Logging):
+class SettingsDialog(QDialog, Logging):
     def __init__(self, app) -> None:
         '''
         Init parents, save app and print info message.
@@ -60,9 +60,6 @@ class SettingsWindow(QDialog, Logging):
         # Set window icon
         self.setWindowIcon(QIcon("icon.svg"))
 
-        # Set size
-        self.resize(632, 560)
-
         # Add profiles into combobox
         self._loadProfiles()
 
@@ -71,6 +68,19 @@ class SettingsWindow(QDialog, Logging):
 
         # Remove profile action
         self.ui.removeProfileButton.clicked.connect(self._removeProfile)
+
+        # Pages actions
+        self.ui.settingsView.currentRowChanged.connect(self.ui.settingsWidget.setCurrentIndex)
+
+        # Remove button enabled 
+        self.ui.removeProfileButton.setEnabled(False)
+
+        # Set minimum size
+        self.setMinimumSize(self.sizeHint())
+
+        # Resize
+        self.resize(800, 600)
+
 
     '''
     Private functions.

@@ -13,7 +13,7 @@ from PySide6.QtGui import QIcon # type: ignore
 
 # Imporing program files
 from libs.Logging.logging import Logging
-from libs.SettingsWindow.settingswindow import SettingsWindow
+from libs.SettingsWindow.settingsdialog import SettingsDialog
 
 from libs.QtGuiFiles.PyFiles.MainWindow import Ui_MainWindow
 from libs.QtGuiFiles.PyFiles.CustomDialog import Ui_customDialog
@@ -64,7 +64,7 @@ class MainWindow(QMainWindow, Logging):
         self.setWindowTitle(f"{self.app.name} | {self.app.version}")  
 
         # Set window icon
-        self.setWindowIcon(QIcon("icon.png"))
+        self.setWindowIcon(QIcon("icon.svg"))
 
         # Size
         self.resize(800, 600) 
@@ -94,7 +94,7 @@ class MainWindow(QMainWindow, Logging):
     # Settings function
     def _openSettings(self) -> None:
         # Create settings window object
-        self.settingsWindow = SettingsWindow(app=self.app)
+        self.settingsWindow = SettingsDialog(app=self.app)
 
         # Exec settings window
         self.settingsWindow.exec()

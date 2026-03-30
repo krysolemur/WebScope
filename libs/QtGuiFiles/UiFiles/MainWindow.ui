@@ -23,7 +23,30 @@
       <height>581</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="toolsLayout"/>
+    <layout class="QVBoxLayout" name="toolsLayout">
+     <item>
+      <widget class="QTabWidget" name="toolsWidget">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="sourceCodeTab">
+        <attribute name="title">
+         <string>Source</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="networkRequestsTab">
+        <attribute name="title">
+         <string>Network</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="memoryTab">
+        <attribute name="title">
+         <string>Memory</string>
+        </attribute>
+       </widget>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -32,7 +55,7 @@
      <x>0</x>
      <y>0</y>
      <width>798</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuWindow">
@@ -79,14 +102,8 @@
     <addaction name="actionAdd_2"/>
     <addaction name="actionInstall"/>
    </widget>
-   <widget class="QMenu" name="menuTools">
-    <property name="title">
-     <string>Tools</string>
-    </property>
-   </widget>
    <addaction name="menuWindow"/>
    <addaction name="menuTarget"/>
-   <addaction name="menuTools"/>
    <addaction name="menuAttack"/>
    <addaction name="menuPlugins"/>
   </widget>
@@ -168,6 +185,11 @@
   <action name="actionManageUsers">
    <property name="text">
     <string>Manage users</string>
+   </property>
+  </action>
+  <action name="actionInstall_own">
+   <property name="text">
+    <string>Install own</string>
    </property>
   </action>
  </widget>

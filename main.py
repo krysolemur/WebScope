@@ -90,7 +90,7 @@ if __name__ == "__main__":
 
         else:
             # Print help command for running
-            print("Run \"python3 main.py --run\" to start application. Type --help for help menu.")
+            print("Run \"python3 main.py --run\" to start application. Type \"--help\" for help menu.")
             
     
     # Catch exception
