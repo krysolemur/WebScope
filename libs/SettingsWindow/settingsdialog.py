@@ -3,7 +3,7 @@
 # Module for managing settings window
 
 # Importing system files
-import re
+import sys
 import os
 
 from PySide6.QtWidgets import QDialog, QSlider, QComboBox, QWidget, QCheckBox # type: ignore
@@ -16,6 +16,7 @@ from resources.Themes.theme import Theme
 
 from libs.QtGuiFiles.PyFiles.SettingsDialog import Ui_SettingsDialog
 from libs.QtGuiFiles.PyFiles.CustomDialog import Ui_customDialog
+
 # Class settings window
 class SettingsDialog(QDialog, Logging):
     def __init__(self, app) -> None:
@@ -26,7 +27,7 @@ class SettingsDialog(QDialog, Logging):
         super().__init__()
 
         # Init themes
-        self.theme = Theme()
+        self.theme = self.app.theme
 
         # Save application
         self.app = app
@@ -141,6 +142,50 @@ class SettingsDialog(QDialog, Logging):
 
         # Get back window title
         self.setWindowTitle(self.title)
+
+        '''
+        Load ui for custom restart dialog.
+        '''
+
+        # Load Ui
+        restartDialog = QDialog()
+
+        restartDialogUi = Ui_customDialog()
+
+        # Setup ui 
+        restartDialogUi.setupUi(restartDialog)
+
+        '''
+        Set properties for custom dialog like title, size and center it.
+        '''
+
+        # Set title
+        restartDialog.setWindowTitle(f"{self.app.name} | {self.app.version} | Restart")
+
+        # Adjust dialog
+        restartDialog.adjustSize()
+
+        '''
+        Set parametres for buttons and others childs.
+        '''
+
+        # Set label text
+        restartDialogUi.textLabel.setText("Settings will be changed after restart. Do you want to restart?")
+
+        # Set cancel button text
+        restartDialogUi.cancelButton.setText("No")
+
+        # Set sumbit button text
+        restartDialogUi.sumbitButton.setText("Yes")
+
+        # Set cancel button action
+        restartDialogUi.cancelButton.clicked.connect(restartDialog.close)
+
+        # Set sumbit button action
+        restartDialogUi.sumbitButton.clicked.connect(lambda: (self.printi(msg="Restarting application"), os.execv(sys.executable, [sys.executable] + sys.argv)))
+
+        # Show dialog
+        restartDialog.exec()
 
     # Load settings
     def _loadSettings(self) -> None:
