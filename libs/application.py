@@ -1,6 +1,7 @@
 # application.py
 
 # Import system files
+import os
 import sys
 
 from PySide6.QtWidgets import QApplication, QDialog # type: ignore
@@ -14,34 +15,55 @@ from libs.Logging.logging import Logging
 from resources.Themes.theme import Theme
 
 from libs.QtGuiFiles.PyFiles.SetupDialog import Ui_setupDialog
+from libs.QtGuiFiles.PyFiles.CustomDialog import Ui_customDialog
 
 # Class for managing whole application
 class Application(Logging, QApplication):
     def __init__(self) -> None:
         '''
-        Set application parametres, init parents and other.
-        '''
-        # Init parents
-        super().__init__(sys.argv)
-
-        # Init config module
-        self.config = ConfigManager()
-
-        # Init theme module
-        self.theme = Theme()
-
-        '''
-        Setting all applications variables.
+        Set all variables for application.
         '''
 
-        # Application version
+        # Version of application
         self.version = "0.1.0"
 
         # Application name
         self.name = "XyraEngine"
 
+        # Icon path for application
+        self.iconPath = ""
+
+        # Starting info message
+        self.printi(msg="Starting WebScope")
+
         '''
-        Load ui for custom restart dialog.
+        Init all modules, parents.
+        '''
+
+        # Init Logging and QApplication with sys.argv for application
+        super().__init__(sys.argv)
+
+        # Init ConfigManager module
+        self.config = ConfigManager()
+
+        # Init Theme module
+        self.theme = Theme()
+
+        # Init MainWindow module
+        self.window = MainWindow(self)
+
+        ''' 
+        Load general settings.
+        '''
+
+        # Set font and font size for whole application
+        self.setFont(QFont(str(self.config.configuration["fontComboBox"]), int(self.config.configuration["fontSizeSlider"])))
+
+        # Load theme for application
+        self._loadPalette(self.config.configuration["themeComboBox"])
+
+        '''
+        Load UI for setupDialog.
         '''
         
         # Create dialog
@@ -50,59 +72,45 @@ class Application(Logging, QApplication):
         # Load Ui file
         self.ui = Ui_setupDialog()
 
-        # Setup ui 
+        # Setup Ui for setupDialog
         self.ui.setupUi(self.setupDialog)
 
         '''
-        Set window properties, title, size and more.
+        Set dialog properties, title, size and more.
         '''
 
-        # Dialog properties like title, size and more
+        # Dilaog title
         self.setupDialog.setWindowTitle(f"{self.name} | {self.version} | Inicializing")
 
-        # Set minimum size
+        # Dialog minimum size
         self.setupDialog.setMinimumSize(self.setupDialog.sizeHint())
 
-        # Set size
+        # Dialog default size
         self.setupDialog.resize(600, 75)
 
-        # Exec setupDialog
+        # Show dialog
         self.setupDialog.show()
 
-        ''' 
-        Load general settings.
         '''
-
-        # Set font and font size
-        self.setFont(QFont(str(self.config.config["fontComboBox"]), int(self.config.config["fontSizeSlider"])))
-
-        # Load theme
-        self._loadTheme(self.config.config["themeComboBox"])
-
-        '''
-        Setup setup window.
+        Start running loop for running all setup functions.
         '''
         
-        # Process index
-        self.process_index = 0
+        # Process index for couting all process
+        self.processIndex = 0
 
         # Run all setup processes 
-        self._run_next_process()
-
-        # Window module
-        self.window = MainWindow(app=self)
+        self._runNextProcess()
 
     '''
     Private functions.
     '''
 
-    # Run next proccess function
-    def _run_next_process(self) -> None:
+    # Run next proccess function which is calling all setup processes and logging it in setupdialog
+    def _runNextProcess(self) -> None:
         # List of all proccesses with their labels
-        all_process = [
+        allProcess = [
             self._checkNetworkConnection,
-            *( [self._checkForUpdates] if self.config.config["checkUpdatesComboBox"] == "Yes" else [] ),
-            self._checkConfigDir,
+            *( [self._checkForUpdates] if self.config.configuration["checkUpdatesComboBox"] == "Yes" else [] )
         ]
 
         '''
@@ -110,100 +118,91 @@ class Application(Logging, QApplication):
         '''
 
         # Check if all process were runned
-        if self.process_index >= len(all_process):
+        if self.processIndex >= len(allProcess):
             # Close setup dialog
             self.setupDialog.close()
 
-            # Exec main window
+            # Show and run main window
             self.window.show()
 
-            # End function
             return  
 
         # Try-except for catching errors
         try:    
             # Get proccess 
-            process = all_process[self.process_index]
+            process = allProcess[self.processIndex]
 
             # Check if process is callable
             if process:
                 # Run process
                 process()
 
-                # OK message
+                # Print OK if process runed without problems
                 self.printo(msg="", function=process.__name__)
 
-                '''
-                Set label properties and loading bar actions.
-                '''
-
-                # Set OK Color
+                # Set green color for success to status label
                 self.ui.statusLabel.setStyleSheet("color: #00ff00")
 
-                # Set OK status of function
+                # Set OK text to status label 
                 self.ui.statusLabel.setText("OK")
 
-                # Set progressBar value
-                self.ui.loadingBar.setValue(self.ui.loadingBar.value() + (100 // len(all_process)))
+                # Set progressBar value plus 100 devided by all proccess
+                self.ui.loadingBar.setValue(self.ui.loadingBar.value() + (100 // len(allProcess)))
         except Exception as e:
             '''
             Set error look.
             '''
 
-            # Error message
-            self.printe(exception=e, msg="", function=self._run_next_process.__name__)
+            # Print error message, more information
+            self.printe(exception=e, msg="", function=self._runNextProcess.__name__)
 
-            # Set ERROR Color
+            # Set red color text for errror
             self.ui.statusLabel.setStyleSheet("color: #ff0000")
 
-            # Set ERROR status of function
+            # Set error text to status label to tell user that something is wrong
             self.ui.statusLabel.setText("ERROR")
 
-        # Next index
-        self.process_index += 1
+        # Next index for running next function
+        self.processIndex += 1
 
-        # Next function after 500ms
-        QTimer.singleShot(500, self._run_next_process)
+        # Next function after 500ms countdown
+        QTimer.singleShot(500, self._runNextProcess
+)
 
-    # Checking internet connection
+    # Checking internet connection is necessary for application running and inspecting webs.
     def _checkNetworkConnection(self) -> None:
         # Set label text
         self.ui.loadingLabel.setText("Checking for internet connection")
 
-    # Function that check for updates
+    # Function that check for updates from github and show it with download button.
     def _checkForUpdates(self) -> None:
-        # If checking updates 
-        if self.config.config["checkUpdatesComboBox"] == "Yes":
-            # Set label text
+        # If checking updates are available
+        if self.config.configuration["checkUpdatesComboBox"] == "Yes":
+            # Set label text and search for updates
             self.ui.loadingLabel.setText("Checking for updates")
         else:
             return
 
-    # Checking config files
-    def _checkConfigDir(self) -> None:
         # Set label text
         self.ui.loadingLabel.setText("Checking config directory")
 
-    # Load theme function
-    def _loadTheme(self, palette) -> None:
+    # Method that load function from theme.py or own theme, must be parsed by parseJSONPalette function in theme.py.
+    def _loadPalette(self, palette) -> None:
         # Check if palette is default
         if palette == "Default":
             # Do not load any palette for default
-
-            # End
             return
         
         # Check if palette is build in theme
-        if palette in self.theme.default_themes.keys():
-            # Load build in palette
-            self.setPalette(self.theme.default_themes[palette]())
+        if palette in self.theme.defaultThemes.keys():
+            # Load build in palette using directory that stored function with palette argument
+            self.setPalette(self.theme.defaultThemes[palette]())
 
-            # End 
             return
 
-        # Parse another palette 
-        if self.theme.parseJSONPalette(palette):
-            # Set palete if its parsed
+        # Parse another palette from system
+        if self.theme.parsePalette(palette):
+            # Load palete if its parsed
             self.setPalette(self.theme.loadPalette(palette))
         else:
             # Log warn
@@ -214,3 +213,50 @@ class Application(Logging, QApplication):
     '''
     Public functions.
     '''
+
+    # Restart function for restarting application. Saved sys arguments, closed application and runned it again. Used in mainwindow.py.
+    def restartApplication(self) -> None:
+        '''
+        Load ui for custom restart dialog.
+        '''
+
+        # Create dialog
+        restartDialog = QDialog(self.window)
+
+        # Load Ui
+        restartDialogUi = Ui_customDialog()
+
+        # Setup Ui 
+        restartDialogUi.setupUi(restartDialog)
+
+        '''
+        Set properties for custom dialog like title, size and center it.
+        '''
+
+        # Dialog title
+        restartDialog.setWindowTitle(f"{self.name} | {self.version} | Restart")
+
+        # Adjust dialog size
+        restartDialog.adjustSize()
+
+        '''
+        Set parametres for buttons and others childs.
+        '''
+
+        # Set label text
+        restartDialogUi.textLabel.setText("Do you really want to restart application?")
+
+        # Change cancel button text
+        restartDialogUi.cancelButton.setText("No")
+
+        # Change sumbit button text
+        restartDialogUi.sumbitButton.setText("Yes")
+
+        # Set cancel button action to close dialog
+        restartDialogUi.cancelButton.clicked.connect(restartDialog.close)
+
+        # Set sumbit button action for restart dialog with same parametres as before
+        restartDialogUi.sumbitButton.clicked.connect(lambda: (self.printi(msg="Restarting application"), os.execv(sys.executable, [sys.executable] + sys.argv)))
+
+        # Exec dialog, can not continue with open restart dialog
+        restartDialog.exec()

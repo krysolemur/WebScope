@@ -8,7 +8,6 @@ import traceback
 
 
 # Importing program files
-from libs.Logging.logging import Logging
 from libs.application import Application
 from libs.Commands.commands import Commands
 
@@ -24,14 +23,10 @@ Class Main using Logging class as a parent for better logging into console and f
 
 
 # Main class
-class Main(Logging):
+class Main:
     def __init__(self) -> None:
         # Init parents
         super().__init__()
-
-
-        # Starting info message
-        self.printi(msg="Starting WebScope")
 
 
         # Init application

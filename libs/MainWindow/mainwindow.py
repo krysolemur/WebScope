@@ -17,12 +17,13 @@ from libs.SettingsWindow.settingsdialog import SettingsDialog
 from libs.QtGuiFiles.PyFiles.MainWindow import Ui_MainWindow
 from libs.QtGuiFiles.PyFiles.CustomDialog import Ui_customDialog
 from libs.QtGuiFiles.PyFiles.AboutDialog import Ui_aboutDialog
+from libs.QtGuiFiles.PyFiles.TargetDialog import Ui_TargetDialog
 
 # Main class window for managing window and loading GUI
 class MainWindow(QMainWindow, Logging):
     def __init__(self, app) -> None:
         '''
-        Init parents and save app object as a variable.
+        Init parents and save app object as a variable, load all important modules from it.
         '''
         # Init QMainWindow
         super().__init__()
@@ -40,50 +41,50 @@ class MainWindow(QMainWindow, Logging):
         # Load Ui
         self.ui = Ui_MainWindow()
 
-        # Set Ui
+        # Setup Ui for self (QMainWindow)
         self.ui.setupUi(self)
 
         '''
         Set actions for all menu in tool bar like settings, help and more...
         '''
 
-        # Settings action
-        self.ui.actionSettings.triggered.connect(self._openSettings)
+        # Settings menu action
+        self.ui.actionSettings.triggered.connect(self._openSettingsAction)
 
-        # Close action
+        # Close menu action
         self.ui.actionQuit.triggered.connect(self.close)
 
-        # Restart action
-        self.ui.actionRestart.triggered.connect(self._restart)
+        # Restart menu action
+        self.ui.actionRestart.triggered.connect(self.app.restartApplication)
 
-        # About action
-        self.ui.actionAbout.triggered.connect(self._about)
+        # About menu action
+        self.ui.actionAbout.triggered.connect(self._aboutAction)
 
-        # Set target action
-        self.ui.actionSetTarget.triggered.connect(self._setTarget)
+        # Set target menu action
+        self.ui.actionSetTarget.triggered.connect(self._setTargetAction)
 
         '''
-        Other windows settings like size, title and more...
+        Other windows properties like size, title and more...
         '''
 
-        # Title
+        # Window title
         self.setWindowTitle(f"{self.app.name} | {self.app.version}")  
 
-        # Set window icon
-        self.setWindowIcon(QIcon("icon.svg"))
+        # Window icon
+        self.setWindowIcon(self.app.iconPath)
 
-        # Size
+        # Default size
         self.resize(800, 600) 
 
-        # Go to center of screen
-        self._center(self)
+        # Center main window
+        self._centerWindow(self)
 
     '''
     Private functions.
     '''
 
-    # Center function
-    def _center(self, window) -> None:
+    # Center function that center specific window which is given as a argument.
+    def _centerWindow(self, window) -> None:
         # Get screen size
         screen = QApplication.primaryScreen()
 
@@ -101,205 +102,157 @@ class MainWindow(QMainWindow, Logging):
     Mainwindow toolbar actions.
     '''
 
-    # Settings function
-    def _openSettings(self) -> None:
+    # Settings function for opening settings dialog from settingsdialog.py.
+    def _openSettingsAction(self) -> None:
         # Create settings window object
-        self.settingsDialog = SettingsDialog(app=self.app)
+        self.settingsDialog = SettingsDialog(self.app)
 
         # Exec settings window
         self.settingsDialog.exec()
 
-    # Set target function
-    def _setTarget(self) -> None:
-        # Load QtUi file 
-        ui_file = QFile("libs/QtGuiFiles/TargetDialog.ui")
-
-        # Open for reading
-        ui_file.open(QFile.ReadOnly)
+    # Function that set target url and save it to variable.
+    def _setTargetAction(self) -> None:
+        # Create dialog
+        self.targetDialog = QDialog(self)
 
         # Load Ui
-        self.targetDialog = QUiLoader().load(ui_file)
+        self.targetDialogUi = Ui_TargetDialog()
 
-        # Close file
-        ui_file.close()
+        # Setup Ui
+        self.targetDialogUi.setupUi(self.targetDialog)
 
-        # Adjust size
+        # Adjust size of dialog
         self.targetDialog.adjustSize()
 
-        # Show target dialog
+        # Show targetDialog
         self.targetDialog.show()
 
-        # Set action button
-        self.targetDialog.setTargetButton.clicked.connect(self._onCheckURL)
+        # Connect _onCheckUrl to target button
+        self.targetDialogUi.setTargetButton.clicked.connect(self._onCheckURL)
 
-    # Check url function
+    # Check if is target reachable, show message if not.
     def _checkURL(self, url) -> bool:
         # Try reach url
         try:
-            # Get response
+            # Get response using request module and head function, better variantion for all purposes with 5ms timeout
             r = requests.head(url, timeout=5, allow_redirects=True)
 
             # Check status code first if the server does not using head
             if r.status_code == 405:
-                # Get new request
+                # Get new request with get and again 5ms timeout
                 r = requests.get(url, timeout=5)
 
-            # Return status code
+            # Return status code if is good
             return 200 <= r.status_code < 400
         except requests.RequestException as e:
-            # Print error
-            self.printe(exception=e, function=self._checkURL.__name__, )
+            # Print error message 
+            self.printe(exception=e, function=self._checkURL.__name__)
 
-            # Return false
             return False
 
-    # Button action
+    # Function that is calling _checkURL with url parametr, is called from _setTargetAction.
     def _onCheckURL(self) -> None:
-        # Get URL
-        url = self.targetDialog.setTargetLineEdit.text()
+        # Get URL from line edit 
+        url = self.targetDialogUi.setTargetLineEdit.text()
 
-        # Check URL
+        # Check if URL is enetered or if is reachable
         if not self._checkURL(url): 
-            # Set wrong URL stylesheet
-            self.targetDialog.setTargetLineEdit.setStyleSheet(
+            # Set wrong url stylesheet for line edit (red border)
+            self.targetDialogUi.setTargetLineEdit.setStyleSheet(
                 "border: 2px solid red;"
             )
         else:
-            # Close dialog
+            # Close dialog if url is ok
             self.targetDialog.close()
 
-    # Restart function
-    def _restart(self, event) -> None:
+    # About action for open about dialog which is used to show inforamtion about this application like version and more.
+    def _aboutAction(self) -> None:
         '''
-        Load ui for custom restart dialog.
-        '''
-
-        # Load Ui
-        self.restartDialog = QDialog()
-
-        self.restartDialogUi = Ui_customDialog()
-
-        # Setup ui 
-        self.restartDialogUi.setupUi(self.restartDialog)
-
-        '''
-        Set properties for custom dialog like title, size and center it.
-        '''
-
-        # Set title
-        self.restartDialog.setWindowTitle(f"{self.app.name} | {self.app.version} | Restart")
-
-        # Adjust dialog
-        self.restartDialog.adjustSize()
-
-        '''
-        Set parametres for buttons and others childs.
-        '''
-
-        # Set label text
-        self.restartDialogUi.textLabel.setText("Do you really want to restart application?")
-
-        # Set cancel button text
-        self.restartDialogUi.cancelButton.setText("No")
-
-        # Set sumbit button text
-        self.restartDialogUi.sumbitButton.setText("Yes")
-
-        # Set cancel button action
-        self.restartDialogUi.cancelButton.clicked.connect(self.restartDialog.close)
-
-        # Set sumbit button action
-        self.restartDialogUi.sumbitButton.clicked.connect(lambda: (self.printi(msg="Restarting application"), os.execv(sys.executable, [sys.executable] + sys.argv)))
-
-        # Show dialog
-        self.restartDialog.exec()
-
-    # About action
-    def _about(self) -> None:
-        '''
-        Load ui for about dialog.
+        Load Ui for about dialog.
         '''
         # Create dialog
-        self.aboutDialog = QDialog()
+        aboutDialog = QDialog(self)
 
         # Load Ui
-        self.aboutUi = Ui_aboutDialog()
+        aboutDialogUi = Ui_aboutDialog()
 
         # Set Ui
-        self.aboutUi.setupUi(self.aboutDialog)
+        aboutDialogUi.setupUi(aboutDialog)
 
         '''
         Dialog properties, size, title and other.
         '''
 
-        # Set title
-        self.aboutDialog.setWindowTitle(f"{self.app.name} | {self.app.version} | About")  
+        # Set title 
+        aboutDialog.setWindowTitle(f"{self.app.name} | {self.app.version} | About")  
 
-        # Adjust size
-        self.aboutDialog.resize(self.aboutDialog.sizeHint())
+        # Adjust size for dialog
+        aboutDialog.resize(aboutDialog.sizeHint())
 
-        # Set version text
-        self.aboutUi.versionLabel.setText(f"{self.aboutUi.versionLabel.text()} {self.app.version}")
+        # Set version text to label 
+        aboutDialogUi.versionLabel.setText(f"{aboutDialogUi.versionLabel.text()} {self.app.version}")
 
         # Show dialog
-        self.aboutDialog.show()
+        aboutDialog.show()
 
     '''
     Public functions.
     '''
     
-    # Close event
+    # Close event overwritten.
     def closeEvent(self, event) -> None:
-        '''
-        Load ui for custom close dialog.
-        '''
-
-        # Quit application if in settings is dont ask me again for closing
+        # Quit application wihtout asking if it is set like that.
         if self.config.config["askOnCloseComboBox"] == "No":
             # Quit without asking
             QApplication.quit()
 
-        # Load Ui
-        closeDialog = QDialog()
+        '''
+        Load Ui for custom close dialog.
+        '''
 
-        ui = Ui_customDialog()
+        # Load Ui
+        closeDialog = QDialog(self)
+
+        # Load ui
+        closeDialogUi = Ui_customDialog()
 
         # Setup ui 
-        ui.setupUi(closeDialog)
+        closeDialogUi.setupUi(closeDialog)
+
         '''
         Set properties for custom dialog, title, size and center it.
         '''
 
-        # Set title
+        # Set dialog title
         closeDialog.setWindowTitle(f"{self.app.name} | {self.app.version} | Close")
 
-        # Adjust dialog
+        # Adjust dialog size
         closeDialog.adjustSize()
 
-        # Set dialog modal
+        # Set dialog modalable
         closeDialog.setModal(True)
 
         '''
         Set parametres for buttons and actions.
         '''
 
-        # Set label text
-        ui.textLabel.setText("Do you really want to quit application?")
+        # Set info label text
+        closeDialogUi.textLabel.setText("Do you really want to quit application?")
 
         # Set cancel button text
-        ui.cancelButton.setText("No")
+        closeDialogUi.cancelButton.setText("No")
 
         # Set sumbit button text
-        ui.sumbitButton.setText("Yes")
+        closeDialogUi.sumbitButton.setText("Yes")
 
-        # Set cancel action
-        ui.cancelButton.clicked.connect(closeDialog.close)
+        # Set cancel action -> close dialog
+        closeDialogUi.cancelButton.clicked.connect(closeDialog.close)
 
-        # Set sumbit action
-        ui.sumbitButton.clicked.connect(lambda: (self.printi(msg="Quiting application"), QApplication.quit()))
+        # Set sumbit action -> close whole application
+        closeDialogUi.sumbitButton.clicked.connect(lambda: (self.printi(msg="Quiting application"), QApplication.quit()))
 
         # Show dialog
         closeDialog.exec()
 
-        # Ignore event
+        # After dialog closed, ignore event
         event.ignore()

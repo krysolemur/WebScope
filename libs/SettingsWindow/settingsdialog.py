@@ -21,21 +21,22 @@ from libs.QtGuiFiles.PyFiles.CustomDialog import Ui_customDialog
 class SettingsDialog(QDialog, Logging):
     def __init__(self, app) -> None:
         '''
-        Init parents, save app and print info message.
+        Init parents, save app and get all importants modules.
         '''
+
         # Init parents
         super().__init__()
-
-        # Init themes
-        self.theme = self.app.theme
 
         # Save application
         self.app = app
 
-        # Config module
+        # Save themes modules
+        self.theme = self.app.theme
+
+        # Save config module from app
         self.config = self.app.config
 
-        # Print info message
+        # Print info message about settings window
         self.printi(msg="Opening settings window")
 
         '''
@@ -45,49 +46,49 @@ class SettingsDialog(QDialog, Logging):
         # Saved variable
         self.isSaved = True
 
-        # Title
+        # Title for changing back from not saved status
         self.title = f"{self.app.name} | {self.app.version} | Settings"
 
         '''
-        Load Ui file for settings window menu.
+        Load Ui file for settings dialog.
         '''
 
         # Load Ui file
         self.ui = Ui_SettingsDialog()
 
-        # Setup ui 
+        # Setup Ui to QDialog
         self.ui.setupUi(self)
 
         '''
-        Title, size, other settings and actions.
+        Title, size, other dialog properties and actions.
         '''
 
         # Dialog properties like title, size and more
         self.setWindowTitle(self.title)
 
         # Set window icon
-        self.setWindowIcon(QIcon("icon.svg"))
+        self.setWindowIcon(self.app.iconPath)
 
         # Set minimum size
         self.setMinimumSize(self.sizeHint())
 
-        # Resize
+        # Resize to default size
         self.resize(self.sizeHint())
 
         # Connect track changes for all childs
-        self._changeTracking()
+        self._changesTracking()
 
-        # Pages actions
+        # Pages changing actions
         self.ui.settingsView.currentRowChanged.connect(self.ui.settingsWidget.setCurrentIndex)
 
         # Save settings action
-        self.ui.applyButton.clicked.connect(self._saveSettings)
+        self.ui.applyButton.clicked.connect(self._saveSettingsAction)
 
         # Save settings button enabled
         self.ui.applyButton.setEnabled(not self.isSaved)
 
         # Reset settings action
-        self.ui.resetButton.clicked.connect(self._resetSettings)
+        self.ui.resetButton.clicked.connect(self._resetSettingsAction)
 
         # Cancel button action
         self.ui.cancelButton.clicked.connect(self.close)
@@ -112,82 +113,7 @@ class SettingsDialog(QDialog, Logging):
     Private functions.
     '''
 
-    '''
-    Settings methods
-    '''
-
-    # Save settings
-    def _saveSettings(self) -> None:
-        # Settings
-        settings = {
-            "askOnCloseComboBox": self.ui.askOnCloseComboBox.currentText(),
-            "themeComboBox": self.ui.themeComboBox.currentText(),
-            "stylesheetComboBox": self.ui.stylesheetComboBox.currentText(),
-            "fontComboBox": self.ui.fontComboBox.currentText(),
-            "fontSizeSlider": self.ui.fontSizeSlider.value(),
-            "checkUpdatesComboBox": self.ui.checkUpdatesComboBox.currentText()
-        }
-
-        # Save settings in file
-        self.config.saveSettings(settings)
-
-        # Acutalize window
-        self._loadSettings()
-
-        # Change to saved
-        self.isSaved = True
-
-        # Enable button
-        self.ui.applyButton.setEnabled(not self.isSaved)
-
-        # Get back window title
-        self.setWindowTitle(self.title)
-
-        '''
-        Load ui for custom restart dialog.
-        '''
-
-        # Load Ui
-        restartDialog = QDialog()
-
-        restartDialogUi = Ui_customDialog()
-
-        # Setup ui 
-        restartDialogUi.setupUi(restartDialog)
-
-        '''
-        Set properties for custom dialog like title, size and center it.
-        '''
-
-        # Set title
-        restartDialog.setWindowTitle(f"{self.app.name} | {self.app.version} | Restart")
-
-        # Adjust dialog
-        restartDialog.adjustSize()
-
-        '''
-        Set parametres for buttons and others childs.
-        '''
-
-        # Set label text
-        restartDialogUi.textLabel.setText("Settings will be changed after restart. Do you want to restart?")
-
-        # Set cancel button text
-        restartDialogUi.cancelButton.setText("No")
-
-        # Set sumbit button text
-        restartDialogUi.sumbitButton.setText("Yes")
-
-        # Set cancel button action
-        restartDialogUi.cancelButton.clicked.connect(restartDialog.close)
-
-        # Set sumbit button action
-        restartDialogUi.sumbitButton.clicked.connect(lambda: (self.printi(msg="Restarting application"), os.execv(sys.executable, [sys.executable] + sys.argv)))
-
-        # Show dialog
-        restartDialog.exec()
-
-    # Load settings
+    # Browse all keys and their values from config.json and set it for them.
     def _loadSettings(self) -> None:
         # Get settings 
         settings = self.config._loadSettings()
@@ -213,17 +139,89 @@ class SettingsDialog(QDialog, Logging):
                 elif isinstance(widget, QSlider):
                     # For slider
                     widget.setValue(int(value))
-    
-    # Reset settings
-    def _resetSettings(self) -> None:
+
+    # Get value of all settings childs, make dictonary from it and overwrite config.json.
+    def _saveSettingsAction(self) -> None:
+        # Settings
+        settings = {
+            "askOnCloseComboBox": self.ui.askOnCloseComboBox.currentText(),
+            "themeComboBox": self.ui.themeComboBox.currentText(),
+            "stylesheetComboBox": self.ui.stylesheetComboBox.currentText(),
+            "fontComboBox": self.ui.fontComboBox.currentText(),
+            "fontSizeSlider": self.ui.fontSizeSlider.value(),
+            "checkUpdatesComboBox": self.ui.checkUpdatesComboBox.currentText()
+        }
+
+        # Save settings in file
+        self.config.saveSettings(settings)
+
+        # Acutalize window
+        self._loadSettings()
+
+        # Change to saved
+        self.isSaved = True
+
+        # Set apply button to disabled if is all saved
+        self.ui.applyButton.setEnabled(not self.isSaved)
+
+        # Get back window title without *
+        self.setWindowTitle(self.title)
+
+        '''
+        Load Ui for custom restart dialog because the changes will be applied after restart.
+        '''
+
+        # Create dialog for restart
+        restartDialog = QDialog()
+
+        # Load Ui for restart dialog
+        restartDialogUi = Ui_customDialog()
+
+        # Setup ui 
+        restartDialogUi.setupUi(restartDialog)
+
+        '''
+        Set properties for custom dialog like title, size and center it.
+        '''
+
+        # Set title for dialog
+        restartDialog.setWindowTitle(f"{self.app.name} | {self.app.version} | Restart")
+
+        # Adjust dialog size
+        restartDialog.adjustSize()
+
+        '''
+        Set parametres for buttons and others childs.
+        '''
+
+        # Set label text
+        restartDialogUi.textLabel.setText("Settings will be changed after restart. Do you want to restart?")
+
+        # Set cancel button text
+        restartDialogUi.cancelButton.setText("No")
+
+        # Set sumbit button text
+        restartDialogUi.sumbitButton.setText("Yes")
+
+        # Set cancel button action
+        restartDialogUi.cancelButton.clicked.connect(restartDialog.close)
+
+        # Set sumbit button action
+        restartDialogUi.sumbitButton.clicked.connect(lambda: (self.printi(msg="Restarting application"), os.execv(sys.executable, [sys.executable] + sys.argv)))
+
+        # Exec dialog, cant continue without response
+        restartDialog.exec()
+
+    # Reset settings function, open and rewrite config.json with self.config.default_config.
+    def _resetSettingsAction(self) -> None:
         # Reset settings in file
         self.config.resetSettings()
 
         # Aktualize settings dialog
         self._loadSettings()
 
-    # Changing value for setting childs
-    def _changeTracking(self):
+    # Connect function _markAsDirty for all child of some types.
+    def _changesTracking(self):
         # Find all comboboxes
         for combo in self.findChildren(QComboBox):
             # Connect function
@@ -239,7 +237,7 @@ class SettingsDialog(QDialog, Logging):
             # Connect function
             checkbox.stateChanged.connect(self._markAsDirty)
     
-    # Mark as not saved
+    # Function that change isSaved status if somethings is saved.
     def _markAsDirty(self) -> None:
         # Check if not saved
         if self.isSaved:
@@ -256,71 +254,70 @@ class SettingsDialog(QDialog, Logging):
     Public functions.
     '''
 
-    # Close event
+    # Qt close event overwritten.
     def closeEvent(self, event) -> None:
-            # If it is saved
-            if self.isSaved:
-                # Show message
-                self.printi(msg="Closing settings window")
+        # If it is saved
+        if self.isSaved:
+            # Show message for close
+            self.printi(msg="Closing settings window")
 
-                # Close
-                event.accept()
+            # And close through accept event method
+            event.accept()
 
-                # End function
-                return
+            return
 
-            # If not create dialog
-            closeDialog = QDialog(self) 
-            
-            # Load ui
-            ui = Ui_customDialog()
+        # If not saved, create dialog for user response if continue without saving or save
+        closeDialog = QDialog(self) 
+        
+        # Load Ui
+        closeDialogUi = Ui_customDialog()
 
-            # Setup ui
-            ui.setupUi(closeDialog)
+        # Setup Ui
+        closeDialogUi.setupUi(closeDialog)
 
-            # Set dialog title
-            closeDialog.setWindowTitle(f"{self.app.name} | {self.app.version} | Close settings")
+        # Set dialog title
+        closeDialog.setWindowTitle(f"{self.app.name} | {self.app.version} | Close settings")
 
-            # Set label text
-            ui.textLabel.setText("Settings not saved! Do you want to abort it?")
+        # Set information label text
+        closeDialogUi.textLabel.setText("Settings not saved! Do you want to abort it?")
 
-            # Set cancel button text
-            ui.cancelButton.setText("Close without saving")
+        # Set cancel button text 
+        closeDialogUi.cancelButton.setText("Close without saving")
 
-            # Set sumbit buttin text
-            ui.sumbitButton.setText("Save & Close")
-            
-            # Set modal
-            closeDialog.setModal(True)
+        # Set sumbit buttin text for saving
+        closeDialogUi.sumbitButton.setText("Save & Close")
+        
+        # Set modalable 
+        closeDialog.setModal(True)
 
-            # Adjust size
-            closeDialog.adjustSize()
+        # Adjust dialog size
+        closeDialog.adjustSize()
 
-            # Cancel button connect
-            ui.cancelButton.clicked.connect(closeDialog.reject)
-            
-            # Sumbit button connect
-            ui.sumbitButton.clicked.connect(closeDialog.accept)
+        # Cancel button connect to close dialog through cross button in title
+        closeDialogUi.cancelButton.clicked.connect(closeDialog.reject)
+        
+        # Sumbit button connect for save and close
+        closeDialogUi.sumbitButton.clicked.connect(closeDialog.accept)
 
-            # Run dialog with resutl fallback
-            result = closeDialog.exec()
+        # Run dialog with resutl 
+        result = closeDialog.exec()
 
-            # Check result
-            if result == QDialog.Accepted:
-                # Show message save and quit
-                self.printi(msg="Saving and quitting...")
+        # Check result
+        if result == QDialog.Accepted:
+            # Show message save and quit
+            self.printi(msg="Saving and quitting...")
 
-                # Save settings
-                self._saveSettings() 
+            # Save settings
+            self._saveSettings() 
 
-                # Accept event
-                event.accept() 
-            elif result == QDialog.Rejected:
-                # Close dialog and settings window msg
-                self.printi(msg="Quitting without saving")
+            # Accept event for close dialog
+            event.accept() 
+        elif result == QDialog.Rejected:
+            # Close dialog and settings window msg that window is closing without saving settings
+            self.printi(msg="Quitting without saving")
 
-                # Accept event
-                event.accept()
-            else:
-                # Ignore event if user just click close cross button
-                event.ignore()
+            # Accept event and close
+            event.accept()
+        else:
+            # Ignore event if user just click close cross button
+            event.ignore()

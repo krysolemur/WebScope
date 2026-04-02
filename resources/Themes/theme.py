@@ -17,20 +17,21 @@ from libs.QtGuiFiles.PyFiles.ThemeDialog import Ui_ThemeDialog
 class Theme(Logging):
     def __init__(self) -> None:
         '''
-        Init parents and set imoprtant variables.
+        Init parents and set important variables.
         '''
 
         # Init parents
         super().__init__()
 
-        # Theme directory
-        self.theme_dir = "resources/Themes"
-
         # Defautl themes
-        self.default_themes = {
+        self.defaultThemes = {
             "Dark": lambda: self.loadPalette("Dark"),
             "Light": lambda: self.loadPalette("Light")
         }
+
+        # Themes directory path
+        self.themeDir = "resources/Themes"
+
 
         # All themes
         self.themes = self._getThemes
@@ -42,7 +43,7 @@ class Theme(Logging):
     Private functions.
     '''
 
-    # Browse button function
+    # Browse button function thats open browse dialog and after open file button, set path to line edit.
     def _browseThemes(self) -> None:
         # Get filename from QFileDialog
         filename, _ = QFileDialog.getOpenFileName(
@@ -55,32 +56,32 @@ class Theme(Logging):
             "Python files (*.py);;"
         )
 
-        # Set to QLineEdit
+        # Set whole absolute path to QLineEdit
         self.ui.addLineEdit.setText(filename)
 
-    # Get all themes
+    # Get all themes function, return list of all .json files that can be used for storing palette.
     def _getThemes(self) -> list:
         # Create new list
         themes = []
 
         # List through themes direcotyr
-        for theme in os.listdir(self.theme_dir):
+        for theme in os.listdir(self.themeDir):
             # Check if its not directory
-            if not os.path.isdir(f"{self.theme_dir}/{theme}"):
+            if not os.path.isdir(f"{self.themeDir}/{theme}"):
                 # Check python type
-                if theme.endswith(".py"):
+                if theme.endswith(".json"):
                     # Append it to the theme list
                     themes.append(str(theme))
 
         # Return themes
         return themes
 
-    # Add theme
+    # Add theme function with fast validation if theme path exists or if its even entered.
     def _addTheme(self, path) -> None:
         # Set statusLabel stylesheet
         self.ui.statusLabel.setStyleSheet("color: #ff0000")
 
-        # Check path
+        # Check path if its even entered
         if not path:
             # Set error text
             self.ui.statusLabel.setText("Enter path!")
@@ -94,52 +95,53 @@ class Theme(Logging):
 
             return 
 
-        # Accept
+        # Accept close
         self.close()
 
     '''
     Public functions.
     '''
 
-    # Add theme dialog
+    # Add theme dialog for adding themes, browsing files and copying it to application theme folder.
     def themeDialog(self) -> None:
         '''
         Create dialog, load ui and setup it.
         '''
 
-        ThemeDialog = QDialog()
+        # Create themeDialog
+        themeDialog = QDialog()
 
         # Load ui
-        ThemeDialogUi = Ui_ThemeDialog()
+        themeDialogUi = Ui_ThemeDialog()
 
         # Setup ui
-        ThemeDialogUi.setupUi(ThemeDialog = QDialog())
+        themeDialogUi.setupUi(themeDialog = QDialog())
 
         '''
         Setup window like title, size and more.
         '''
 
-        # Title
-        ThemeDialog.setWindowTitle("Add theme")
+        # Set title for theme dialog
+        themeDialog.setWindowTitle("Add theme")
 
-        # Minimum size
-        ThemeDialog.setMinimumSize(ThemeDialog.sizeHint())
+        # Set minimum size counted by qt
+        themeDialog.setMinimumSize(themeDialog.sizeHint())
 
-        # Resize
-        ThemeDialog.resize(ThemeDialog.sizeHint())
+        # Resize to default size hint
+        themeDialog.resize(themeDialog.sizeHint())
 
         '''
         Button actions.
         '''
 
-        # Browse button action
-        ThemeDialog.ui.browseButton.clicked.connect(self._browseThemes)
+        # Connect browse button action
+        themeDialog.ui.browseButton.clicked.connect(self._browseThemes)
 
         # Add theme button action
-        ThemeDialog.ui.addButton.clicked.connect(lambda: self._addTheme(ThemeDialogUi.addLineEdit.text()))
+        themeDialog.ui.addButton.clicked.connect(lambda: self._addTheme(themeDialogUi.addLineEdit.text()))
 
-    # Parse JSON palette
-    def parseJSONPalette(self, palette) -> bool:
+    # Parse JSON palette to python and apply it if its ok by keys.
+    def parsePalette(self, palette):
         # Check if file exists
         if not os.path.exists(f"{self.theme_dir}/{palette}") or not palette.endswith(".json"):
             # Show error
@@ -165,7 +167,7 @@ class Theme(Logging):
             palette.setColor(QPalette.BrightText, data["QPalette.BrightText"])
             palette.setColor(QPalette.PlaceholderText, data["QPalette.PlaceholderText"])
 
-            # Backgrouns
+            # Backgrounds
             palette.setColor(QPalette.Window, data["QPalette.Window"])
             palette.setColor(QPalette.Base, data["QPalette.Base"])
             palette.setColor(QPalette.AlternateBase, data["QPalette.AlternateBase"])
@@ -201,11 +203,7 @@ class Theme(Logging):
             # Return error
             return False
 
-    '''
-    Load palette function.
-    '''
-
-    # Load light or dark palette
+    # Function that load build in Dark or Light palette.
     def loadPalette(self, palette):
         # Check if palette is dark
         if palette == "Dark":
