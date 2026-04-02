@@ -187,10 +187,17 @@ class Application(Logging, QApplication):
         self.ui.loadingLabel.setText("Checking config directory")
 
     # Load theme function
-    def _loadTheme(self, theme) -> None:
+    def _loadTheme(self, palette) -> None:
         # Check theme
-        if theme in self.theme.default_themes.keys():
-            print(theme)
+        if palette in self.theme.default_themes.keys():
+            # Check if its not default
+            if palette != "Default":
+                # Load palette
+                self.setPalette(self.theme.loadPalette(palette))
+        else:
+            # Parse palette 
+            if self.theme.parseJSONPalette(palette):
+                None
 
     '''
     Public functions.

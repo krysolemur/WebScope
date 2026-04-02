@@ -66,6 +66,7 @@ if __name__ == "__main__":
                 # Unknown command error
                 print("Unknown command! Try --help for help menu.")
 
+
                 # Exit
                 sys.exit(1)
             
@@ -84,10 +85,12 @@ if __name__ == "__main__":
             else:
                 None
 
+
         # Check parametres
         elif len(sys.argv) > 2:
             # Print too many arguments error
             print("Too many arguments used! Try --help for help menu.")
+
 
             # Exit
             sys.exit(1)
