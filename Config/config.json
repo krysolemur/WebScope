@@ -1,1 +1,7 @@
-{}
+{
+    "askOnCloseComboBox": 0,
+    "themeComboBox": "",
+    "fontComboBox": "Ubuntu",
+    "fontSizeSlider": 0,
+    "checkUpdatesComboBox": 0
+}

@@ -219,14 +219,14 @@ class Ui_SettingsDialog(object):
 
         self.checkUpdatesLayout.addWidget(self.checkUpdatesLabel)
 
-        self.comboBox = QComboBox(self.generalScrollAreaContents)
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.setObjectName(u"comboBox")
-        self.comboBox.setMaxVisibleItems(2)
-        self.comboBox.setMaxCount(2)
+        self.checkUpdatesComboBox = QComboBox(self.generalScrollAreaContents)
+        self.checkUpdatesComboBox.addItem("")
+        self.checkUpdatesComboBox.addItem("")
+        self.checkUpdatesComboBox.setObjectName(u"checkUpdatesComboBox")
+        self.checkUpdatesComboBox.setMaxVisibleItems(2)
+        self.checkUpdatesComboBox.setMaxCount(2)
 
-        self.checkUpdatesLayout.addWidget(self.comboBox)
+        self.checkUpdatesLayout.addWidget(self.checkUpdatesComboBox)
 
         self.checkUpdatesLayout.setStretch(1, 1)
 
@@ -341,8 +341,8 @@ class Ui_SettingsDialog(object):
         self.fontAddButton.setText(QCoreApplication.translate("SettingsDialog", u"Add font", None))
         self.fontSizeLabel.setText(QCoreApplication.translate("SettingsDialog", u"Font size: ", None))
         self.checkUpdatesLabel.setText(QCoreApplication.translate("SettingsDialog", u"Checking updates automaticly:", None))
-        self.comboBox.setItemText(0, QCoreApplication.translate("SettingsDialog", u"Yes", None))
-        self.comboBox.setItemText(1, QCoreApplication.translate("SettingsDialog", u"No", None))
+        self.checkUpdatesComboBox.setItemText(0, QCoreApplication.translate("SettingsDialog", u"Yes", None))
+        self.checkUpdatesComboBox.setItemText(1, QCoreApplication.translate("SettingsDialog", u"No", None))
 
         self.cancelButton.setText(QCoreApplication.translate("SettingsDialog", u"Cancel", None))
         self.resetButton.setText(QCoreApplication.translate("SettingsDialog", u"Reset", None))

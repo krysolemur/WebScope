@@ -48,7 +48,6 @@ class ConfigManager(Logging):
         # Load settings 
         self.config("config.json")
 
-
     '''
     Private functions.
     '''
@@ -155,12 +154,14 @@ class ConfigManager(Logging):
     '''
 
     # Save settings 
-    def saveSettings(self, profile) -> None:
-        new_config = 0
+    def saveSettings(self, profile, settings) -> None:
         # Open profile
         with open(f"{self.config_dir}/{profile}", "w") as nwconfig:
             # Write into profile new configuration
-            json.dump(new_config, nwconfig, indent=4)
+            json.dump(settings, nwconfig, indent=4)
+
+        # Print saved
+        self.printo(msg=f"Settings saved in profile {profile[0:-5]}")
         
     # Reset settings
     def resetSettings(self, profile) -> None:

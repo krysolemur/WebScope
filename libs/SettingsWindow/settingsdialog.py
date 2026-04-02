@@ -63,7 +63,7 @@ class SettingsDialog(QDialog, Logging):
         self._loadProfiles()
 
         # Load settings
-        self._loadSettings()
+        # self._loadSettings()
 
         # Add profile action
         self.ui.addProfileButton.clicked.connect(self._addProfile)
@@ -81,7 +81,7 @@ class SettingsDialog(QDialog, Logging):
         self.ui.removeProfileButton.setEnabled(self.ui.profilesComboBox.currentText() != "config.json")
 
         # Save settings action
-        self.ui.applyButton.clicked.connect(lambda: self.config.saveSettings(self.ui.profilesComboBox.currentText()))
+        self.ui.applyButton.clicked.connect(lambda: self._saveSettings(self.ui.profilesComboBox.currentText()))
 
         # Reset settings action
         self.ui.resetButton.clicked.connect(lambda: self.config.resetSettings(self.ui.profilesComboBox.currentText()))
@@ -178,14 +178,31 @@ class SettingsDialog(QDialog, Logging):
 
         # Akutalize profiles
         self._loadProfiles()
-    
+    '''
+    Settings methods
+    '''
+
+    def _saveSettings(self, profile) -> None:
+        # Settings
+        settings = {
+            "askOnCloseComboBox": self.ui.askOnCloseComboBox.currentIndex(),
+            "themeComboBox": self.ui.themeComboBox.currentText(),
+            "fontComboBox": self.ui.fontComboBox.currentText(),
+            "fontSizeSlider": self.ui.fontSizeSlider.value(),
+            "checkUpdatesComboBox": self.ui.checkUpdatesComboBox.currentIndex()
+        }
+
+        # Save settings in file
+        self.config.saveSettings(profile, settings)
+
     '''
     Settings methods.
     '''
 
     # Load settings
-    def _loadSettings(self, settings) -> None:
-        None
+    def _loadSettings(self) -> None:
+        # Get settings 
+        settings = self.config._loadSettings()
 
     '''
     Public functions.
