@@ -28,9 +28,8 @@ class Theme(Logging):
 
         # Defautl themes
         self.default_themes = {
-            "Default": None,
-            "Dark": None,
-            "Light": None
+            "Dark": lambda: self.loadPalette("Dark"),
+            "Light": lambda: self.loadPalette("Light")
         }
 
         # All themes
@@ -140,8 +139,67 @@ class Theme(Logging):
         ThemeDialog.ui.addButton.clicked.connect(lambda: self._addTheme(ThemeDialogUi.addLineEdit.text()))
 
     # Parse JSON palette
-    def parseJSONPalette(self) -> None:
-        None
+    def parseJSONPalette(self, palette) -> bool:
+        # Check if file exists
+        if not os.path.exists(f"{self.theme_dir}/{palette}") or not palette.endswith(".json"):
+            # Show error
+            self.printe(msg=f"Wrong palette {palette}", exception=None, function=self.parseJSONPalette.__name__)
+
+            # Return error
+            return False
+        
+        # Load data from palette
+        with open(f"{self.theme_dir}/{palette}", "r") as theme:
+            # Load data
+            data = json.load(theme)
+            
+        # Create new empty palette
+        palette = QPalette()
+
+        # Try set colors for new palette
+        try:
+            # Texts
+            palette.setColor(QPalette.WindowText, data["QPalette.WindowText"])
+            palette.setColor(QPalette.Text, data["QPalette.Text"])
+            palette.setColor(QPalette.ButtonText, data["QPalette.ButtonText"])
+            palette.setColor(QPalette.BrightText, data["QPalette.BrightText"])
+            palette.setColor(QPalette.PlaceholderText, data["QPalette.PlaceholderText"])
+
+            # Backgrouns
+            palette.setColor(QPalette.Window, data["QPalette.Window"])
+            palette.setColor(QPalette.Base, data["QPalette.Base"])
+            palette.setColor(QPalette.AlternateBase, data["QPalette.AlternateBase"])
+            palette.setColor(QPalette.Button, data["QPalette.Button"])
+            palette.setColor(QPalette.ToolTipBase, data["QPalette.ToolTipBase"])
+            palette.setColor(QPalette.ToolTipText, data["QPalette.ToolTipText"])
+
+            # 3D and shadows
+            palette.setColor(QPalette.Shadow, data["QPalette.Shadow"])
+            palette.setColor(QPalette.Light, data["QPalette.Light"])
+            palette.setColor(QPalette.Midlight, data["QPalette.Midlight"])
+            palette.setColor(QPalette.Mid, data["QPalette.Mid"])
+            palette.setColor(QPalette.Dark, data["QPalette.Dark"])
+
+            # Selecting interactive
+            palette.setColor(QPalette.Highlight, data["QPalette.Highlight"])
+            palette.setColor(QPalette.HighlightedText, data["QPalette.HighlightedText"])
+            palette.setColor(QPalette.Link, data["QPalette.Link"])
+            palette.setColor(QPalette.LinkVisited, data["QPalette.LinkVisited"])
+
+            # Disabled...
+            palette.setColor(QPalette.Disabled, QPalette.WindowText, data["Disabled.WindowText"])
+            palette.setColor(QPalette.Disabled, QPalette.Text, data["Disabled.Text"])
+            palette.setColor(QPalette.Disabled, QPalette.ButtonText, data["Disabled.ButtonText"])
+            palette.setColor(QPalette.Disabled, QPalette.Base, data["Disabled.Base"])
+
+            # Return palette
+            return palette
+        except KeyError as e:
+            # Show error
+            self.printe(msg=f"Error while loading palette {palette}", exception=e, function=self.parseJSONPalette.__name__)
+
+            # Return error
+            return False
 
     '''
     Load palette function.

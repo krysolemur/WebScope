@@ -15,7 +15,6 @@ from libs.Logging.logging import Logging
 from resources.Themes.theme import Theme
 
 from libs.QtGuiFiles.PyFiles.SettingsDialog import Ui_SettingsDialog
-from libs.QtGuiFiles.PyFiles.ProfileDialog import Ui_ProfileDialog
 from libs.QtGuiFiles.PyFiles.CustomDialog import Ui_customDialog
 # Class settings window
 class SettingsDialog(QDialog, Logging):
@@ -32,15 +31,15 @@ class SettingsDialog(QDialog, Logging):
         # Save application
         self.app = app
 
+        # Config module
+        self.config = self.app.config
+
         # Print info message
         self.printi(msg="Opening settings window")
 
         '''
         All usefull variables.
         '''
-
-        # Config module
-        self.config = self.app.config
 
         # Saved variable
         self.isSaved = True
@@ -77,9 +76,6 @@ class SettingsDialog(QDialog, Logging):
         # Connect track changes for all childs
         self._changeTracking()
 
-        # Load settings
-        self._loadSettings()
-
         # Pages actions
         self.ui.settingsView.currentRowChanged.connect(self.ui.settingsWidget.setCurrentIndex)
 
@@ -97,6 +93,9 @@ class SettingsDialog(QDialog, Logging):
 
         # Add all themes to theme combobox
         self.ui.themeComboBox.addItems(self.theme.themes())
+
+        # Load settings
+        self._loadSettings()
 
         '''
         General buttons actions.

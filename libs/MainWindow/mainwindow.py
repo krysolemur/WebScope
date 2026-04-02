@@ -30,6 +30,9 @@ class MainWindow(QMainWindow, Logging):
         # Save parent 
         self.app = app
 
+        # Config 
+        self.config = self.app.config
+
         '''
         Load UI for MainWindow.
         '''
@@ -250,6 +253,11 @@ class MainWindow(QMainWindow, Logging):
         '''
         Load ui for custom close dialog.
         '''
+
+        # Quit application if in settings is dont ask me again for closing
+        if self.config.config["askOnCloseComboBox"] == "No":
+            # Quit without asking
+            QApplication.quit()
 
         # Load Ui
         closeDialog = QDialog()

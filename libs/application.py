@@ -188,16 +188,30 @@ class Application(Logging, QApplication):
 
     # Load theme function
     def _loadTheme(self, palette) -> None:
-        # Check theme
+        # Check if palette is default
+        if palette == "Default":
+            # Do not load any palette for default
+
+            # End
+            return
+        
+        # Check if palette is build in theme
         if palette in self.theme.default_themes.keys():
-            # Check if its not default
-            if palette != "Default":
-                # Load palette
-                self.setPalette(self.theme.loadPalette(palette))
+            # Load build in palette
+            self.setPalette(self.theme.default_themes[palette]())
+
+            # End 
+            return
+
+        # Parse another palette 
+        if self.theme.parseJSONPalette(palette):
+            # Set palete if its parsed
+            self.setPalette(self.theme.loadPalette(palette))
         else:
-            # Parse palette 
-            if self.theme.parseJSONPalette(palette):
-                None
+            # Log warn
+            self.printw(msg="Loading default palette")
+
+            # Do not load any palette for default
 
     '''
     Public functions.
