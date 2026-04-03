@@ -103,7 +103,7 @@ class Theme(Logging):
     '''
 
     # Add theme dialog for adding themes, browsing files and copying it to application theme folder.
-    def themeDialog(self) -> None:
+    def getTheme(self) -> None:
         '''
         Create dialog, load ui and setup it.
         '''
@@ -111,11 +111,13 @@ class Theme(Logging):
         # Create themeDialog
         themeDialog = QDialog()
 
+        print("Fd")
+
         # Load ui
         themeDialogUi = Ui_ThemeDialog()
 
         # Setup ui
-        themeDialogUi.setupUi(themeDialog = QDialog())
+        themeDialogUi.setupUi(themeDialog)
 
         '''
         Setup window like title, size and more.
@@ -135,10 +137,13 @@ class Theme(Logging):
         '''
 
         # Connect browse button action
-        themeDialog.ui.browseButton.clicked.connect(self._browseThemes)
+        themeDialogUi.browseButton.clicked.connect(self._browseThemes)
 
         # Add theme button action
-        themeDialog.ui.addButton.clicked.connect(lambda: self._addTheme(themeDialogUi.addLineEdit.text()))
+        themeDialogUi.addButton.clicked.connect(lambda: self._addTheme(themeDialogUi.addLineEdit.text()))
+
+        # Run dialog
+        themeDialog.exec()
 
     # Parse JSON palette to python and apply it if its ok by keys.
     def parsePalette(self, palette):
