@@ -2,7 +2,6 @@
 
 # Importing system files
 import requests
-from bs4 import BeautifulSoup
 import jsbeautifier # type: ignore
 
 from PySide6.QtWidgets import QDialog, QApplication, QMainWindow # type: ignore
@@ -10,7 +9,7 @@ from PySide6.QtGui import QIcon # type: ignore
 
 # Imporing program files
 from libs.Logging.logging import Logging
-from libs.SettingsWindow.settingsdialog import SettingsDialog
+from libs.SettingsDialog.settingsdialog import SettingsDialog
 from libs.SourceSyntax.sourcesyntax import SourceSyntax
 
 from libs.QtGuiFiles.PyFiles.MainWindow import Ui_MainWindow
@@ -32,6 +31,9 @@ class MainWindow(QMainWindow, Logging):
 
         # Config 
         self.config = self.app.config
+
+        # Settings
+        self.settings = self.app.settings
 
         # Url 
         self.url = None
@@ -68,7 +70,7 @@ class MainWindow(QMainWindow, Logging):
         self.highlighter = SourceSyntax(self.ui.sourceTextEdit.document())
 
         '''
-        Other windows properties like size, title and more...
+        Windows properties like size, title and more...
         '''
 
         # Window title
@@ -210,7 +212,6 @@ class MainWindow(QMainWindow, Logging):
         # Get source code first and load it to text edit
         self.ui.sourceTextEdit.setPlainText(self._getSourceCode())
 
-
     # Download source from url which is get from set target menu and function.
     def _getSourceCode(self) -> str:
         # Setn GET request
@@ -241,7 +242,7 @@ class MainWindow(QMainWindow, Logging):
     # Close event overwritten.
     def closeEvent(self, event) -> None:
         # Quit application wihtout asking if it is set like that.
-        if self.config.configuration["askOnCloseComboBox"] == "No":
+        if self.settings["GeneralPage"]["askOnCloseComboBox"] == "No":
             # Quit without asking
             QApplication.quit()
 

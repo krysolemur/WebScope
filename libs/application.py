@@ -45,6 +45,9 @@ class Application(Logging, QApplication):
 
         # Init ConfigManager module
         self.config = ConfigManager()
+        
+        # Config variable
+        self.settings = self.config.loadSettings()
 
         # Init Theme module
         self.theme = Theme()
@@ -57,10 +60,10 @@ class Application(Logging, QApplication):
         '''
 
         # Set font and font size for whole application
-        self.setFont(QFont(str(self.config.configuration["fontComboBox"]), int(self.config.configuration["fontSizeSlider"])))
+        self.setFont(QFont(str(self.settings["GeneralPage"]["fontComboBox"]), int(self.settings["GeneralPage"]["fontSizeSlider"])))
 
         # Load theme for application
-        self._loadPalette(self.config.configuration["themeComboBox"])
+        self._loadPalette(self.settings["GeneralPage"]["themeComboBox"])
 
         '''
         Load UI for setupDialog.
@@ -110,7 +113,7 @@ class Application(Logging, QApplication):
         # List of all proccesses with their labels
         allProcess = [
             self._checkNetworkConnection,
-            *( [self._checkForUpdates] if self.config.configuration["checkUpdatesComboBox"] == "Yes" else [] )
+            *( [self._checkForUpdates] if self.settings["GeneralPage"]["checkUpdatesComboBox"] == "Yes" else [] )
         ]
 
         '''
@@ -177,7 +180,7 @@ class Application(Logging, QApplication):
     # Function that check for updates from github and show it with download button.
     def _checkForUpdates(self) -> None:
         # If checking updates are available
-        if self.config.configuration["checkUpdatesComboBox"] == "Yes":
+        if self.settings["GeneralPage"]["checkUpdatesComboBox"] == "Yes":
             # Set label text and search for updates
             self.ui.loadingLabel.setText("Checking for updates")
         else:

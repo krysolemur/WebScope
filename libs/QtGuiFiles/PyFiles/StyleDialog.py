@@ -74,7 +74,6 @@ class Ui_styleDialog(object):
         self.caseComboBox = QComboBox(styleDialog)
         self.caseComboBox.addItem("")
         self.caseComboBox.addItem("")
-        self.caseComboBox.addItem("")
         self.caseComboBox.setObjectName(u"caseComboBox")
 
         self.mainLayout.addWidget(self.caseComboBox)
@@ -98,7 +97,7 @@ class Ui_styleDialog(object):
 
     def retranslateUi(self, styleDialog):
         styleDialog.setWindowTitle(QCoreApplication.translate("styleDialog", u"Dialog", None))
-        self.exampleTextLabel.setText(QCoreApplication.translate("styleDialog", u"Example text", None))
+        self.exampleTextLabel.setText(QCoreApplication.translate("styleDialog", u"example text", None))
         self.foregroundButton.setText(QCoreApplication.translate("styleDialog", u"Foreground", None))
         self.backgroundButton.setText(QCoreApplication.translate("styleDialog", u"Backgound", None))
         self.boldButton.setText(QCoreApplication.translate("styleDialog", u"Bold", None))
@@ -106,7 +105,6 @@ class Ui_styleDialog(object):
         self.underlineButton.setText(QCoreApplication.translate("styleDialog", u"Underline", None))
         self.caseComboBox.setItemText(0, QCoreApplication.translate("styleDialog", u"abcdef", None))
         self.caseComboBox.setItemText(1, QCoreApplication.translate("styleDialog", u"ABCDEF", None))
-        self.caseComboBox.setItemText(2, QCoreApplication.translate("styleDialog", u"Abcdef", None))
 
         self.resetButton.setText(QCoreApplication.translate("styleDialog", u"Reset", None))
         self.okButton.setText(QCoreApplication.translate("styleDialog", u"Ok", None))

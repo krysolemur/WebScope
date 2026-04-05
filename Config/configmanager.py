@@ -9,61 +9,40 @@ from libs.Logging.logging import Logging
 
 # Main class Config:
 class ConfigManager(Logging):
-    def __init__(self):
+    def __init__(self) -> None:
         '''
         Init parents, set variables and setup config manager.
         '''
+
         # Init parents
         super().__init__()
 
         # Default app config
         self.defaultConfig = {
-            "askOnCloseComboBox": "No",
-            "themeComboBox": "Light",
-            "stylesheetComboBox": "",
-            "fontComboBox": "Sans Serif",
-            "fontSizeSlider": 10,
-            "checkUpdatesComboBox": "No",
-            "htmlElementsCheckBox": True,
-            "htmlAtributsCheckBox": True,
-            "atributsValuesCheckBox": True
+            "GeneralPage": {
+                "askOnCloseComboBox": "Yes",
+                "themeComboBox": "Default",
+                "stylesheetComboBox": "",
+                "fontComboBox": "Noto Sans",
+                "fontSizeSlider": 10,
+                "checkUpdatesComboBox": "No"
+            },
+            "SourcePage": {
+                "htmlElementsButton": True,
+                "htmlAtributsButton": False,
+                "atributsValuesButton": True
+            }
         }
+
         # Config file path
         self.configPath = "Config/config.json"
 
         # Check default config file
         self._checkConfigFile()
 
-        # Configuration variable
-        self.configuration = self._loadSettings()
-
     '''
     Private functions.
     '''
-
-    # Load settings from disk and parse it. If parsing fail, use default settings.
-    def _loadSettings(self) -> list:
-        # Settings list
-        settings = {}
-
-        # Try except
-        try:
-            # Open file
-            with open(self.configPath, "r") as config:
-                # Parsing json
-                return json.load(config)
-        except FileNotFoundError as e:
-            # Error msg
-            self.printe(msg=f"Configuration file not found, applaying default config", function=self._loadSettings.__name__, exception=e)
-
-            # Return default config
-            return self.defaultConfig
-        except json.decoder.JSONDecodeError as e:
-            # Show message
-            self.printe(msg=f"Error while parsing config.json, applying default config", exception=e, function=self._loadSettings.__name__)
-
-            # Return default
-            return self.defaultConfig
     
     # Check if configuration file config.json exists. If does not, create it with default settings.
     def _checkConfigFile(self) -> None:
@@ -83,6 +62,27 @@ class ConfigManager(Logging):
     '''
     Public functions.
     '''
+
+    # Load settings from disk and parse it. If parsing fail, use default settings.
+    def loadSettings(self) -> dict:
+        # Try except
+        try:
+            # Open file
+            with open(self.configPath, "r") as config:
+                # Parsing json
+                return json.load(config)
+        except FileNotFoundError as e:
+            # Error msg
+            self.printe(msg=f"Configuration file not found, applaying default config", function=self._loadSettings.__name__, exception=e)
+
+            # Return default config
+            return self.defaultConfig
+        except json.decoder.JSONDecodeError as e:
+            # Show message
+            self.printe(msg=f"Error while parsing config.json, applying default config", exception=e, function=self.loadSettings.__name__)
+
+            # Return default
+            return self.defaultConfig
 
     # Public version of save settings function that is used in settings dialog which is calling from.
     def saveSettings(self, settings) -> None:

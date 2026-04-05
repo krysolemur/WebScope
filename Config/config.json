@@ -1,11 +1,15 @@
 {
-    "askOnCloseComboBox": "No",
-    "themeComboBox": "Light",
-    "stylesheetComboBox": "",
-    "fontComboBox": "Sans Serif",
-    "fontSizeSlider": 10,
-    "checkUpdatesComboBox": "No",
-    "htmlElementsCheckBox": true,
-    "htmlAtributsCheckBox": true,
-    "atributsValuesCheckBox": true
+    "GeneralPage": {
+        "askOnCloseComboBox": "Yes",
+        "themeComboBox": "Light",
+        "stylesheetComboBox": "",
+        "fontComboBox": "Sans Serif",
+        "fontSizeSlider": 10,
+        "checkUpdatesComboBox": "No"
+    },
+    "SourcePage": {
+        "htmlElementsCheckBox": true,
+        "htmlAtributsCheckBox": true,
+        "atributsValuesCheckBox": true
+    }
 }

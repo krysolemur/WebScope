@@ -38,7 +38,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Example text</string>
+      <string>example text</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -114,11 +114,6 @@
      <item>
       <property name="text">
        <string>ABCDEF</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Abcdef</string>
       </property>
      </item>
     </widget>
