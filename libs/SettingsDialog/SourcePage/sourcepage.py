@@ -21,11 +21,8 @@ class SourcePage(QWidget):
         # Init parent
         super().__init__(parent)
 
-        # Save parent
-        self.parent = parent
-
         # Get app
-        self.app = self.parent.app
+        self.app = parent.app
 
         '''
         Load Ui for page and setup page.
@@ -36,12 +33,6 @@ class SourcePage(QWidget):
 
         # Setup ui
         self.ui.setupUi(self)
-
-        # Set minimum size
-        self.setMinimumSize(self.sizeHint())
-
-        # Resize
-        self.resize(self.sizeHint())
 
         '''
         Variables.

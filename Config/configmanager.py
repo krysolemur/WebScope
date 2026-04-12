@@ -20,17 +20,58 @@ class ConfigManager(Logging):
         # Default app config
         self.defaultConfig = {
             "GeneralPage": {
-                "askOnCloseComboBox": "Yes",
-                "themeComboBox": "Default",
+                "themeComboBox": "Light",
                 "stylesheetComboBox": "",
                 "fontComboBox": "Noto Sans",
-                "fontSizeSlider": 10,
-                "checkUpdatesComboBox": "No"
+                "fontSizeComboBox": "Medium (recommended)",
+                "checkUpdatesComboBox": "No",
+                "infoButton": True,
+                "warningButton": True,
+                "debugButton": True,
+                "successButton": True,
+                "errorButton": True
             },
             "SourcePage": {
-                "htmlElementsButton": True,
-                "htmlAtributsButton": False,
-                "atributsValuesButton": True
+                "elementsButton": {
+                    "color": "none",
+                    "background-color": "none",
+                    "font-weight": "none",
+                    "font-style": "none",
+                    "text-decoration": "none",
+                    "transform": "lowercase"
+                },
+                "atributsButton": {
+                    "color": "none",
+                    "background-color": "none",
+                    "font-weight": "none",
+                    "font-style": "none",
+                    "text-decoration": "none",
+                    "transform": "lowercase"
+                },
+                "attrValuesButton": {
+                    "color": "none",
+                    "background-color": "none",
+                    "font-weight": "none",
+                    "font-style": "none",
+                    "text-decoration": "none",
+                    "transform": "lowercase"
+                },
+                "stringButton": {
+                    "color": "none",
+                    "background-color": "none",
+                    "font-weight": "none",
+                    "font-style": "none",
+                    "text-decoration": "none",
+                    "transform": "lowercase"
+                },
+                "commentsButton": {
+                    "color": "none",
+                    "background-color": "none",
+                    "font-weight": "none",
+                    "font-style": "none",
+                    "text-decoration": "none",
+                    "transform": "lowercase"
+                }
             }
         }
 

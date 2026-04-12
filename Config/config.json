@@ -1,11 +1,15 @@
 {
     "GeneralPage": {
-        "askOnCloseComboBox": "No",
-        "themeComboBox": "Default",
+        "themeComboBox": "Light",
         "stylesheetComboBox": "",
         "fontComboBox": "Noto Sans",
-        "fontSizeSlider": 10,
-        "checkUpdatesComboBox": "No"
+        "fontSizeComboBox": "Medium (recommended)",
+        "checkUpdatesComboBox": "No",
+        "infoButton": false,
+        "warningButton": false,
+        "debugButton": true,
+        "successButton": true,
+        "errorButton": true
     },
     "SourcePage": {
         "elementsButton": {
@@ -19,9 +23,9 @@
         "atributsButton": {
             "color": "none",
             "background-color": "none",
-            "font-weight": "bold",
-            "font-style": "italic",
-            "text-decoration": "underline",
+            "font-weight": "none",
+            "font-style": "none",
+            "text-decoration": "none",
             "transform": "lowercase"
         },
         "attrValuesButton": {

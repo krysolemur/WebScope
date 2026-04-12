@@ -2,7 +2,6 @@
 
 # Import system files
 from PySide6.QtWidgets import QSlider, QComboBox, QCheckBox, QPushButton, QWidget # type: ignore
-from PySide6.QtCore import QSignalBlocker # type: ignore
 
 # Import program files
 from libs.QtGuiFiles.PyFiles.GeneralPage import Ui_generalPage
@@ -35,9 +34,6 @@ class GeneralPage(QWidget):
 
         # Setup ui
         self.ui.setupUi(self)
-
-        # Set minimum size
-        self.setMinimumSize(self.sizeHint())
 
         '''
         Variables.
@@ -88,6 +84,9 @@ class GeneralPage(QWidget):
                     widget.setCurrentIndex(index)
             elif isinstance(widget, QSlider):
                 widget.setValue(int(value))
+            elif isinstance(widget, QPushButton):
+                if widget.isCheckable():
+                    widget.setChecked(bool(value))
 
             widget.blockSignals(False)
 
@@ -95,12 +94,16 @@ class GeneralPage(QWidget):
     def getSettings(self) -> dict:
         # Return settings
         return {            
-            "askOnCloseComboBox": self.ui.askOnCloseComboBox.currentText(),
             "themeComboBox": self.ui.themeComboBox.currentText(),
             "stylesheetComboBox": self.ui.stylesheetComboBox.currentText(),
             "fontComboBox": self.ui.fontComboBox.currentText(),
-            "fontSizeSlider": self.ui.fontSizeSlider.value(),
-            "checkUpdatesComboBox": self.ui.checkUpdatesComboBox.currentText()
+            "fontSizeComboBox": self.ui.fontSizeComboBox.currentText(),
+            "checkUpdatesComboBox": self.ui.checkUpdatesComboBox.currentText(),
+            "infoButton": self.ui.infoButton.isChecked(),
+            "warningButton": self.ui.warningButton.isChecked(),
+            "debugButton": self.ui.debugButton.isChecked(),
+            "successButton": self.ui.successButton.isChecked(),
+            "errorButton": self.ui.errorButton.isChecked()
         }
     
     '''

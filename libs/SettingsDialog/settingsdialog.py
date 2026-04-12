@@ -128,9 +128,7 @@ class SettingsDialog(QDialog, Logging):
 
         # Show page
         self.ui.settingsWidget.setCurrentIndex(pageIndex)
-
-        self.adjustSize()
-
+        
     # Collects values from all UI widgets, saves them to a dictionary, and updates the configuration file.
     def _saveSettingsAction(self) -> None:
         # Create settings

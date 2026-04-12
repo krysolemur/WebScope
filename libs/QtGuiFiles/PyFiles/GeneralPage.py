@@ -15,10 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QFontComboBox, QHBoxLayout,
-    QLabel, QLayout, QPushButton, QScrollArea,
-    QSizePolicy, QSlider, QSpacerItem, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFontComboBox, QGridLayout,
+    QHBoxLayout, QLabel, QPushButton, QScrollArea,
+    QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 
 class Ui_generalPage(object):
     def setupUi(self, generalPage):
@@ -52,15 +51,13 @@ class Ui_generalPage(object):
 
         self.fontSizeLayout.addWidget(self.fontSizeLabel)
 
-        self.fontSizeSlider = QSlider(self.generalScrollContent)
-        self.fontSizeSlider.setObjectName(u"fontSizeSlider")
-        sizePolicy.setHeightForWidth(self.fontSizeSlider.sizePolicy().hasHeightForWidth())
-        self.fontSizeSlider.setSizePolicy(sizePolicy)
-        self.fontSizeSlider.setMinimum(10)
-        self.fontSizeSlider.setMaximum(13)
-        self.fontSizeSlider.setOrientation(Qt.Horizontal)
+        self.fontSizeComboBox = QComboBox(self.generalScrollContent)
+        self.fontSizeComboBox.addItem("")
+        self.fontSizeComboBox.addItem("")
+        self.fontSizeComboBox.addItem("")
+        self.fontSizeComboBox.setObjectName(u"fontSizeComboBox")
 
-        self.fontSizeLayout.addWidget(self.fontSizeSlider)
+        self.fontSizeLayout.addWidget(self.fontSizeComboBox)
 
         self.fontSizeLayout.setStretch(1, 1)
 
@@ -158,33 +155,6 @@ class Ui_generalPage(object):
 
         self.verticalLayout_2.addLayout(self.themeLayout)
 
-        self.askOnCloseLayout = QHBoxLayout()
-        self.askOnCloseLayout.setObjectName(u"askOnCloseLayout")
-        self.askOnCloseLayout.setSizeConstraint(QLayout.SetMaximumSize)
-        self.askOnCloseLayout.setContentsMargins(6, 6, 6, 6)
-        self.askOnCloseLabel = QLabel(self.generalScrollContent)
-        self.askOnCloseLabel.setObjectName(u"askOnCloseLabel")
-        sizePolicy.setHeightForWidth(self.askOnCloseLabel.sizePolicy().hasHeightForWidth())
-        self.askOnCloseLabel.setSizePolicy(sizePolicy)
-
-        self.askOnCloseLayout.addWidget(self.askOnCloseLabel)
-
-        self.askOnCloseComboBox = QComboBox(self.generalScrollContent)
-        self.askOnCloseComboBox.addItem("")
-        self.askOnCloseComboBox.addItem("")
-        self.askOnCloseComboBox.setObjectName(u"askOnCloseComboBox")
-        sizePolicy.setHeightForWidth(self.askOnCloseComboBox.sizePolicy().hasHeightForWidth())
-        self.askOnCloseComboBox.setSizePolicy(sizePolicy)
-        self.askOnCloseComboBox.setMaxCount(2)
-        self.askOnCloseComboBox.setInsertPolicy(QComboBox.InsertAtBottom)
-        self.askOnCloseComboBox.setSizeAdjustPolicy(QComboBox.AdjustToContents)
-
-        self.askOnCloseLayout.addWidget(self.askOnCloseComboBox)
-
-        self.askOnCloseLayout.setStretch(1, 1)
-
-        self.verticalLayout_2.addLayout(self.askOnCloseLayout)
-
         self.checkUpdatesLayout = QHBoxLayout()
         self.checkUpdatesLayout.setObjectName(u"checkUpdatesLayout")
         self.checkUpdatesLayout.setContentsMargins(6, 6, 6, 6)
@@ -208,6 +178,42 @@ class Ui_generalPage(object):
 
         self.verticalLayout_2.addLayout(self.checkUpdatesLayout)
 
+        self.loggingLayout = QGridLayout()
+        self.loggingLayout.setObjectName(u"loggingLayout")
+        self.loggingLayout.setContentsMargins(6, 6, 6, 6)
+        self.successButton = QPushButton(self.generalScrollContent)
+        self.successButton.setObjectName(u"successButton")
+        self.successButton.setCheckable(True)
+
+        self.loggingLayout.addWidget(self.successButton, 0, 2, 1, 1)
+
+        self.infoButton = QPushButton(self.generalScrollContent)
+        self.infoButton.setObjectName(u"infoButton")
+        self.infoButton.setCheckable(True)
+
+        self.loggingLayout.addWidget(self.infoButton, 0, 0, 1, 1)
+
+        self.warningButton = QPushButton(self.generalScrollContent)
+        self.warningButton.setObjectName(u"warningButton")
+        self.warningButton.setCheckable(True)
+
+        self.loggingLayout.addWidget(self.warningButton, 0, 1, 1, 1)
+
+        self.errorButton = QPushButton(self.generalScrollContent)
+        self.errorButton.setObjectName(u"errorButton")
+        self.errorButton.setCheckable(True)
+
+        self.loggingLayout.addWidget(self.errorButton, 0, 3, 1, 1)
+
+        self.debugButton = QPushButton(self.generalScrollContent)
+        self.debugButton.setObjectName(u"debugButton")
+        self.debugButton.setCheckable(True)
+
+        self.loggingLayout.addWidget(self.debugButton, 0, 4, 1, 1)
+
+
+        self.verticalLayout_2.addLayout(self.loggingLayout)
+
         self.layoutSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_2.addItem(self.layoutSpacer)
@@ -225,6 +231,10 @@ class Ui_generalPage(object):
     def retranslateUi(self, generalPage):
         generalPage.setWindowTitle(QCoreApplication.translate("generalPage", u"Form", None))
         self.fontSizeLabel.setText(QCoreApplication.translate("generalPage", u"Font size: ", None))
+        self.fontSizeComboBox.setItemText(0, QCoreApplication.translate("generalPage", u"Large", None))
+        self.fontSizeComboBox.setItemText(1, QCoreApplication.translate("generalPage", u"Medium (recommended)", None))
+        self.fontSizeComboBox.setItemText(2, QCoreApplication.translate("generalPage", u"Small", None))
+
         self.fontLabel.setText(QCoreApplication.translate("generalPage", u"Font: ", None))
         self.fontAddButton.setText(QCoreApplication.translate("generalPage", u"Add font", None))
         self.stylesheetLabel.setText(QCoreApplication.translate("generalPage", u"Stylesheet: ", None))
@@ -235,13 +245,14 @@ class Ui_generalPage(object):
         self.themeComboBox.setItemText(2, QCoreApplication.translate("generalPage", u"Light", None))
 
         self.themeAddButton.setText(QCoreApplication.translate("generalPage", u"Add Theme", None))
-        self.askOnCloseLabel.setText(QCoreApplication.translate("generalPage", u"Ask on close: ", None))
-        self.askOnCloseComboBox.setItemText(0, QCoreApplication.translate("generalPage", u"Yes", None))
-        self.askOnCloseComboBox.setItemText(1, QCoreApplication.translate("generalPage", u"No", None))
-
         self.checkUpdatesLabel.setText(QCoreApplication.translate("generalPage", u"Checking updates automaticly:", None))
         self.checkUpdatesComboBox.setItemText(0, QCoreApplication.translate("generalPage", u"Yes", None))
         self.checkUpdatesComboBox.setItemText(1, QCoreApplication.translate("generalPage", u"No", None))
 
+        self.successButton.setText(QCoreApplication.translate("generalPage", u"Success", None))
+        self.infoButton.setText(QCoreApplication.translate("generalPage", u"Info", None))
+        self.warningButton.setText(QCoreApplication.translate("generalPage", u"Warnings", None))
+        self.errorButton.setText(QCoreApplication.translate("generalPage", u"Errors", None))
+        self.debugButton.setText(QCoreApplication.translate("generalPage", u"Debugs", None))
     # retranslateUi
 

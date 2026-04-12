@@ -23,14 +23,14 @@ class Ui_SettingsDialog(object):
     def setupUi(self, SettingsDialog):
         if not SettingsDialog.objectName():
             SettingsDialog.setObjectName(u"SettingsDialog")
-        SettingsDialog.setWindowModality(Qt.WindowModal)
-        SettingsDialog.resize(839, 624)
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        SettingsDialog.setWindowModality(Qt.NonModal)
+        SettingsDialog.resize(910, 624)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(SettingsDialog.sizePolicy().hasHeightForWidth())
         SettingsDialog.setSizePolicy(sizePolicy)
-        SettingsDialog.setMinimumSize(QSize(660, 0))
+        SettingsDialog.setMinimumSize(QSize(0, 0))
         SettingsDialog.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
         SettingsDialog.setContextMenuPolicy(Qt.NoContextMenu)
         SettingsDialog.setSizeGripEnabled(False)
@@ -38,7 +38,7 @@ class Ui_SettingsDialog(object):
         self.mainLayout = QVBoxLayout(SettingsDialog)
         self.mainLayout.setSpacing(0)
         self.mainLayout.setObjectName(u"mainLayout")
-        self.mainLayout.setSizeConstraint(QLayout.SetMinimumSize)
+        self.mainLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
         self.settingsLayout = QHBoxLayout()
         self.settingsLayout.setSpacing(0)
@@ -48,7 +48,7 @@ class Ui_SettingsDialog(object):
         QListWidgetItem(self.settingsView)
         QListWidgetItem(self.settingsView)
         self.settingsView.setObjectName(u"settingsView")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.settingsView.sizePolicy().hasHeightForWidth())
@@ -60,7 +60,7 @@ class Ui_SettingsDialog(object):
         self.settingsWidget.setObjectName(u"settingsWidget")
         sizePolicy.setHeightForWidth(self.settingsWidget.sizePolicy().hasHeightForWidth())
         self.settingsWidget.setSizePolicy(sizePolicy)
-        self.settingsWidget.setMinimumSize(QSize(402, 0))
+        self.settingsWidget.setMinimumSize(QSize(0, 0))
 
         self.settingsLayout.addWidget(self.settingsWidget)
 
@@ -75,7 +75,7 @@ class Ui_SettingsDialog(object):
         self.cancelButton = QPushButton(SettingsDialog)
         self.cancelButton.setObjectName(u"cancelButton")
         sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-        sizePolicy2.setHorizontalStretch(1)
+        sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.cancelButton.sizePolicy().hasHeightForWidth())
         self.cancelButton.setSizePolicy(sizePolicy2)
@@ -96,9 +96,6 @@ class Ui_SettingsDialog(object):
 
         self.buttonsLayout.addWidget(self.applyButton)
 
-        self.buttonsLayout.setStretch(0, 1)
-        self.buttonsLayout.setStretch(1, 1)
-        self.buttonsLayout.setStretch(2, 1)
 
         self.mainLayout.addLayout(self.buttonsLayout)
 

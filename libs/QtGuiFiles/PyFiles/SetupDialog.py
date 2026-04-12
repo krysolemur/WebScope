@@ -56,11 +56,6 @@ class Ui_setupDialog(object):
 
         self.mainLayout.addLayout(self.setupLayout)
 
-        self.loginLayout = QVBoxLayout()
-        self.loginLayout.setObjectName(u"loginLayout")
-
-        self.mainLayout.addLayout(self.loginLayout)
-
 
         self.retranslateUi(setupDialog)
 

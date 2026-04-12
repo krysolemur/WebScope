@@ -6,16 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>978</width>
+    <width>617</width>
     <height>793</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="windowIcon">
+   <iconset theme="applications-system">
+    <normaloff>.</normaloff>.</iconset>
+  </property>
   <layout class="QVBoxLayout" name="mainLayout">
    <property name="spacing">
     <number>3</number>
+   </property>
+   <property name="sizeConstraint">
+    <enum>QLayout::SetDefaultConstraint</enum>
    </property>
    <property name="leftMargin">
     <number>3</number>
@@ -32,16 +45,22 @@
    <item>
     <widget class="QScrollArea" name="sourceCodeScrollArea">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+      <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
      <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
+      <enum>Qt::ScrollBarAsNeeded</enum>
      </property>
      <property name="sizeAdjustPolicy">
-      <enum>QAbstractScrollArea::AdjustToContents</enum>
+      <enum>QAbstractScrollArea::AdjustIgnored</enum>
      </property>
      <property name="widgetResizable">
       <bool>true</bool>
@@ -54,9 +73,15 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>970</width>
-        <height>785</height>
+        <width>611</width>
+        <height>787</height>
        </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
       <layout class="QVBoxLayout" name="sourceCodeScrollLayout">
        <property name="leftMargin">
@@ -73,6 +98,9 @@
        </property>
        <item>
         <layout class="QVBoxLayout" name="exampleTextLayout">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetMinimumSize</enum>
+         </property>
          <property name="topMargin">
           <number>0</number>
          </property>
@@ -81,8 +109,26 @@
          </property>
          <item>
           <widget class="QTextEdit" name="exampleTextEdit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
            <property name="documentTitle">
             <string>Preview</string>
+           </property>
+           <property name="undoRedoEnabled">
+            <bool>false</bool>
+           </property>
+           <property name="lineWrapMode">
+            <enum>QTextEdit::NoWrap</enum>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -146,8 +192,17 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </item>
          <item>
           <layout class="QHBoxLayout" name="markingLayout">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMinimumSize</enum>
+           </property>
            <item>
             <widget class="QPushButton" name="elementsButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Elements</string>
              </property>
@@ -167,6 +222,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
            </item>
            <item>
             <widget class="QPushButton" name="atributsButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Atributs</string>
              </property>
@@ -180,6 +241,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
            </item>
            <item>
             <widget class="QPushButton" name="stringButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Strings</string>
              </property>
@@ -193,6 +260,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
            </item>
            <item>
             <widget class="QPushButton" name="attrValuesButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Atribut values</string>
              </property>
@@ -206,6 +279,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
            </item>
            <item>
             <widget class="QPushButton" name="commentsButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Comments</string>
              </property>
@@ -221,10 +300,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </item>
          <item>
           <layout class="QHBoxLayout" name="stylingLayout">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMinimumSize</enum>
+           </property>
            <item>
             <widget class="QPushButton" name="foregroundStyle">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -237,7 +319,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QPushButton" name="backgroundStyle">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -250,7 +332,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QPushButton" name="boldStyle">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -266,7 +348,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QPushButton" name="italicStyle">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -282,7 +364,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QPushButton" name="underlineStyle">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -298,7 +380,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QComboBox" name="transformStyle">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -318,7 +400,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QPushButton" name="resetButton">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -334,6 +416,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </item>
        <item>
         <spacer name="sourceCodeLayoutSpacer">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>

@@ -76,10 +76,14 @@ if __name__ == "__main__":
 
 
         # Check if exactly one command-line argument was provided
-        if len(sys.argv) == 2:
+        if len(sys.argv) > 1:
 
             # Store the first argument (index 1) into a command variable
             command = sys.argv[1]
+
+
+            # Store others arguments from index 2
+            arguments = sys.argv[2::]
 
 
             # Verify if the provided command exists in the defined commands dictionary
@@ -107,20 +111,18 @@ if __name__ == "__main__":
             # Handle all other valid commands defined in the commands module
             else:
 
-                # Execute the function associated with the command key
-                commands.commands[command]()
+                # Try block for cathing too many argument error
+                try:
+                    # Run command
+                    commands.commands[command](arguments)
 
+                except TypeError:
 
-        # Check if the user provided more than the expected number of arguments
-        elif len(sys.argv) > 2:
-
-            # Print an error message regarding excessive arguments
-            print("Too many arguments used! Try --help for help menu.")
-
-
-            # Exit the script with an error status code
-            sys.exit(1)
-        
+                    # Print missing argument error
+                    print(f"{command}: Missing command operands")
+                    
+                    # Print help command
+                    print(f"Try --help {command[2::] + " " if command != "--help" else ""}for more information.")
 
         # Handle the case where no arguments were provided at all
         else:

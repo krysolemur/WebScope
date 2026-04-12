@@ -19,16 +19,20 @@ from libs.QtGuiFiles.PyFiles.CustomDialog import Ui_customDialog
 
 # Class for managing whole application
 class Application(Logging, QApplication):
+    '''
+    Variables without inicializing.
+    '''
+
+    # Version 
+    version = "0.1.0"
+
+    # Application name
+    name = "XyraEngine"
+
     def __init__(self) -> None:
         '''
         Set all variables for application.
         '''
-
-        # Version of application
-        self.version = "0.1.0"
-
-        # Application name
-        self.name = "XyraEngine"
 
         # Icon path for application
         self.iconPath = ""
@@ -59,11 +63,8 @@ class Application(Logging, QApplication):
         Load general settings.
         '''
 
-        # Set font and font size for whole application
-        self.setFont(QFont(str(self.settings["GeneralPage"]["fontComboBox"]), int(self.settings["GeneralPage"]["fontSizeSlider"])))
-
-        # Load theme for application
-        self._loadPalette(self.settings["GeneralPage"]["themeComboBox"])
+        # Run function that loads it
+        self._setup()
 
         '''
         Load UI for setupDialog.
@@ -107,6 +108,24 @@ class Application(Logging, QApplication):
     '''
     Private functions.
     '''
+
+    # Setup function that loads general settings
+    def _setup(self) -> None:
+        # Font size dictonary
+        fontSize = {
+            "Large": 12,
+            "Medium (recommended)": 10,
+            "Small": 8
+        }
+
+        # Set font and font size for whole application
+        self.setFont(QFont(str(self.settings["GeneralPage"]["fontComboBox"]), int(fontSize[str(self.settings["GeneralPage"]["fontSizeComboBox"])])))
+
+        # Load theme for application
+        self._loadPalette(self.settings["GeneralPage"]["themeComboBox"])
+
+        # Load stylesheet for application
+        self._loadStylesheet(None)
 
     # Run next proccess function which is calling all setup processes and logging it in setupdialog
     def _runNextProcess(self) -> None:
@@ -212,6 +231,10 @@ class Application(Logging, QApplication):
             self.printw(msg="Loading default palette")
 
             # Do not load any palette for default
+
+    # Load stylesheet
+    def _loadStylesheet(self, stylesheet) -> None:
+        None
 
     '''
     Public functions.
