@@ -8,8 +8,9 @@
         "infoButton": false,
         "warningButton": false,
         "debugButton": true,
-        "successButton": true,
-        "errorButton": true
+        "successButton": false,
+        "errorButton": false,
+        "fileLoggingComboBox": "Yes"
     },
     "SourcePage": {
         "elementsButton": {

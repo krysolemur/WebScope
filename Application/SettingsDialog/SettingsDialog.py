@@ -11,16 +11,15 @@ from PySide6.QtWidgets import QDialog # type: ignore
 from PySide6.QtGui import QIcon # type: ignore
 
 # Importing program files
-from libs.Logging.logging import Logging
 
-from libs.SettingsDialog.SourcePage.sourcepage import SourcePage
-from libs.SettingsDialog.GeneralPage.generalpage import GeneralPage
+from Application.SettingsDialog.SourcePage.SourcePage import SourcePage
+from Application.SettingsDialog.GeneralPage.GeneralPage import GeneralPage
 
-from libs.QtGuiFiles.PyFiles.SettingsDialog import Ui_SettingsDialog
-from libs.QtGuiFiles.PyFiles.CustomDialog import Ui_customDialog
+from Application.QtFiles.SettingsDialog import Ui_SettingsDialog
+from Application.QtFiles.CustomDialog import Ui_customDialog
 
 # Class settings window
-class SettingsDialog(QDialog, Logging):
+class SettingsDialog(QDialog):
     def __init__(self, app) -> None:
         '''
         Init parents, save app and get all important objects.

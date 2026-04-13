@@ -1,4 +1,4 @@
-# window.py
+# MainWindow.py
 
 # Importing system files
 import requests
@@ -8,17 +8,15 @@ from PySide6.QtWidgets import QDialog, QApplication, QMainWindow # type: ignore
 from PySide6.QtGui import QIcon # type: ignore
 
 # Imporing program files
-from libs.Logging.logging import Logging
-from libs.SettingsDialog.settingsdialog import SettingsDialog
-from libs.SourceSyntax.sourcesyntax import SourceSyntax
+from Application.SettingsDialog.SettingsDialog import SettingsDialog
+from Application.SourceSyntax.sourcesyntax import SourceSyntax
 
-from libs.QtGuiFiles.PyFiles.MainWindow import Ui_MainWindow
-from libs.QtGuiFiles.PyFiles.CustomDialog import Ui_customDialog
-from libs.QtGuiFiles.PyFiles.AboutDialog import Ui_aboutDialog
-from libs.QtGuiFiles.PyFiles.TargetDialog import Ui_TargetDialog
+from Application.QtFiles.MainWindow import Ui_MainWindow
+from Application.QtFiles.AboutDialog import Ui_aboutDialog
+from Application.QtFiles.TargetDialog import Ui_TargetDialog
 
 # Main class window for managing window and loading GUI
-class MainWindow(QMainWindow, Logging):
+class MainWindow(QMainWindow):
     def __init__(self, app) -> None:
         '''
         Init parents and save app object as a variable, load all important modules from it.
@@ -30,10 +28,10 @@ class MainWindow(QMainWindow, Logging):
         self.app = app
 
         # Config 
-        self.config = self.app.config
+        self.config = self.app.ConfigManager
 
         # Settings
-        self.settings = self.app.settings
+        self.settings = self.app.config
 
         # Url 
         self.url = None
@@ -74,7 +72,7 @@ class MainWindow(QMainWindow, Logging):
         '''
 
         # Window title
-        self.setWindowTitle(f"{self.app.name} | {self.app.version} {f"| {self.url}" if self.url else ""}")  
+        self.setWindowTitle(f"{app.name} | {app.version} {f"| {self.url}" if self.url else ""}")  
 
         # Window icon
         self.setWindowIcon(QIcon(self.app.iconPath))

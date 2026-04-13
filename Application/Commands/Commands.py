@@ -5,7 +5,7 @@ import sys
 
 # Importing program files
 from Config.configmanager import ConfigManager
-from libs.application import Application as app
+from Application.Application import Application as app
 
 # Stored all commands 
 

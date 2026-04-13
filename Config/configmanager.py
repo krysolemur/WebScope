@@ -4,11 +4,8 @@
 import json
 import os
 
-# Import program files
-from libs.Logging.logging import Logging
-
 # Main class Config:
-class ConfigManager(Logging):
+class ConfigManager:
     def __init__(self) -> None:
         '''
         Init parents, set variables and setup config manager.
@@ -25,11 +22,12 @@ class ConfigManager(Logging):
                 "fontComboBox": "Noto Sans",
                 "fontSizeComboBox": "Medium (recommended)",
                 "checkUpdatesComboBox": "No",
-                "infoButton": True,
-                "warningButton": True,
+                "infoButton": False,
+                "warningButton": False,
                 "debugButton": True,
-                "successButton": True,
-                "errorButton": True
+                "successButton": False,
+                "errorButton": False,
+                "fileLoggingComboBox": "Yes"
             },
             "SourcePage": {
                 "elementsButton": {

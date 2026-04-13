@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import QSlider, QComboBox, QCheckBox, QPushButton, QWidget # type: ignore
 
 # Import program files
-from libs.QtGuiFiles.PyFiles.GeneralPage import Ui_generalPage
+from Application.QtFiles.GeneralPage import Ui_generalPage
 
 # Main class GeneralPage
 class GeneralPage(QWidget):
@@ -103,7 +103,8 @@ class GeneralPage(QWidget):
             "warningButton": self.ui.warningButton.isChecked(),
             "debugButton": self.ui.debugButton.isChecked(),
             "successButton": self.ui.successButton.isChecked(),
-            "errorButton": self.ui.errorButton.isChecked()
+            "errorButton": self.ui.errorButton.isChecked(),
+            "fileLoggingComboBox": self.ui.fileLoggingComboBox.currentText()
         }
     
     '''

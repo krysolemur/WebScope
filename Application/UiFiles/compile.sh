@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Cílová složka pro .py soubory
-TARGET_DIR="../PyFiles"
+TARGET_DIR="../QtFiles"
 
 # Vytvoří složku, pokud ještě neexistuje
 mkdir -p "$TARGET_DIR"

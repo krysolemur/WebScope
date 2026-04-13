@@ -214,6 +214,25 @@ class Ui_generalPage(object):
 
         self.verticalLayout_2.addLayout(self.loggingLayout)
 
+        self.fileLoggingLayout = QHBoxLayout()
+        self.fileLoggingLayout.setObjectName(u"fileLoggingLayout")
+        self.fileLoggingLayout.setContentsMargins(6, 6, 6, 6)
+        self.fileLoggingLabel = QLabel(self.generalScrollContent)
+        self.fileLoggingLabel.setObjectName(u"fileLoggingLabel")
+
+        self.fileLoggingLayout.addWidget(self.fileLoggingLabel)
+
+        self.fileLoggingComboBox = QComboBox(self.generalScrollContent)
+        self.fileLoggingComboBox.addItem("")
+        self.fileLoggingComboBox.addItem("")
+        self.fileLoggingComboBox.setObjectName(u"fileLoggingComboBox")
+
+        self.fileLoggingLayout.addWidget(self.fileLoggingComboBox)
+
+        self.fileLoggingLayout.setStretch(1, 1)
+
+        self.verticalLayout_2.addLayout(self.fileLoggingLayout)
+
         self.layoutSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_2.addItem(self.layoutSpacer)
@@ -254,5 +273,9 @@ class Ui_generalPage(object):
         self.warningButton.setText(QCoreApplication.translate("generalPage", u"Warnings", None))
         self.errorButton.setText(QCoreApplication.translate("generalPage", u"Errors", None))
         self.debugButton.setText(QCoreApplication.translate("generalPage", u"Debugs", None))
+        self.fileLoggingLabel.setText(QCoreApplication.translate("generalPage", u"Log into files:", None))
+        self.fileLoggingComboBox.setItemText(0, QCoreApplication.translate("generalPage", u"Yes", None))
+        self.fileLoggingComboBox.setItemText(1, QCoreApplication.translate("generalPage", u"No", None))
+
     # retranslateUi
 
