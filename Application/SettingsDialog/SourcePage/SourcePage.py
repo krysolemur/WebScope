@@ -13,6 +13,8 @@ from Application.QtFiles.SourcePage import Ui_sourcePage
 
 # Class with color picker
 class SourcePage(QWidget):
+
+    # Initiator
     def __init__(self, parent) -> None:
         '''
         Save parent, Ui, and other objects.
@@ -41,41 +43,39 @@ class SourcePage(QWidget):
         # Saved
         self.isSaved = True
 
+        # Browse all buttons in button group
+        for btn in self.stylingButtonGroup.buttons():
+            # If it have not style attribut
+            if not hasattr(btn, 'style'):
+                # Add it
+                btn.style = {
+                    "color": "none", "background-color": "none", 
+                    "font-weight": "none", "font-style": "none", 
+                    "text-decoration": "none", "transform": "none"
+                }
+                
+        # Připojení tlačítek kategorií
+        self.ui.btn_sel_tags.clicked.connect(self._loadStyle)
+        self.ui.btn_sel_attrs.clicked.connect(self._loadStyle)
+        self.ui.btn_sel_strings.clicked.connect(self._loadStyle)
+        self.ui.btn_sel_comments.clicked.connect(self._loadStyle)
+
+        # Připojení nástrojů (B, I, Color atd.)
+        self.ui.btn_style_color.clicked.connect(self._setForeground)
+        # self.ui.btn_style_bg.clicked.connect(self._setBackground) # Pokud ho v UI máš
+        self.ui.btn_style_bold.clicked.connect(self._setBold)
+        self.ui.btn_style_italic.clicked.connect(self._setItalic)
+        
+        # Defaultní výběr první kategorie po startu
+        self.ui.btn_sel_tags.setChecked(True)
+        self._loadStyle()
+
         '''
         Connect actions and run setup functions.
         '''
 
         # Set tracking
         self._connectChangesTracking()
-
-        # On changed button
-        self.ui.elementsButton.clicked.connect(self._loadStyle)
-
-        self.ui.atributsButton.clicked.connect(self._loadStyle)
-
-        self.ui.stringButton.clicked.connect(self._loadStyle)
-
-        self.ui.attrValuesButton.clicked.connect(self._loadStyle)
-
-        self.ui.commentsButton.clicked.connect(self._loadStyle)
-
-        # Foreground action
-        self.ui.foregroundStyle.clicked.connect(self._setForeground)
-
-        # Background action
-        self.ui.backgroundStyle.clicked.connect(self._setBackground)
-
-        # Bold action
-        self.ui.boldStyle.clicked.connect(self._setBold)
-
-        # Underline action
-        self.ui.underlineStyle.clicked.connect(self._setUnderline)
-
-        # Italic action
-        self.ui.italicStyle.clicked.connect(self._setItalic)
-
-        # Reset action
-        self.ui.resetButton.clicked.connect(self._resetStyle)
 
     '''
     Style methods.
@@ -290,15 +290,24 @@ class SourcePage(QWidget):
 
     # Get settings from childs
     def getSettings(self) -> dict:
-        # Return settings
+        # Tady sestavíme slovník přesně podle jmen v UI a v configu
         return {
-            "elementsButton": self.ui.elementsButton.style,
-            "atributsButton": self.ui.atributsButton.style,
-            "attrValuesButton": self.ui.attrValuesButton.style,
-            "stringButton": self.ui.stringButton.style,
-            "commentsButton": self.ui.commentsButton.style
+            # Styly pro jednotlivé typy kódu
+            "btn_sel_tags": self.ui.btn_sel_tags.style if hasattr(self.ui.btn_sel_tags, 'style') else {},
+            "btn_sel_attrs": self.ui.btn_sel_attrs.style if hasattr(self.ui.btn_sel_attrs, 'style') else {},
+            "btn_sel_strings": self.ui.btn_sel_strings.style if hasattr(self.ui.btn_sel_strings, 'style') else {},
+            "btn_sel_comments": self.ui.btn_sel_comments.style if hasattr(self.ui.btn_sel_comments, 'style') else {},
+            
+            # Pokročilé nastavení editoru (hodnoty z checkboxů a spinboxů)
+            "chk_auto_close": self.ui.chk_auto_close.isChecked(),
+            "chk_line_numbers": self.ui.chk_line_numbers.isChecked(),
+            "chk_word_wrap": self.ui.chk_word_wrap.isChecked(),
+            "chk_format_save": self.ui.chk_format_save.isChecked(),
+            
+            # Pokud jsi přidal i výběr transformace textu
+            "cb_style_transform": self.ui.cb_style_transform.currentText()
         }
-
+    
     '''
     Marking as not saved.
     '''

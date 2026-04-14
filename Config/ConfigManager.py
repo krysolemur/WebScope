@@ -15,7 +15,7 @@ class ConfigManager:
         "GeneralPage": {
             "cb_gen_theme": "Light",
             "fcb_gen_font": "Noto Sans",
-            "cb_gen_font_size": "Small",
+            "cb_gen_font_size": "Medium (recommended)",
             "sb_adv_autosave_interval": 5,
             "chk_adv_gpu": True,
             "cb_adv_startup": "Show Dashboard",

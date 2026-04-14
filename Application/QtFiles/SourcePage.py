@@ -15,208 +15,120 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QButtonGroup, QComboBox,
-    QFrame, QHBoxLayout, QLayout, QPushButton,
-    QScrollArea, QSizePolicy, QSpacerItem, QTextEdit,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QGridLayout,
+    QHBoxLayout, QPushButton, QScrollArea, QSizePolicy,
+    QSpacerItem, QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_sourcePage(object):
     def setupUi(self, sourcePage):
         if not sourcePage.objectName():
             sourcePage.setObjectName(u"sourcePage")
-        sourcePage.resize(617, 793)
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(sourcePage.sizePolicy().hasHeightForWidth())
-        sourcePage.setSizePolicy(sizePolicy)
-        icon = QIcon()
-        iconThemeName = u"applications-system"
-        if QIcon.hasThemeIcon(iconThemeName):
-            icon = QIcon.fromTheme(iconThemeName)
-        else:
-            icon.addFile(u".", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-
-        sourcePage.setWindowIcon(icon)
+        sourcePage.resize(650, 900)
         self.mainLayout = QVBoxLayout(sourcePage)
-        self.mainLayout.setSpacing(3)
+        self.mainLayout.setSpacing(0)
         self.mainLayout.setObjectName(u"mainLayout")
-        self.mainLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
-        self.mainLayout.setContentsMargins(3, 3, 3, 3)
-        self.sourceCodeScrollArea = QScrollArea(sourcePage)
-        self.sourceCodeScrollArea.setObjectName(u"sourceCodeScrollArea")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.MinimumExpanding)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.sourceCodeScrollArea.sizePolicy().hasHeightForWidth())
-        self.sourceCodeScrollArea.setSizePolicy(sizePolicy1)
-        self.sourceCodeScrollArea.setFrameShape(QFrame.NoFrame)
-        self.sourceCodeScrollArea.setFrameShadow(QFrame.Plain)
-        self.sourceCodeScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        self.sourceCodeScrollArea.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
-        self.sourceCodeScrollArea.setWidgetResizable(True)
-        self.sourceCodeScrollArea.setAlignment(Qt.AlignCenter)
+        self.mainLayout.setContentsMargins(0, 0, 0, 0)
+        self.sa_source_code = QScrollArea(sourcePage)
+        self.sa_source_code.setObjectName(u"sa_source_code")
+        self.sa_source_code.setWidgetResizable(True)
+        self.sa_source_code.setFrameShape(QFrame.NoFrame)
         self.sourceCodeScrollContent = QWidget()
         self.sourceCodeScrollContent.setObjectName(u"sourceCodeScrollContent")
-        self.sourceCodeScrollContent.setGeometry(QRect(0, 0, 611, 787))
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.sourceCodeScrollContent.sizePolicy().hasHeightForWidth())
-        self.sourceCodeScrollContent.setSizePolicy(sizePolicy2)
         self.sourceCodeScrollLayout = QVBoxLayout(self.sourceCodeScrollContent)
+        self.sourceCodeScrollLayout.setSpacing(20)
         self.sourceCodeScrollLayout.setObjectName(u"sourceCodeScrollLayout")
-        self.sourceCodeScrollLayout.setContentsMargins(0, 0, 0, 0)
-        self.exampleTextLayout = QVBoxLayout()
-        self.exampleTextLayout.setObjectName(u"exampleTextLayout")
-        self.exampleTextLayout.setSizeConstraint(QLayout.SetMinimumSize)
-        self.exampleTextLayout.setContentsMargins(-1, 0, -1, 6)
-        self.exampleTextEdit = QTextEdit(self.sourceCodeScrollContent)
-        self.exampleTextEdit.setObjectName(u"exampleTextEdit")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.exampleTextEdit.sizePolicy().hasHeightForWidth())
-        self.exampleTextEdit.setSizePolicy(sizePolicy3)
-        self.exampleTextEdit.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.exampleTextEdit.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.exampleTextEdit.setUndoRedoEnabled(False)
-        self.exampleTextEdit.setLineWrapMode(QTextEdit.NoWrap)
-        self.exampleTextEdit.setReadOnly(True)
+        self.sourceCodeScrollLayout.setContentsMargins(15, 15, 15, 15)
+        self.te_preview = QTextEdit(self.sourceCodeScrollContent)
+        self.te_preview.setObjectName(u"te_preview")
+        self.te_preview.setMinimumSize(QSize(0, 250))
+        self.te_preview.setReadOnly(True)
 
-        self.exampleTextLayout.addWidget(self.exampleTextEdit)
+        self.sourceCodeScrollLayout.addWidget(self.te_preview)
 
-        self.markingLayout = QHBoxLayout()
-        self.markingLayout.setObjectName(u"markingLayout")
-        self.markingLayout.setSizeConstraint(QLayout.SetMinimumSize)
-        self.elementsButton = QPushButton(self.sourceCodeScrollContent)
-        self.stylingButtonGroup = QButtonGroup(sourcePage)
-        self.stylingButtonGroup.setObjectName(u"stylingButtonGroup")
-        self.stylingButtonGroup.addButton(self.elementsButton)
-        self.elementsButton.setObjectName(u"elementsButton")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.elementsButton.sizePolicy().hasHeightForWidth())
-        self.elementsButton.setSizePolicy(sizePolicy4)
-        self.elementsButton.setCheckable(True)
-        self.elementsButton.setChecked(True)
-        self.elementsButton.setAutoDefault(False)
+        self.grid_styling = QGridLayout()
+        self.grid_styling.setObjectName(u"grid_styling")
+        self.btn_sel_tags = QPushButton(self.sourceCodeScrollContent)
+        self.btn_sel_tags.setObjectName(u"btn_sel_tags")
+        self.btn_sel_tags.setCheckable(True)
 
-        self.markingLayout.addWidget(self.elementsButton)
+        self.grid_styling.addWidget(self.btn_sel_tags, 0, 0, 1, 1)
 
-        self.atributsButton = QPushButton(self.sourceCodeScrollContent)
-        self.stylingButtonGroup.addButton(self.atributsButton)
-        self.atributsButton.setObjectName(u"atributsButton")
-        sizePolicy4.setHeightForWidth(self.atributsButton.sizePolicy().hasHeightForWidth())
-        self.atributsButton.setSizePolicy(sizePolicy4)
-        self.atributsButton.setCheckable(True)
+        self.btn_sel_attrs = QPushButton(self.sourceCodeScrollContent)
+        self.btn_sel_attrs.setObjectName(u"btn_sel_attrs")
+        self.btn_sel_attrs.setCheckable(True)
 
-        self.markingLayout.addWidget(self.atributsButton)
+        self.grid_styling.addWidget(self.btn_sel_attrs, 0, 1, 1, 1)
 
-        self.stringButton = QPushButton(self.sourceCodeScrollContent)
-        self.stylingButtonGroup.addButton(self.stringButton)
-        self.stringButton.setObjectName(u"stringButton")
-        sizePolicy4.setHeightForWidth(self.stringButton.sizePolicy().hasHeightForWidth())
-        self.stringButton.setSizePolicy(sizePolicy4)
-        self.stringButton.setCheckable(True)
+        self.btn_sel_strings = QPushButton(self.sourceCodeScrollContent)
+        self.btn_sel_strings.setObjectName(u"btn_sel_strings")
+        self.btn_sel_strings.setCheckable(True)
 
-        self.markingLayout.addWidget(self.stringButton)
+        self.grid_styling.addWidget(self.btn_sel_strings, 1, 0, 1, 1)
 
-        self.attrValuesButton = QPushButton(self.sourceCodeScrollContent)
-        self.stylingButtonGroup.addButton(self.attrValuesButton)
-        self.attrValuesButton.setObjectName(u"attrValuesButton")
-        sizePolicy4.setHeightForWidth(self.attrValuesButton.sizePolicy().hasHeightForWidth())
-        self.attrValuesButton.setSizePolicy(sizePolicy4)
-        self.attrValuesButton.setCheckable(True)
+        self.btn_sel_comments = QPushButton(self.sourceCodeScrollContent)
+        self.btn_sel_comments.setObjectName(u"btn_sel_comments")
+        self.btn_sel_comments.setCheckable(True)
 
-        self.markingLayout.addWidget(self.attrValuesButton)
-
-        self.commentsButton = QPushButton(self.sourceCodeScrollContent)
-        self.stylingButtonGroup.addButton(self.commentsButton)
-        self.commentsButton.setObjectName(u"commentsButton")
-        sizePolicy4.setHeightForWidth(self.commentsButton.sizePolicy().hasHeightForWidth())
-        self.commentsButton.setSizePolicy(sizePolicy4)
-        self.commentsButton.setCheckable(True)
-
-        self.markingLayout.addWidget(self.commentsButton)
+        self.grid_styling.addWidget(self.btn_sel_comments, 1, 1, 1, 1)
 
 
-        self.exampleTextLayout.addLayout(self.markingLayout)
+        self.sourceCodeScrollLayout.addLayout(self.grid_styling)
 
-        self.stylingLayout = QHBoxLayout()
-        self.stylingLayout.setObjectName(u"stylingLayout")
-        self.stylingLayout.setSizeConstraint(QLayout.SetMinimumSize)
-        self.foregroundStyle = QPushButton(self.sourceCodeScrollContent)
-        self.foregroundStyle.setObjectName(u"foregroundStyle")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.foregroundStyle.sizePolicy().hasHeightForWidth())
-        self.foregroundStyle.setSizePolicy(sizePolicy5)
+        self.style_tools = QHBoxLayout()
+        self.style_tools.setObjectName(u"style_tools")
+        self.btn_style_color = QPushButton(self.sourceCodeScrollContent)
+        self.btn_style_color.setObjectName(u"btn_style_color")
 
-        self.stylingLayout.addWidget(self.foregroundStyle)
+        self.style_tools.addWidget(self.btn_style_color)
 
-        self.backgroundStyle = QPushButton(self.sourceCodeScrollContent)
-        self.backgroundStyle.setObjectName(u"backgroundStyle")
-        sizePolicy5.setHeightForWidth(self.backgroundStyle.sizePolicy().hasHeightForWidth())
-        self.backgroundStyle.setSizePolicy(sizePolicy5)
+        self.btn_style_bold = QPushButton(self.sourceCodeScrollContent)
+        self.btn_style_bold.setObjectName(u"btn_style_bold")
+        self.btn_style_bold.setCheckable(True)
 
-        self.stylingLayout.addWidget(self.backgroundStyle)
+        self.style_tools.addWidget(self.btn_style_bold)
 
-        self.boldStyle = QPushButton(self.sourceCodeScrollContent)
-        self.boldStyle.setObjectName(u"boldStyle")
-        sizePolicy5.setHeightForWidth(self.boldStyle.sizePolicy().hasHeightForWidth())
-        self.boldStyle.setSizePolicy(sizePolicy5)
-        self.boldStyle.setCheckable(True)
+        self.btn_style_italic = QPushButton(self.sourceCodeScrollContent)
+        self.btn_style_italic.setObjectName(u"btn_style_italic")
+        self.btn_style_italic.setCheckable(True)
 
-        self.stylingLayout.addWidget(self.boldStyle)
-
-        self.italicStyle = QPushButton(self.sourceCodeScrollContent)
-        self.italicStyle.setObjectName(u"italicStyle")
-        sizePolicy5.setHeightForWidth(self.italicStyle.sizePolicy().hasHeightForWidth())
-        self.italicStyle.setSizePolicy(sizePolicy5)
-        self.italicStyle.setCheckable(True)
-
-        self.stylingLayout.addWidget(self.italicStyle)
-
-        self.underlineStyle = QPushButton(self.sourceCodeScrollContent)
-        self.underlineStyle.setObjectName(u"underlineStyle")
-        sizePolicy5.setHeightForWidth(self.underlineStyle.sizePolicy().hasHeightForWidth())
-        self.underlineStyle.setSizePolicy(sizePolicy5)
-        self.underlineStyle.setCheckable(True)
-
-        self.stylingLayout.addWidget(self.underlineStyle)
-
-        self.transformStyle = QComboBox(self.sourceCodeScrollContent)
-        self.transformStyle.addItem("")
-        self.transformStyle.addItem("")
-        self.transformStyle.setObjectName(u"transformStyle")
-        sizePolicy5.setHeightForWidth(self.transformStyle.sizePolicy().hasHeightForWidth())
-        self.transformStyle.setSizePolicy(sizePolicy5)
-
-        self.stylingLayout.addWidget(self.transformStyle)
-
-        self.resetButton = QPushButton(self.sourceCodeScrollContent)
-        self.resetButton.setObjectName(u"resetButton")
-        sizePolicy5.setHeightForWidth(self.resetButton.sizePolicy().hasHeightForWidth())
-        self.resetButton.setSizePolicy(sizePolicy5)
-
-        self.stylingLayout.addWidget(self.resetButton)
+        self.style_tools.addWidget(self.btn_style_italic)
 
 
-        self.exampleTextLayout.addLayout(self.stylingLayout)
+        self.sourceCodeScrollLayout.addLayout(self.style_tools)
+
+        self.layout_features = QVBoxLayout()
+        self.layout_features.setSpacing(8)
+        self.layout_features.setObjectName(u"layout_features")
+        self.chk_auto_close = QCheckBox(self.sourceCodeScrollContent)
+        self.chk_auto_close.setObjectName(u"chk_auto_close")
+
+        self.layout_features.addWidget(self.chk_auto_close)
+
+        self.chk_line_numbers = QCheckBox(self.sourceCodeScrollContent)
+        self.chk_line_numbers.setObjectName(u"chk_line_numbers")
+
+        self.layout_features.addWidget(self.chk_line_numbers)
+
+        self.chk_word_wrap = QCheckBox(self.sourceCodeScrollContent)
+        self.chk_word_wrap.setObjectName(u"chk_word_wrap")
+
+        self.layout_features.addWidget(self.chk_word_wrap)
+
+        self.chk_format_save = QCheckBox(self.sourceCodeScrollContent)
+        self.chk_format_save.setObjectName(u"chk_format_save")
+
+        self.layout_features.addWidget(self.chk_format_save)
 
 
-        self.sourceCodeScrollLayout.addLayout(self.exampleTextLayout)
+        self.sourceCodeScrollLayout.addLayout(self.layout_features)
 
-        self.sourceCodeLayoutSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.verticalSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.sourceCodeScrollLayout.addItem(self.sourceCodeLayoutSpacer)
+        self.sourceCodeScrollLayout.addItem(self.verticalSpacer)
 
-        self.sourceCodeScrollArea.setWidget(self.sourceCodeScrollContent)
+        self.sa_source_code.setWidget(self.sourceCodeScrollContent)
 
-        self.mainLayout.addWidget(self.sourceCodeScrollArea)
+        self.mainLayout.addWidget(self.sa_source_code)
 
 
         self.retranslateUi(sourcePage)
@@ -225,80 +137,27 @@ class Ui_sourcePage(object):
     # setupUi
 
     def retranslateUi(self, sourcePage):
-        sourcePage.setWindowTitle(QCoreApplication.translate("sourcePage", u"Form", None))
-        self.exampleTextEdit.setDocumentTitle(QCoreApplication.translate("sourcePage", u"Preview", None))
-        self.exampleTextEdit.setHtml(QCoreApplication.translate("sourcePage", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><title>Preview</title><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Ubuntu'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">&lt;html&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">  &lt;body style=&quot;font-family: 'Arial', sans-serif; font-size: 10pt; color: #222;&quot;&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    &lt;h2 styl"
-                        "e=&quot;color: #004a99;&quot;&gt;System Manifest&lt;/h2&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    &lt;blockquote style=&quot;background: #f4f4f4; border-left: 4px solid #004a99; padding: 8px;&quot;&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">      &quot;Core modules initialized. All systems nominal.&quot;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    &lt;/blockquote&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    &lt;p&gt;Network Status: &lt;span style=&quot;color: #28a745; font-weight: bold;&quot;&gt;CONNECTED&lt;/span&gt;&lt;/p&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px"
-                        ";\">    &lt;hr /&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    &lt;p&gt;Configuration Script:&lt;/p&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    &lt;pre style=&quot;background: #1e1e1e; color: #d4d4d4; padding: 12px; border-radius: 4px;&quot;&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">def sync_data():</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    # Syncing local database with remote</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    target = &quot;https://api.internal/v1&quot;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-i"
-                        "ndent:0; text-indent:0px;\">    return True</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    &lt;/pre&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    &lt;table border=&quot;1&quot; width=&quot;100%&quot; cellpadding=&quot;6&quot; style=&quot;border-collapse: collapse; border: 1px solid #ddd;&quot;&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">      &lt;tr bgcolor=&quot;#f2f2f2&quot;&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">        &lt;th&gt;Component&lt;/th&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">        &lt;th&gt;ID&lt;/th&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bot"
-                        "tom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">        &lt;th&gt;Health&lt;/th&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">      &lt;/tr&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">      &lt;tr&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">        &lt;td&gt;&lt;b&gt;CPU Cluster&lt;/b&gt;&lt;/td&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">        &lt;td&gt;&lt;code&gt;NODE_01&lt;/code&gt;&lt;/td&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">        &lt;td&gt;&lt;i style=&quot;color: green;&quot;&gt;98%&lt;/i&gt;&lt;/td&gt;</p>\n"
-"<p style=\" "
-                        "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">      &lt;/tr&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">      &lt;tr&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">        &lt;td colspan=&quot;2&quot;&gt;Backup Power Supply&lt;/td&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">        &lt;td align=&quot;right&quot;&gt;Standby&lt;/td&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">      &lt;/tr&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    &lt;/table&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:"
-                        "0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    &lt;p&gt;User Actions:&lt;/p&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    &lt;ul&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">      &lt;li&gt;&lt;a href=&quot;cmd://reboot&quot; style=&quot;color: #d9534f; font-weight: bold;&quot;&gt;System Reboot&lt;/a&gt;&lt;/li&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">      &lt;li&gt;&lt;a href=&quot;https://wiki.local&quot; style=&quot;color: #0275d8;&quot;&gt;Access Manual&lt;/a&gt;&lt;/li&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    &lt;/ul&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent"
-                        ":0; text-indent:0px;\">    &lt;div style=&quot;background: #fff3cd; padding: 10px; border: 1px solid #ffeeba;&quot;&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">      &lt;strong&gt;Debug Info (Non-functional in Qt):&lt;/strong&gt;&lt;br&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">      &lt;code&gt;&amp;lt;script&amp;gt;alert('No JS support');&amp;lt;/script&amp;gt;&lt;/code&gt;&lt;br&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">      &lt;code&gt;&amp;lt;input type=&quot;text&quot; placeholder=&quot;No inputs&quot;&amp;gt;&lt;/code&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">    &lt;/div&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; m"
-                        "argin-right:0px; -qt-block-indent:0; text-indent:0px;\">  &lt;/body&gt;</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">&lt;/html&gt;</p></body></html>", None))
-        self.exampleTextEdit.setPlaceholderText("")
-        self.elementsButton.setText(QCoreApplication.translate("sourcePage", u"Elements", None))
-        self.atributsButton.setText(QCoreApplication.translate("sourcePage", u"Atributs", None))
-        self.stringButton.setText(QCoreApplication.translate("sourcePage", u"Strings", None))
-        self.attrValuesButton.setText(QCoreApplication.translate("sourcePage", u"Atribut values", None))
-        self.commentsButton.setText(QCoreApplication.translate("sourcePage", u"Comments", None))
-        self.foregroundStyle.setText(QCoreApplication.translate("sourcePage", u"Foreground", None))
-        self.backgroundStyle.setText(QCoreApplication.translate("sourcePage", u"Background", None))
-        self.boldStyle.setText(QCoreApplication.translate("sourcePage", u"B", None))
-        self.italicStyle.setText(QCoreApplication.translate("sourcePage", u"I", None))
-        self.underlineStyle.setText(QCoreApplication.translate("sourcePage", u"U", None))
-        self.transformStyle.setItemText(0, QCoreApplication.translate("sourcePage", u"Lowercase", None))
-        self.transformStyle.setItemText(1, QCoreApplication.translate("sourcePage", u"Uppercase", None))
-
-        self.resetButton.setText(QCoreApplication.translate("sourcePage", u"Reset", None))
+        self.te_preview.setHtml(QCoreApplication.translate("sourcePage", u"<pre style=\"background:#1e1e1e; color:#d4d4d4; padding:10px; border-radius:5px;\">\n"
+"<span style=\"color:#808080;\">&lt;!-- HTML --&gt;</span>\n"
+"<span style=\"color:#569cd6;\">&lt;div</span> <span style=\"color:#9cdcfe;\">class</span>=<span style=\"color:#ce9178;\">\"box\"</span><span style=\"color:#569cd6;\">&gt;</span>Xyra<span style=\"color:#569cd6;\">&lt;/div&gt;</span>\n"
+"\n"
+"<span style=\"color:#808080;\">/* CSS */</span>\n"
+"<span style=\"color:#d7ba7d;\">.box</span> { <span style=\"color:#9cdcfe;\">display</span>: flex; }\n"
+"\n"
+"<span style=\"color:#808080;\">// JS</span>\n"
+"<span style=\"color:#569cd6;\">const</span> <span style=\"color:#9cdcfe;\">init</span> = () =&gt; <span style=\"color:#b5cea8;\">true</span>;\n"
+"</pre>", None))
+        self.btn_sel_tags.setText(QCoreApplication.translate("sourcePage", u"HTML Tags", None))
+        self.btn_sel_attrs.setText(QCoreApplication.translate("sourcePage", u"Attributes", None))
+        self.btn_sel_strings.setText(QCoreApplication.translate("sourcePage", u"Strings", None))
+        self.btn_sel_comments.setText(QCoreApplication.translate("sourcePage", u"Comments", None))
+        self.btn_style_color.setText(QCoreApplication.translate("sourcePage", u"Color", None))
+        self.btn_style_bold.setText(QCoreApplication.translate("sourcePage", u"B", None))
+        self.btn_style_italic.setText(QCoreApplication.translate("sourcePage", u"I", None))
+        self.chk_auto_close.setText(QCoreApplication.translate("sourcePage", u"Auto-close Tags & Brackets", None))
+        self.chk_line_numbers.setText(QCoreApplication.translate("sourcePage", u"Show Line Numbers", None))
+        self.chk_word_wrap.setText(QCoreApplication.translate("sourcePage", u"Enable Word Wrap", None))
+        self.chk_format_save.setText(QCoreApplication.translate("sourcePage", u"Format on Save", None))
+        pass
     # retranslateUi
 
