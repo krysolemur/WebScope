@@ -4,11 +4,13 @@
 import os
 import sys
 
-from PySide6.QtWidgets import QApplication # type: ignore
+from PySide6.QtWidgets import QApplication, QDialog # type: ignore
 from PySide6.QtGui import QFont # type: ignore
 
 # Importing program files
 from Application.MainWindow.MainWindow import MainWindow
+
+from Application.QtFiles.ErrorDialog import Ui_ErrorDialog
 
 from resources.Themes.ThemesManager import ThemesManager
 
@@ -33,6 +35,16 @@ class Application(QApplication):
         
         # Init parents
         super().__init__()
+
+        # Dialog
+        # dialog = QDialog()
+
+        # dialogUi = Ui_ErrorDialog()
+
+        # dialogUi.setupUi(dialog)
+        # dialog.resize(dialog.sizeHint())
+        # dialog.exec()
+
 
         # Config object
         self.ConfigManager = ConfigManager()

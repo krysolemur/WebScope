@@ -105,5 +105,8 @@ class Logger:
         logger.success("Logger configuration updated successfully.")
 
     # Clearing logs
-    def clearLogs(self) -> None:
-        None
+    @classmethod
+    def clear_logs(cls) -> None:
+        # Open file
+        with open(f"{cls.logsDir}/app.log", "w") as log:
+            None

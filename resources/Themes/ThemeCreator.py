@@ -24,7 +24,7 @@ class ThemeCreator(QDialog):
         super().__init__()
 
         # Color Role mapping
-        self.roleMapping = {
+        self.role_mapping = {
             "Window": QPalette.ColorRole.Window,
             "WindowText": QPalette.ColorRole.WindowText,
             "Base": QPalette.ColorRole.Base,
@@ -54,8 +54,8 @@ class ThemeCreator(QDialog):
             "Disabled": {}
         }
 
-        # Preview window
-        self.previewWindow = None
+        # Preview window instance
+        self.preview_window = None
 
         # Load Ui
         self.ui = Ui_ThemeCreator()
@@ -66,55 +66,60 @@ class ThemeCreator(QDialog):
         # Actions
         self.ui.btn_full_preview.clicked.connect(self._show_preview)
         self.ui.btn_set_color.clicked.connect(self._color_picker)
-        self.ui.cb_state.currentIndexChanged.connect(self._update_table)
         self.ui.btn_reset.clicked.connect(self._reset_role)
         self.ui.btn_export.clicked.connect(self._export_theme)
         self.ui.btn_import.clicked.connect(self._import_theme)
+        self.ui.cb_state.currentIndexChanged.connect(self._update_table)
 
-    # Make icon function
+    # Make icon from pixmap
     def _make_icon(self, color: QColor) -> QIcon:
+        # Create pixmap
         pixmap = QPixmap(24, 14)
         pixmap.fill(color)
 
         # Return pixmap as icon
         return QIcon(pixmap)
 
-    # Pick color function
+    # Show color dialog
     def _color_picker(self) -> None:
         # Get selected item
-        selectedItem = self.ui.tw_palette_roles.selectedItems()
+        selected_item = self.ui.tw_palette_roles.selected_items()
 
-        # Checkk selected
-        if not selectedItem:
+        # Check selected
+        if not selected_item:
             return
         
-        item = selectedItem[0]
-        roleName = item.text(0)
-        currentState = self.ui.cb_state.currentText().split(" ")[0]
+        # Get item, role_name and current state
+        item = selected_item[0]
+        role_name = item.text(0)
+        current_state = self.ui.cb_state.currentText().split(" ")[0]
 
-        currentHex = item.text(1)
-        initialColor = QColor(currentHex) if currentHex else QColor(Qt.GlobalColor.white)
+        # Get Hex and parse it to QColor
+        current_hex = item.text(1)
+        initialColor = QColor(current_hex) if current_hex else QColor(Qt.GlobalColor.white)
 
-        color = QColorDialog.getColor(initialColor, self, f"Pick Color for {roleName} ({currentState})")
+        # Show dialog with color
+        color = QColorDialog.getColor(initialColor, self, f"Pick Color for {role_name} ({current_state})")
 
         # Check if color is valid
         if color.isValid():
             # Get new color
-            newHex = color.name().upper()
+            new_hex = color.name().upper()
             
-            self.custom_theme[currentState][roleName] = color
+            # Save it into dict
+            self.custom_theme[current_state][role_name] = color
             
             # Actualize Ui of table
-            item.setText(1, newHex) 
+            item.setText(1, new_hex) 
             item.setIcon(2, self._make_icon(color))
 
             # Apply to preview
             self._apply_to_preview()
             
-    # Update table
+    # Update table from actual data
     def _update_table(self) -> None:
         # Get current state
-        currentState = self.ui.cb_state.currentText().split(" ")[0]
+        current_state = self.ui.cb_state.currentText().split(" ")[0]
 
         # Get root
         root = self.ui.tw_palette_roles.invisibleRootItem()
@@ -124,27 +129,21 @@ class ThemeCreator(QDialog):
 
         # Browse all childs
         for i in range(root.childCount()):
-            # Get item
+            # Get item and role name
             item = root.child(i)
+            role_name = item.text(0)
             
-            # Get role name
-            roleName = item.text(0)
-            
-            # Get roleName
-            if roleName in self.custom_theme[currentState]:
+            # Get role_name
+            if role_name in self.custom_theme[current_state]:
                 # Get color
-                color = self.custom_theme[currentState][roleName]
+                color = self.custom_theme[current_state][role_name]
 
-                # Set text from color name
+                # Set text from color name and icon from pixmap
                 item.setText(1, color.name().upper())
-
-                # Set icon
                 item.setIcon(2, self._make_icon(color))
             else:
-                # Set none text
+                # Set none text and icon
                 item.setText(1, "")
-
-                # Set none icon
                 item.setIcon(2, QIcon())
 
         # Update preview
@@ -153,34 +152,28 @@ class ThemeCreator(QDialog):
         # Cancle block updating
         self.ui.tw_palette_roles.setUpdatesEnabled(True)
 
-    # Reset role function
+    # Reset role color
     def _reset_role(self) -> None:
         # Get selected
-        selectedItem = self.ui.tw_palette_roles.selectedItems()
+        selected_item = self.ui.tw_palette_roles.selected_items()
 
         # Check selected
-        if not selectedItem:
+        if not selected_item:
             return
 
-        # Get item
-        item = selectedItem[0]
-
-        # Get role name
-        roleName = item.text(0)
-        
-        # Get current state
-        currentState = self.ui.cb_state.currentText().split(" ")[0]
+        # Get item, role name, current state
+        item = selected_item[0]
+        role_name = item.text(0)
+        current_state = self.ui.cb_state.currentText().split(" ")[0]
 
 
         # Removing from data structure
-        if roleName in self.custom_theme[currentState]:
-            # Remove
-            del self.custom_theme[currentState][roleName]
+        if role_name in self.custom_theme[current_state]:
+            # Clear
+            del self.custom_theme[current_state][role_name]
 
-        # Clear table
+        # Clear table and icon
         item.setText(1, "")           
-
-        # Icon
         item.setIcon(2, QIcon()) 
         
         # Actualize preview
@@ -189,17 +182,17 @@ class ThemeCreator(QDialog):
     # Applying to preview
     def _apply_to_preview(self) -> None:
         # Check if it has that atribute
-        if hasattr(self, 'previewWindow') and self.previewWindow is not None:
+        if hasattr(self, 'preview_window') and self.preview_window is not None:
             # Set palette
-            self.previewWindow.setPalette(self._build_palette())
+            self.preview_window.setPalette(self._build_palette())
 
-    # Building palette
+    # Building palette from actual palette
     def _build_palette(self) -> QPalette:
         # Create new palette
         palette = QPalette()
         
         # Set state map
-        stateMap = {
+        state_map = {
             "Active": QPalette.ColorGroup.Active,
             "Inactive": QPalette.ColorGroup.Inactive,
             "Disabled": QPalette.ColorGroup.Disabled
@@ -208,57 +201,54 @@ class ThemeCreator(QDialog):
         # Browse all states names and roles
         for stateName, roles in self.custom_theme.items():
             # Get group
-            group = stateMap[stateName]
+            group = state_map[stateName]
 
             # Browse all role name and their colors
-            for roleName, color in roles.items():
+            for role_name, color in roles.items():
                 # If is role name in mapping
-                if roleName in self.roleMapping:
+                if role_name in self.role_mapping:
                     # Set color
-                    palette.setColor(group, self.roleMapping[roleName], color)
+                    palette.setColor(group, self.role_mapping[role_name], color)
         
         # Return palette
         return palette
     
-    # Show preview function
+    # Show preview window
     def _show_preview(self) -> None:
         # Check if window exists
-        if not hasattr(self, 'previewWindow') or self.previewWindow is None:
+        if not hasattr(self, 'preview_window') or self.preview_window is None:
             try:
                 # Create dialog
-                self.previewWindow = QDialog(self)
+                self.preview_window = QDialog(self)
 
                 # Load ui
                 self.previewUi = Ui_ThemePreview()
 
                 # Setup ui
-                self.previewUi.setupUi(self.previewWindow)
+                self.previewUi.setupUi(self.preview_window)
             except Exception as e:
                 # Show error
                 QMessageBox.critical(self, "Error", f"Could not load Preview Dialog: {e}")
                 return
 
-        # Create current palette
-        currentPalette = self._build_palette()
-
-        # Apply palette
-        # Teď už voláme setPalette na QDialog, který tuto metodu má
-        self.previewWindow.setPalette(currentPalette)
+        # Create current palette and set it
+        current_palette = self._build_palette()
+        self.preview_window.setPalette(current_palette)
         
-        # Repain preview
-        self.previewWindow.update()
+        # Update window
+        self.preview_window.update()
 
-        # Show window is its hiden
-        if not self.previewWindow.isVisible():
-            self.previewWindow.show()
+        # Show window on top
+        if not self.preview_window.isVisible():
+            self.preview_window.show()
         else:
             # If is open, just raise it and set as active window
-            self.previewWindow.raise_()
-            self.previewWindow.activateWindow()
+            self.preview_window.raise_()
+            self.preview_window.activateWindow()
 
     # Import method
     def _import_theme(self) -> None:
-        # Open file dialog and return path
+        # Open file dialog 
         file_path, _ = QFileDialog.getOpenFileName(
             self,
             "Import theme",
@@ -274,6 +264,7 @@ class ThemeCreator(QDialog):
         _, extension = os.path.splitext(file_path)
         type = extension.lower()
 
+        # Import palette
         try:
             if "json" in type:
                 self._import_from_json(file_path)
@@ -471,4 +462,6 @@ class ThemeCreator(QDialog):
             elif "py" in decode_type:
                 self._export_as_py(file_path)
         except Exception as e:
+            # Show error dialog
+            ...
             print(e) 
