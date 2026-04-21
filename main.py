@@ -2,9 +2,13 @@
 
 import sys
 import traceback
+import signal
 import Application.Commands.Commands as actions
 
 def main() -> None:
+    # Allow Ctrl+C to work properly with Qt
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+
     try:
         # Check for input
         if len(sys.argv) > 1:
