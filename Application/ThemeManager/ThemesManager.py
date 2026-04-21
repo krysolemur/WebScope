@@ -42,7 +42,7 @@ class ThemesManager:
             return False
 
     # Theme creator
-    def createTheme(self) -> None:
+    def create_theme(self) -> None:
         # Init main theme creator class
         themeCreator = ThemeCreator()
 

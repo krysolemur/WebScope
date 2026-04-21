@@ -7,8 +7,6 @@ from PySide6.QtGui import QFont # type: ignore
 # Import program files
 from Application.QtFiles.GeneralPage import Ui_GeneralPage
 
-from resources.Stylesheets.StyleManager import StyleManager
-
 # Main class GeneralPage
 class GeneralPage(QWidget):
 
@@ -39,8 +37,8 @@ class GeneralPage(QWidget):
         # Add theme 
         self.ui.btn_gen_theme.clicked.connect(self._addTheme)
 
-        # Add stylesheet
-        self.ui.btn_gen_stylesheet.clicked.connect(self._addStylesheet)
+        # TODO: Add stylesheet
+        #self.ui.btn_gen_stylesheet.clicked.connect(self._addStylesheet)
 
     # TODO: Add theme function
     def _addTheme(self) -> None:
@@ -61,22 +59,22 @@ class GeneralPage(QWidget):
             print("error")
 
     # TODO: Add stylesheet
-    def _addStylesheet(self) -> None:
-        # Get path
-        filePath, _ = QFileDialog.getOpenFileName(
-            self,
-            "Add stylesheet",  
-            "",          
-            "Qt Style Sheets (*.qss);;All Files (*)"
-        )
+    # def _addStylesheet(self) -> None:
+    #     # Get path
+    #     filePath, _ = QFileDialog.getOpenFileName(
+    #         self,
+    #         "Add stylesheet",  
+    #         "",          
+    #         "Qt Style Sheets (*.qss);;All Files (*)"
+    #     )
 
-        # Check path 
-        if not filePath:
-            return
+    #     # Check path 
+    #     if not filePath:
+    #         return
         
-        # Add path
-        if not StyleManager.addStyle(path=filePath):
-            print("error")
+    #     # Add path
+    #     if not StyleManager.addStyle(path=filePath):
+    #         print("error")
 
     # Load settings function
     def loadSettings(self, settings) -> None:

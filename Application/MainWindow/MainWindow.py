@@ -5,7 +5,6 @@ import requests
 import jsbeautifier # type: ignore
 
 from PySide6.QtWidgets import QDialog, QApplication, QMainWindow # type: ignore
-from PySide6.QtGui import QIcon # type: ignore
 
 # Imporing program files
 from Application.SettingsDialog.SettingsDialog import SettingsDialog
@@ -27,6 +26,9 @@ class MainWindow(QMainWindow):
 
         # ThemesManager
         self.ThemesManager = app.ThemesManager
+
+        # StyleManager
+        self.StyleManager = app.StyleManager
 
         # ConfigManager
         self.ConfigManager = app.ConfigManager
@@ -54,6 +56,9 @@ class MainWindow(QMainWindow):
 
         # Theme creator
         self.ui.actionThemeCreator.triggered.connect(self._open_theme_creator)
+
+        # Style creator
+        self.ui.actionStylesheetCreator.triggered.connect(self._open_style_creator)
 
         # Set window title
         self.setWindowTitle(f"{self.app.name} | {self.app.version}")  
@@ -96,7 +101,12 @@ class MainWindow(QMainWindow):
     # Open theme creator
     def _open_theme_creator(self) -> None:
         # Open dialog
-        self.ThemesManager.createTheme()
+        self.ThemesManager.create_theme()
+    
+    # Open style creator
+    def _open_style_creator(self) -> None:
+        # Open dialog
+        self.StyleManager.create_sheet()
 
     # Show software information
     def _about_dialog(self) -> None:

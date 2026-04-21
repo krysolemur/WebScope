@@ -66,6 +66,11 @@ class ThemeCreator(QDialog):
         # Setup ui
         self.ui.setupUi(self)
 
+        # Setup ui logic
+        self._setup_ui_logic()
+
+    # Setup ui logic
+    def _setup_ui_logic(self) -> None:
         # Actions
         self.ui.btn_full_preview.clicked.connect(self._show_preview)
         self.ui.btn_set_color.clicked.connect(self._color_picker)

@@ -12,6 +12,7 @@ from Application.ConfigManager.ConfigManager import ConfigManager
 from Application.ThemeManager.ThemesManager import ThemesManager
 from Application.MainWindow.MainWindow import MainWindow
 from Application.Logger.Logger import Logger
+from Application.StyleManager.StyleManager import StyleManager
 
 # Class for managing whole application
 class Application(QApplication):
@@ -42,6 +43,9 @@ class Application(QApplication):
 
         # ThemeManager
         self.ThemesManager = ThemesManager()
+
+        # StyleManager
+        self.StyleManager = StyleManager()
 
         # Setup application
         self._setup_application()

@@ -3,7 +3,6 @@
 # Importing system files
 from loguru import logger # type: ignore
 import traceback
-import json
 import sys
 
 from PySide6.QtWidgets import QDialog, QApplication # type: ignore
@@ -15,7 +14,7 @@ from Application.QtFiles.ErrorDialog import Ui_ErrorDialog
 class ErrorDialog(QDialog):
 
     # Constructor
-    def __init__(self, exception) -> None:
+    def __init__(self, exception, log=True) -> None:
 
         # Init parents
         super().__init__()
@@ -46,6 +45,10 @@ class ErrorDialog(QDialog):
 
         # Resize
         self.resize(self.sizeHint())
+
+        # Check log 
+        if log:
+            None
 
         # Exec 
         self.exec()

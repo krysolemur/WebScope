@@ -144,7 +144,7 @@ class Ui_ThemeCreator(object):
 
     def retranslateUi(self, ThemeCreator):
         ThemeCreator.setWindowTitle(QCoreApplication.translate("ThemeCreator", u"Ultimate Qt Palette Designer", None))
-        self.grp_state.setTitle(QCoreApplication.translate("ThemeCreator", u"1. Select Color Group (State)", None))
+        self.grp_state.setTitle(QCoreApplication.translate("ThemeCreator", u"Select Color Group (State)", None))
         self.cb_state.setItemText(0, QCoreApplication.translate("ThemeCreator", u"Active (Normal)", None))
         self.cb_state.setItemText(1, QCoreApplication.translate("ThemeCreator", u"Inactive (Window in background)", None))
         self.cb_state.setItemText(2, QCoreApplication.translate("ThemeCreator", u"Disabled (Grayed out)", None))
@@ -263,7 +263,7 @@ class Ui_ThemeCreator(object):
         self.btn_set_color.setText(QCoreApplication.translate("ThemeCreator", u"Set Selected Role Color...", None))
         self.btn_reset.setText(QCoreApplication.translate("ThemeCreator", u"Reset Role", None))
         self.btn_full_preview.setText(QCoreApplication.translate("ThemeCreator", u"Show Full Live Preview", None))
-        self.grp_io.setTitle(QCoreApplication.translate("ThemeCreator", u"3. Import / Export", None))
+        self.grp_io.setTitle(QCoreApplication.translate("ThemeCreator", u"Import / Export", None))
         self.l_target_format.setText(QCoreApplication.translate("ThemeCreator", u"Target Format:", None))
         self.cb_format.setItemText(0, QCoreApplication.translate("ThemeCreator", u"JSON File (*.json)", None))
         self.cb_format.setItemText(1, QCoreApplication.translate("ThemeCreator", u"Qt Stylesheet (*.qss)", None))

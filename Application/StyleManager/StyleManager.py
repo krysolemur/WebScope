@@ -1,7 +1,9 @@
 # stylesheet.py
 
 # Import system modules
-import shutil
+
+# Import program files
+from Application.StyleManager.StyleCreator import StyleCreator
 
 # Class stylesheet
 class StyleManager:
@@ -15,14 +17,10 @@ class StyleManager:
         # None
         None
     
-    # TODO: Move file to theme dir
-    @classmethod
-    def addTheme(cls, path) -> bool:
-        try:
-            # Move that file to themes dir
-            shutil.move(path, cls.styleDir)
+    # Create sheet
+    def create_sheet(self) -> None:
+        # Create instance
+        styleCreator = StyleCreator()
 
-            return True
-        except Exception as e:
-            print(e)
-            return False
+        # Exec
+        styleCreator.exec()
