@@ -13,6 +13,8 @@ def main() -> None:
     # Allow Ctrl+C to work properly with Qt
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
+    app = None
+
     try:
         # Create and execute app
         app = Application()
@@ -27,11 +29,6 @@ def main() -> None:
         # Log error
         logger.critical(e)
 
-        # if app:
-        #     # Show error to user
-        #     errorDialog = ErrorDialog(e)
-        #     errorDialog.exec()
-        
         # Exit 
         sys.exit(1)
 

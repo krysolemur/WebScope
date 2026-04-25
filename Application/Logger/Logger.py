@@ -1,10 +1,6 @@
 # Logger.py
 
 from datetime import datetime
-import traceback
-import inspect
-import json
-import sys
 import os
 
 from Application.AppContext import ctx
@@ -33,9 +29,18 @@ DEFAULT_CONFIG = {
 class Logger:
 
     # Logs dir
-    LOG_PATH = "Logs/app.log"
+    LOG_DIR = ctx.config.get("le_file_path", DEFAULT_CONFIG.get("le_file_path"))
+
+    # Logs path
+    LOG_PATH = LOG_DIR + "/app.log"
 
     def __init__(self, config:dict) -> None:
+
+        self.log = None
+
+        # Create paths
+        self.log_dir = config.get("le_file_path", DEFAULT_CONFIG.get("le_file_path", self.DEFAULT_LOG_DIR))
+        self.log_path = os.path.join(self.log_dir, self.DEFAULT_LOG_FILE)
 
         # Get c_levels and f_levels
         self.c_levels = {
@@ -47,7 +52,8 @@ class Logger:
             "CRITICAL": True
         }
 
-        if config["cb_file_enabled"] == "Yes":
+        if config.get("cb_file_enabled") == "Yes":
+            # Set levels for file logging
             self.f_levels = {
                 "INFO": config["btn_file_info"],
                 "WARN": config["btn_file_warning"],
@@ -56,6 +62,17 @@ class Logger:
                 "DEBUG": config["btn_file_debug"],
                 "CRITICAL": True
             }
+
+            # File handling
+            try:
+                # Check logging directory
+                if self.log_dir:
+                    os.makedirs(self.log_dir, exist_ok=True)
+                self.log = open(self.log_path, "a", encoding="utf-8")
+            except OSError as e:
+                self.critical(e)
+                self.log = None
+
         else:
             self.f_levels = {
                 "INFO": False,
@@ -67,12 +84,12 @@ class Logger:
             }
 
         # Get time
-        self.time = bool(config["cb_console_time"])
+        self.time = bool(config.get("cb_console_time"))
 
         # Log init
         self.info("Logger initialized")
 
-    # Write to console and file methods for high efectivity
+    # Writing to console and file methods for high efectivity
     def _cout(self, level, msg, func="", row="", filename="") -> None:
         # Check level
         if not self.c_levels.get(level, False):
@@ -85,6 +102,8 @@ class Logger:
         # Create msg
         path = f"{filename}{":" if filename else ""}{func}{":" if func else ""}{row}"
         msg = f"{timestamp} {level:^10} {path}{" - " if path else ""}{msg}"
+
+        # Print msg
         print(msg)
     
     def _fout(self, level, msg, func="", row="", filename="") -> None:
@@ -99,24 +118,32 @@ class Logger:
         # Create msg
         path = f"{filename}{":" if filename else ""}{func}{":" if func else ""}{row}"
         msg = f"{timestamp} {level:^10} {path}{" - " if path else ""}{msg}"
+
+        # Write msg
+        self.log.write(msg)
     
     # Info log
     def info(self, msg) -> None:
         self._cout("INFO", msg)
-        self._fout("INFO", msg)
+        if self.log:
+            self._fout("INFO", msg)
 
     # Warning log
     def warn(self, msg) -> None:
         self._cout("WARN", msg)
-        self._fout("WARN", msg)
+        if self.log:
+            self._fout("INFO", msg)
 
     # Success log
     def success(self, msg) -> None:
         self._cout("SUCCESS", msg)
-        self._fout("SUCCESS", msg)
-
+        if self.log:
+            self._fout("INFO", msg)
+            
     # Error log
     def error(self, msg) -> None:
+        import inspect
+
         # Get info about where was func calling
 
         # Filename, row and func
@@ -128,12 +155,14 @@ class Logger:
 
         # Output
         self._cout("ERROR", msg, row=row, func=func, filename=filename)
-        self._fout("ERROR", msg, row=row, func=func, filename=filename)
+        if self.log:
+            self._fout("ERROR", msg, row=row, func=func, filename=filename)
 
     # Debug log
     def debug(self, msg) -> None:
         self._cout("DEBUG", msg)
-        self._fout("DEBUG", msg)
+        if self.log:
+            self._fout("INFO", msg)
 
     # Critical -> Not in settings
     def critical(self, exception) -> None:
@@ -142,10 +171,15 @@ class Logger:
 
         # Output
         self._cout("CRITICAL", msg)
-        self._fout("CRITICAL", msg)
+        if self.log:
+            self._fout("INFO", msg)
 
     # Get error details
     def _error_details(self, exception) -> dict:
+        import traceback
+        import json
+        import sys
+
         # Full traceback of error
         full_traceback = traceback.format_exc()
         
@@ -185,5 +219,5 @@ class Logger:
         return clean_json
 
 # Init logger
-logger = Logger(ctx.config.get("LoggingPage", DEFAULT_CONFIG))
+logger = Logger(ctx.config.get("LoggingPage", DEFAULT_CONFIG))#
 
