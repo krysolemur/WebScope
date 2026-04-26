@@ -1,16 +1,14 @@
 # configmanager.py
 
-# Import system files
 import json
 import os
 
-# Main class Config:
 class ConfigManager:
 
-    # Config file path
+    # Config file 
     configPath = "Config/config.json"
 
-    # Default app configuration
+    # Default config
     defaultConfig = {
         "GeneralPage": {
             "cb_gen_theme": "Light",
@@ -86,21 +84,16 @@ class ConfigManager:
         }
     }
 
-    # Initiator
     def __init__(self) -> None:
 
         # Init parents
         super().__init__()
         
         # Check default config file
-        self._checkConfiguration()
+        self._check_config()
 
-    '''
-    Private functions.
-    '''
-    
-    # Check if configuration file config.json exists. If does not, create it with default settings.
-    def _checkConfiguration(self) -> None:
+    # Check config file and dir
+    def _check_config(self) -> None:
         # Check Config/config.json in main directory
         if not os.path.exists(self.configPath):
 
@@ -112,11 +105,7 @@ class ConfigManager:
                 # Close file
                 config.close()
 
-    '''
-    Public functions.
-    '''
-
-    # Load settings from disk and parse it. If parsing fail, use default settings.
+    # Load settings from config
     def load_settings(self) -> dict:
         # Try except
         try:
@@ -131,14 +120,14 @@ class ConfigManager:
             # Return default
             return self.defaultConfig
 
-    # Public version of save settings function that is used in settings dialog which is calling from.
+    # Save settings to disk
     def save_settings(self, settings) -> None:
         # Open profile
         with open(self.configPath, "w") as nwconfig:
             # Write into profile new configuration
             json.dump(settings, nwconfig, indent=4)
         
-    # Public function used in settings dialog for overwriting config file with default json config.
+    # Reset settings
     def reset_settings(self) -> None:
         # Open profile
         with open(self.configPath, "w") as nwconfig:

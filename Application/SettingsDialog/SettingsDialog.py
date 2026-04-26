@@ -71,7 +71,7 @@ class SettingsDialog(QDialog):
         # Show page
         self.ui.settingsWidget.setCurrentIndex(pageIndex)
         
-    # Collects values from all UI widgets, saves them to a dictionary, and updates the configuration file.
+    # Save settings from all pages
     def _save_settings(self) -> None:
         try:
             config = ctx.config
