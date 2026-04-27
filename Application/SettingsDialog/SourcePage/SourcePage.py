@@ -41,7 +41,7 @@ class SourcePage(QWidget):
     '''
 
     # Load settings function
-    def loadSettings(self, settings) -> None:
+    def load_settings(self, settings) -> None:
         # Save settings
         self.settings = settings
 
@@ -75,7 +75,7 @@ class SourcePage(QWidget):
         # self._loadStyle()
 
     # Get settings from childs
-    def getSettings(self) -> dict:
+    def get_settings(self) -> dict:
         # Tady sestavíme slovník přesně podle jmen v UI a v configu
         return {
             # Styly pro jednotlivé typy kódu

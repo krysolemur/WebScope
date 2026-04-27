@@ -20,9 +20,6 @@ class SettingsDialog(QDialog):
 
         super().__init__()
 
-        # Config from config manager
-        self.config = ctx.config
-
         # Load Ui and setup
         self.ui = Ui_SettingsDialog()
         self.ui.setupUi(self)
@@ -55,6 +52,8 @@ class SettingsDialog(QDialog):
         self.ui.resetButton.clicked.connect(self._reset_settings)
         self.ui.cancelButton.clicked.connect(self.close)
 
+        # self.ui.applyButton.setEnabled(None)
+
     # Load one page
     def _change_page(self, pageIndex) -> None:
         # If page isnt inicialized
@@ -83,7 +82,7 @@ class SettingsDialog(QDialog):
                         pageName = type(page).__name__
 
                         # Get settings
-                        config[pageName] = page.getSettings()
+                        config[pageName] = page.get_settings()
 
                         # Mark page as saved
                         page.isSaved = True
@@ -106,7 +105,7 @@ class SettingsDialog(QDialog):
         ctx.ConfigManager.reset_settings()
 
         # Reload application config
-        self.app.reloadConfiguration()
+        ctx.app.reload_config()
 
         # Browse active pages
         for page in self.activePages:
@@ -124,20 +123,8 @@ class SettingsDialog(QDialog):
             logger.update(ctx.config.get("LoggingPage"))
 
     # Overrided close event 
-    def closeEvent(self, event) -> None:
-        # Browse pages
-        # for page in self.activePages:
-        #     # Check if page exists
-        #     if page:
-        #         # Check the boolean flag that tracks if current settings are saved
-        #         if page.isSaved:
-
-        #             # Tell Qt to proceed with closing the window
-        #             event.accept()
-
-        #             # Exit the function early as no further action is needed
-        #             return
-
+    @staticmethod
+    def closeEvent(event) -> None:
         # Log and close
         logger.info("Closing settings.")
         event.accept()

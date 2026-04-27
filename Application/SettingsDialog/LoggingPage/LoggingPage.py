@@ -19,7 +19,7 @@ class LoggingPage(QWidget):
         self.ui.setupUi(self)
 
         # Load settings
-        self.loadSettings(ctx.config.get("LoggingPage"))
+        self.load_settings(ctx.config.get("LoggingPage"))
 
         # Saved
         self.isSaved = True
@@ -61,7 +61,7 @@ class LoggingPage(QWidget):
             self.ui.le_file_path.setText(selected_directory)
 
     # Load settings 
-    def loadSettings(self, settings: dict) -> None:
+    def load_settings(self, settings: dict) -> None:
         # Save settings reference
         self.settings = settings
 
@@ -107,7 +107,7 @@ class LoggingPage(QWidget):
             widget.blockSignals(False)
 
     # Get settings 
-    def getSettings(self) -> dict:
+    def get_settings(self) -> dict:
         # Return settings
         return {
             # Console settings 

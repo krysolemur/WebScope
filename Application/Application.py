@@ -59,7 +59,7 @@ class Application(QApplication):
     # Reload config
     def reload_config(self) -> None:
         # New config variable
-        new_config = ctx.ConfigManager.loadSettings()
+        new_config = ctx.ConfigManager.load_settings()
 
         # Clear config
         ctx.config.clear()

@@ -24,7 +24,7 @@ class Ui_LoggingPage(object):
     def setupUi(self, LoggingPage):
         if not LoggingPage.objectName():
             LoggingPage.setObjectName(u"LoggingPage")
-        LoggingPage.resize(1253, 1050)
+        LoggingPage.resize(967, 532)
         self.lyt_main = QVBoxLayout(LoggingPage)
         self.lyt_main.setSpacing(3)
         self.lyt_main.setObjectName(u"lyt_main")
@@ -35,7 +35,7 @@ class Ui_LoggingPage(object):
         self.sa_logger.setWidgetResizable(True)
         self.sa_content = QWidget()
         self.sa_content.setObjectName(u"sa_content")
-        self.sa_content.setGeometry(QRect(0, 0, 1245, 1042))
+        self.sa_content.setGeometry(QRect(0, 0, 959, 524))
         self.lyt_scroll = QVBoxLayout(self.sa_content)
         self.lyt_scroll.setObjectName(u"lyt_scroll")
         self.lyt_console_section = QVBoxLayout()
