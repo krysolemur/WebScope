@@ -1,6 +1,7 @@
 # Logger.py
 
 from datetime import datetime
+import threading
 import os
 
 from Application.AppContext import ctx
@@ -46,8 +47,9 @@ class Logger:
     }
     
     def __init__(self, config:dict) -> None:
-        # Log file handling
+        # Log file handling and lock threads
         self.log = None
+        self.lock = threading.Lock()
 
         # Create paths
         self.log_dir = config.get("le_file_path", DEFAULT_CONFIG.get("le_file_path", self.DEFAULT_LOG_DIR))
@@ -57,101 +59,83 @@ class Logger:
         self.update(config)
         
     # Writing to console 
-    def _cout(self, level, msg, func="", row="", filename="") -> None:
-        # Check level
-        if not self.c_levels.get(level, False):
-            return
+    def _cout(self, level, msg, func="", row="", filename="") -> None:  
+        # Get timestamp and colors      
+        timestamp = datetime.now().strftime("%H:%M:%S") if self.time else ""
+        color = self.LEVEL_COLORS.get(level, "")
+        reset = self.LEVEL_COLORS["RESET"]
         
-        # Get timestamp
-        if self.time:
-            timestamp = datetime.now().strftime("%H:%M:%S")
-
-        # Create msg
+        # Format message
         if self.colored:
-            clean_row = f"\033[1;97m{row}\033[0m" if row else ""
-            path = f"{filename}{':' if filename else ''}{func}{':' if func else ''}{clean_row}"
-            msg = f"\033[93m{timestamp if self.time else ""}\033[0m {self.LEVEL_COLORS[level]}{level:^10}\033[0m {path}{' - ' if path else ''}{msg}"
+            path = f"{filename}:{func}:{self.LEVEL_COLORS['WHITE_BOLD']}{row}{reset}"
+            formatted_msg = f"{self.LEVEL_COLORS['GRAY']}{timestamp}{reset} {color}{level:^10}{reset} {path} - {msg}"
         else:
-            path = f"{filename}{':' if filename else ''}{func}{':' if func else ''}{row}"
-            msg = f"{timestamp if self.time else ""} {level:^10} {path}{' - ' if path else ''}{msg}"
-
-        # Print msg
-        print(msg)
+            formatted_msg = f"{timestamp} {level:^10} {filename}:{func}:{row} - {msg}"
+        
+        # Print to console
+        print(formatted_msg)
     
     # Writing to file
     def _fout(self, level, msg, func="", row="", filename="") -> None:
-        # Check level
-        if not self.f_levels.get(level, False):
-            return
+        # Timestamp, path and msg
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S") if self.time else ""
+        path = f"{filename}:{func}:{row}"
+        formatted_msg = f"{timestamp} {level:^10} {path} - {msg}\n"
         
-        # Get timestamp
-        if self.time:
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        # Create msg
-        path = f"{filename}{':' if filename else ''}{func}{':' if func else ''}{row}"
-        msg = f"{timestamp if self.time else ""} {level:^10} {path}{' - ' if path else ''}{msg}"
-
-        # Write msg
+        # Log to file
         try:
-            self.log.write(msg + "\n")
-            self.log.flush()
-        except OSError as e:
-            self.critical(e)
-            self.log = None 
-    
-    # Info log
-    def info(self, msg) -> None:
-        self._cout("INFO", msg)
-        if self.log:
-            self._fout("INFO", msg)
+            self.log_file.write(formatted_msg)
+            self.log_file.flush()
+        except OSError:
+            pass
 
-    # Warning log
-    def warn(self, msg) -> None:
-        self._cout("WARN", msg)
-        if self.log:
-            self._fout("INFO", msg)
-
-    # Success log
-    def success(self, msg) -> None:
-        self._cout("SUCCESS", msg)
-        if self.log:
-            self._fout("INFO", msg)
+    # Log to file and console
+    def _log_generic(self, level, msg, is_exception=False):
+        # Get caller
+        caller = self._get_caller_info()
+        
+        # Lock threads
+        with self.lock:
+            # Cout to console
+            if self.c_levels.get(level, False):
+                self._cout(level, msg, **caller)
             
-    # Error log
-    def error(self, msg) -> None:
-        import inspect
-
-        # Get info about where was func calling
-
-        # Filename, row and func
-        caller_frame = inspect.stack()[1]
-
-        filename = os.path.basename(caller_frame.filename)
-        row = caller_frame.lineno
-        func = caller_frame.function
-
-        # Output
-        self._cout("ERROR", msg, row=row, func=func, filename=filename)
-        if self.log:
-            self._fout("ERROR", msg, row=row, func=func, filename=filename)
-
-    # Debug log
-    def debug(self, msg) -> None:
+            # Fout to file
+            if self.log_file and self.f_levels.get(level, False):
+                self._fout(level, msg, **caller)
         self._cout("DEBUG", msg)
         if self.log:
-            self._fout("INFO", msg)
+            self._fout("DEBUG", msg)
 
-    # Critical -> Not in settings
-    def critical(self, exception) -> None:
-        # Get details from exception
-        msg = self._error_details(exception=exception)
+    # Public logging methods
+    def info(self, msg): self._log_generic("INFO", msg)
+    def warn(self, msg): self._log_generic("WARN", msg)
+    def success(self, msg): self._log_generic("SUCCESS", msg)
+    def debug(self, msg): self._log_generic("DEBUG", msg)
+    def error(self, msg): self._log_generic("ERROR", msg)
+    def critical(self, exception):
+        # Get details and log
+        details = self._error_details(exception)
+        self._log_generic("CRITICAL", details)
 
-        # Output
-        self._cout("CRITICAL", msg)
-        if self.log:
-            self._fout("INFO", msg)
+    # Get info about calling
+    @staticmethod
+    def _get_caller_info():
+        import sys
 
+        try:
+            frame = sys._getframe(3)
+
+            # Get filename, func and row
+            return {
+                "filename": os.path.basename(frame.f_code.co_filename),
+                "func": frame.f_code.co_name,
+                "row": frame.f_lineno
+            }
+        except Exception:
+            # Return defaults
+            return {"filename": "unknown", "func": "unknown", "row": 0}
+        
     # Get error details
     @staticmethod
     def _error_details(exception) -> dict:
@@ -180,6 +164,9 @@ class Logger:
             
             # Full trackeback
             "full_traceback": "\n" + full_traceback,
+
+            # Extra info
+            "extra_info": None
         }
 
         # Specific errors data
@@ -197,7 +184,7 @@ class Logger:
 
         return clean_json
 
-    # Update
+    # Update logger
     def update(self, config:dict) -> None:
         if self.log:
             # Close log
